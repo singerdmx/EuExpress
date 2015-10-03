@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.1'
+gem 'rails', '4.0.0'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -24,6 +24,13 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'pg', '~> 0.18.3'
+gem 'devise', '~> 3.5.2'
+
+# forem
+gem 'forem', github: 'radar/forem', branch: 'rails4'
+gem 'forem-bootstrap', github: 'radar/forem-bootstrap'
+gem 'forem-redcarpet', github: 'radar/forem-redcarpet'
+gem 'will_paginate', '3.0.5'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
