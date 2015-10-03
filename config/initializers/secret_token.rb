@@ -1,0 +1,1 @@
+HuamiForum::Application.config.secret_key_base = 'e181b1a00a28db73934d71b3731281fa59b38347b16b8a7d15a1a42779e4aa2ed0fefa265411d896caa9d63db54ab6c2b620160f820f7ea336729855422ea6ec'
