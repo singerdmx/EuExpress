@@ -1,3 +1,5 @@
 <h2>
-  <%= @categories.first %>
+  <% @categories.each do |category| %>
+    <%= category %><br/>
+  <% end %>
 </h2>

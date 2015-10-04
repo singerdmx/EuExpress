@@ -1,4 +1,6 @@
 class CategoriesController < ApplicationController
+  helper Forem::ForumsHelper
+  load_and_authorize_resource class: 'Forem::Category'
 
   def index
     @categories = Forem::Category.by_position
