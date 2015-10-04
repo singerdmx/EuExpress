@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/radar/forem-bootstrap.git
   revision: 10be50afc1d0a22af1306076e41624c55fc585be
+  ref: 10be50afc1d0
   specs:
     forem-bootstrap (0.0.1)
       bootstrap-sass (~> 3.1)
@@ -8,6 +9,7 @@ GIT
 GIT
   remote: git://github.com/radar/forem-redcarpet.git
   revision: c53be9a5c3e97d65546f3f56b53f82669f3a5af5
+  ref: c53be9a5c3e9
   specs:
     forem-redcarpet (1.0.2)
       nokogiri
@@ -17,6 +19,7 @@ GIT
 GIT
   remote: git://github.com/radar/forem.git
   revision: c3a1634f33d54a2c79dfeb092ca3686246b3aa4c
+  ref: c3a1634f33d5
   branch: rails4
   specs:
     forem (1.0.0.beta1)

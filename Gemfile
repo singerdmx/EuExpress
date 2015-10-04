@@ -27,9 +27,9 @@ gem 'pg', '~> 0.18.3'
 gem 'devise', '~> 3.5.2'
 
 # forem
-gem 'forem', github: 'radar/forem', branch: 'rails4'
-gem 'forem-bootstrap', github: 'radar/forem-bootstrap'
-gem 'forem-redcarpet', github: 'radar/forem-redcarpet'
+gem 'forem', github: 'radar/forem', branch: 'rails4', ref: 'c3a1634f33d5'
+gem 'forem-bootstrap', github: 'radar/forem-bootstrap', ref: '10be50afc1d0'
+gem 'forem-redcarpet', github: 'radar/forem-redcarpet', ref: 'c53be9a5c3e9'
 gem 'will_paginate', '3.0.5'
 gem 'cancan', '1.6.10'
 
