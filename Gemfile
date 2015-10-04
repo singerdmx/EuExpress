@@ -31,6 +31,7 @@ gem 'forem', github: 'radar/forem', branch: 'rails4'
 gem 'forem-bootstrap', github: 'radar/forem-bootstrap'
 gem 'forem-redcarpet', github: 'radar/forem-redcarpet'
 gem 'will_paginate', '3.0.5'
+gem 'cancan', '1.6.10'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
