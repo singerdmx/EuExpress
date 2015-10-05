@@ -39,7 +39,7 @@ Forem::Category.create(name: 'Development')
 
 user = User.first
 forum = Forem::Forum.find_or_create_by_name(category_id: Forem::Category.first.id,
-                                            name: "Announcements",
+                                            name: "Announcements Forum",
                                             description: "Mi Band updates")
 
 post = Forem::Post.find_or_initialize_by_text("Instruction")
