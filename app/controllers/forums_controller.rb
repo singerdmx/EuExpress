@@ -1,6 +1,6 @@
 class ForumsController < ApplicationController
   load_and_authorize_resource class: 'Forem::Forum', only: :show
-  helper Forem::TopicsHelper
+  helper TopicsHelper
 
   def index
     @categories = Forem::Category.all

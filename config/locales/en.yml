@@ -26,6 +26,9 @@ en:
       pin:
         'true': Unpin this topic
         'false': Pin this topic
+  moderation:
+    index:
+      title: "Moderation tools for %{forum}"
   forems:
     general:
       deleted: [deleted]
@@ -206,9 +209,6 @@ en:
         success: The selected posts have been moderated.
       post:
         pending_review: This post is currently pending review. Only the user who posted it and moderators can view it.
-    moderation:
-      index:
-        title: "Moderation tools for %{forum}"
   helpers:
     submit:
       forum:
