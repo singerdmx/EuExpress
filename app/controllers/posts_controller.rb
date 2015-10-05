@@ -1,4 +1,4 @@
-class PostsController < Forem::ApplicationController
+class PostsController < ApplicationController
   before_filter :authenticate_forem_user, except: :show
   before_filter :find_topic
   before_filter :reject_locked_topic!, only: [:new, :create]
