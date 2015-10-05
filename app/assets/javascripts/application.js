@@ -15,3 +15,4 @@
 //= require turbolinks
 //= require forem
 //= require_tree .
+//= require bootstrap.min
