@@ -9,7 +9,7 @@ module Admin
     end
 
     def destroy
-      user = Forem.user_class.where(:id => params[:id]).first
+      user = Forem.user_class.friendly.find(params[:id])
       if group.members.exists?(user.id)
         group.members.delete(user)
         flash[:notice] = t("forem.admin.groups.show.member_removed")
