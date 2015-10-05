@@ -10,7 +10,29 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :forums, :categories, :topics
+  resources :categories, :only => [:index, :show]
+  resources :forums do
+    resources :moderators
+    resources :topics do
+      member do
+        put :toggle_hide
+        put :toggle_lock
+        put :toggle_pin
+      end
+    end
+  end
+
+  resources :forums, :only => [:index, :show], :path => "/" do
+    resources :topics, :except => :index do
+      resources :posts, :except => :index
+      member do
+        post :subscribe
+        post :unsubscribe
+      end
+    end
+  end
+
+  resources :categories
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
