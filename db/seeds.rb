@@ -39,15 +39,16 @@ Forem::Category.create(name: 'Development')
 
 user = User.first
 forum = Forem::Forum.find_or_create_by_name(category_id: Forem::Category.first.id,
-                                            name: "Default",
-                                            description: "Default forem created by install")
+                                            name: "Announcements",
+                                            description: "Mi Band updates")
 
-post = Forem::Post.find_or_initialize_by_text("Hello World")
+post = Forem::Post.find_or_initialize_by_text("Instruction")
 post.user = user
 
-topic = Forem::Topic.find_or_initialize_by_subject("Welcome to Forem")
+topic = Forem::Topic.find_or_initialize_by_subject("How to upgrade")
 topic.forum = forum
 topic.user = user
+topic.state = 'approved'
 topic.posts = [post]
 
 topic.save!
