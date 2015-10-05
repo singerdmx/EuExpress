@@ -7,4 +7,8 @@ class User < ActiveRecord::Base
   def forem_name
     name
   end
+
+  def to_s
+    name
+  end
 end
