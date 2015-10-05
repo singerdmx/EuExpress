@@ -1,7 +1,7 @@
 module Admin
   class MembersController < BaseController
     def add
-      user = Forem.user_class.where(:id => params[:user_id]).first
+      user = Forem.user_class.friendly.find(params[:user_id])
       unless group.members.exists?(user.id)
         group.members << user
       end
