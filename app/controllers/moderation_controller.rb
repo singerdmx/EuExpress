@@ -1,7 +1,7 @@
 class ModerationController < ApplicationController
   before_filter :ensure_moderator_or_admin
 
-  helper Forem::PostsHelper
+  helper PostsHelper
 
   def index
     @posts = forum.posts.pending_review

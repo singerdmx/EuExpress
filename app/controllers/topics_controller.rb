@@ -1,5 +1,5 @@
 class TopicsController < ApplicationController
-  helper Forem::PostsHelper
+  helper PostsHelper
   before_filter :authenticate_forem_user, :except => [:show]
   before_filter :find_forum
   before_filter :block_spammers, :only => [:new, :create]

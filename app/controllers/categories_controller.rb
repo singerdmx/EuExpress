@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  helper Forem::ForumsHelper
+  helper ForumsHelper
   load_and_authorize_resource class: 'Forem::Category'
 
   def index
