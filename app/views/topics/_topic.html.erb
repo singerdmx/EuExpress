@@ -18,10 +18,13 @@
   <td class='byline'>
     <%= new_since_last_view_text(topic) %>
     <div class='subject'><%= link_to forem_emojify(topic.subject), forum_topic_path(@forum, topic) %></div>
-    <div class='started-by'><%= t "started_by" %><%= relevant_posts(topic).first.user.forem_name %></div>
+    <% relevant_posts = get_relevant_posts(topic) %>
+    <% unless relevant_posts.empty? %>
+        <div class='started-by'><%= t "started_by" %><%= relevant_posts.first.user.forem_name %></div>
+    <% end %>
   </td>
   <td class='latest-post text-center'>
-    <%= link_to_latest_post(topic) -%>
+    <%= get_link_to_latest_post(topic) -%>
   </td>
   <td class='posts-count text-center'><%= relevant_posts(topic).count %></td>
   <td class='views-count text-center'><%= topic.views_count %></td>

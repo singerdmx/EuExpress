@@ -1,9 +1,12 @@
 module TopicsHelper
   def link_to_latest_post(topic)
     post = relevant_posts(topic).last
+    return '' unless post
     text = "#{time_ago_in_words(post.created_at)} #{t("ago_by")} #{post.user.forem_name}"
     link_to text, forum_topic_path(post.topic.forum, post.topic, :anchor => "post-#{post.id}", pagination_param => topic.last_page)
   end
+
+  alias_method :get_link_to_latest_post, :link_to_latest_post
 
   def new_since_last_view_text(topic)
     if forem_user
@@ -28,6 +31,8 @@ module TopicsHelper
       posts.approved
     end
   end
+
+  alias_method :get_relevant_posts, :relevant_posts
 
   def post_time_tag(post)
     content_tag("time", datetime: post.created_at.to_s(:db)) do
