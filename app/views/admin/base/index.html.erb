@@ -5,12 +5,12 @@
 </p>
 
 <ul>
-  <li><%= link_to t('forem.admin.forum.index'), forem.admin_forums_path %> </li>
-  <li><%= link_to t('forem.admin.category.index'), forem.admin_categories_path %></li>
-  <li><%= link_to t('forem.admin.group.index'), forem.admin_groups_path %></li>
+  <li><%= link_to t('forem.admin.forum.index'), admin_forums_path %> </li>
+  <li><%= link_to t('forem.admin.category.index'), admin_categories_path %></li>
+  <li><%= link_to t('forem.admin.group.index'), admin_groups_path %></li>
 </ul>
 
 <br>
 <footer id='admin_link'>
-  <%= link_to t(:back_to_forums, :scope => 'forem.admin'), forem.root_path %> 
+  <%= link_to t(:back_to_forums, :scope => 'forem.admin'), root_path %>
 </footer>

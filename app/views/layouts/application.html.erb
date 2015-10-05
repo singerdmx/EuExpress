@@ -12,7 +12,7 @@
 <% end %>
 
 <%= link_to 'Home', main_app.root_path %>
-<%= link_to 'Forums', forem.forums_path %>
+<%= link_to 'Forums', forums_path %>
 
 <header>
   <nav>
@@ -20,7 +20,7 @@
         <%= link_to current_user.email, main_app.edit_user_registration_path %>
         | <%= link_to "Sign out", main_app.destroy_user_session_path, :method => :delete %>
         <% if current_user.forem_admin %>
-            | <%= link_to "Administrate", forem.admin_root_url %>
+            | <%= link_to "Administrate", admin_root_url %>
         <% end %>
     <% else %>
         <%= link_to "Sign up", main_app.new_user_registration_path %>

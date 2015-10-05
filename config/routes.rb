@@ -10,6 +10,32 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  namespace :admin do
+    root :to => "base#index"
+    resources :groups do
+      resources :members, only: [:destroy] do
+        collection do
+          post :add
+        end
+      end
+    end
+
+    resources :forums do
+      resources :moderators
+      resources :topics do
+        member do
+          put :toggle_hide
+          put :toggle_lock
+          put :toggle_pin
+        end
+      end
+    end
+
+    resources :categories
+
+    get 'users/autocomplete', :to => "users#autocomplete", :as => "user_autocomplete"
+  end
+
   resources :categories, :only => [:index, :show]
 
   get '/:forum_id/moderation', :to => "moderation#index", :as => :forum_moderator_tools

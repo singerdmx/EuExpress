@@ -30,7 +30,7 @@
   $("#user_id").select2({
     containerCssClass: "col-md-5",
     ajax: {
-      url: "<%= forem.admin_user_autocomplete_url %>",
+      url: "<%= admin_user_autocomplete_url %>",
       data: function(term, page) {
         return { "term": term }
       },
