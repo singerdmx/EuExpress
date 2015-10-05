@@ -34,7 +34,7 @@
                 <strong><%= t('.moderators') %>:</strong>
                 <% if forum.moderators.exists? %>
                   <% forum.moderators.map do |moderator| %>
-                    <%= link_to moderator, [forem, :admin, moderator] %>
+                    <%= link_to moderator, [:admin, moderator] %>
                   <% end.to_sentence %>
                 <% else %>
                   <%= t('.none') %>
