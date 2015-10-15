@@ -1,3 +1,7 @@
+Dir[File.dirname(__FILE__) + "/../models/*.rb"].each do |f|
+  load f unless f.end_with?('user.rb')
+end
+
 class ApplicationController < ActionController::Base
   layout "application"
 
