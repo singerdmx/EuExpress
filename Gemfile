@@ -33,6 +33,8 @@ gem 'forem-redcarpet', github: 'radar/forem-redcarpet', ref: 'c53be9a5c3e9'
 gem 'will_paginate', '3.0.5'
 gem 'cancan', '1.6.10'
 
+gem 'ocean-dynamo', '~> 1.2.4'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

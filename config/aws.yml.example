@@ -1,0 +1,27 @@
+fake_dynamo: &local
+  region:             eu-west-1
+  endpoint:           http://localhost:8000
+  access_key_id:      xxx
+  secret_access_key:  xxx
+
+amazon: &amazon
+  region:             eu-west-1
+  access_key_id:      YOURACCESSKEYHERE
+  secret_access_key:  YOURSECRETKEYHERE
+
+
+#
+# It is safe to set any of the following three environments to
+# *amazon, as table names will be suffixed according to the
+# environment (CHEF_ENV and Rails.env). See Api.basename_suffix.
+# You can use *amazon instead of *local if you wish.
+#
+
+development:
+  <<: *local
+
+test:
+  <<: *local
+
+production:
+  <<: *amazon
