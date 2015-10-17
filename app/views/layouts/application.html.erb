@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html>
-    <head>
-      <title>Huami Forum</title>
-      <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
-      <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-      <%= csrf_meta_tags %>
-    </head>
-    <body>
-      <%= render 'layouts/header' %>
-      <div class="container">
-        <% flash.each do |key, value| %>
-            <%= content_tag(:div, value, class: "alert alert-#{key}") %>
-        <% end %>
+<head>
+  <title>Huami Forum</title>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.8.2/holder.min.js"></script>
+  <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<%= render 'layouts/header' %>
+<div class="container">
+  <% flash.each do |key, value| %>
+      <%= content_tag(:div, value, class: "alert alert-#{key}") %>
+  <% end %>
 
-        <%= yield %>
-        <%= debug(params) if Rails.env.development? %>
-      </div>
-    </body>
+  <%= yield %>
+  <%= debug(params) if Rails.env.development? %>
+</div>
+</body>
 </html>
