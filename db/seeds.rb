@@ -93,10 +93,11 @@ client.create_table(
         },
     })
 
-Category.create(name: 'Announcements')
-Category.create(name: 'General Support')
-Category.create(name: 'Accessories')
-Category.create(name: 'Development')
+categories = []
+categories << Category.create(name: 'Announcements')
+categories << Category.create(name: 'General Support')
+categories << Category.create(name: 'Accessories')
+categories << Category.create(name: 'Development')
 
 client.create_table(
     {
@@ -126,6 +127,11 @@ client.create_table(
             write_capacity_units: write_capacity_units,
         },
     })
+
+forums = []
+forums << Forum.create(category: categories.first.name,
+                       name: "Announcements Forum",
+                       description: "Mi Band updates")
 
 client.create_table(
     {
