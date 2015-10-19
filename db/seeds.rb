@@ -99,6 +99,10 @@ categories << Category.create(name: 'General Support')
 categories << Category.create(name: 'Accessories')
 categories << Category.create(name: 'Development')
 
+###############################
+#           Forum             #
+###############################
+
 client.create_table(
     {
         attribute_definitions: [
@@ -132,6 +136,10 @@ forums = []
 forums << Forum.create(category: categories.first.name,
                        name: "Announcements Forum",
                        description: "Mi Band updates")
+
+###############################
+#           Topic             #
+###############################
 
 client.create_table(
     {
@@ -205,3 +213,11 @@ client.create_table(
             },
         ],
     })
+
+topics = []
+topics << Topic.create(
+    forum: forums.first.name,
+    last_post_at: Time.now.to_i,
+    subject: 'How to upgrade',
+    user: user.id,
+    state: 'approved')
