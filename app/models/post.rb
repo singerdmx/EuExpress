@@ -4,20 +4,16 @@ class Post < OceanDynamo::Table
   include Workflow
   include StateWorkflow
 
-  dynamo_schema(:guid, create: true,
-                timestamps: [:created_at, :updated_at]) do
+  dynamo_schema(timestamps: [:created_at, :updated_at]) do
+    attribute :topic
     attribute :text
     attribute :state, default: "pending_review"
     attribute :notified, :boolean, default: false
-    attribute :reply_to_id, :integer
+    attribute :reply_to_post
   end
 
   # Used in the moderation tools partial
   attr_accessor :moderation_option
-
-  belongs_to :topic, composite_key: true
-
-  has_many :posts, dependent: :nullify
 
   validates :text, :presence => true
 

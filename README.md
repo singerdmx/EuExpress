@@ -9,5 +9,5 @@ topic:
   local secondary index: user(int)
   local secondary index: last_post_at(int)
 post:
-  topic_uuid(hash) updated_at(range)
+  topic(hash) updated_at(range)
   local secondary index: user(int)

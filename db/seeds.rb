@@ -221,3 +221,66 @@ topics << Topic.create(
     subject: 'How to upgrade',
     user: user.id,
     state: 'approved')
+
+###############################
+#           Post              #
+###############################
+
+client.create_table(
+    {
+        attribute_definitions: [
+            {
+                attribute_name: 'topic',
+                attribute_type: 'S',
+            },
+            {
+                attribute_name: 'updated_at',
+                attribute_type: 'N',
+            },
+            {
+                attribute_name: 'user',
+                attribute_type: 'N',
+            },
+        ],
+        table_name: Post.table_name,
+        key_schema: [
+            {
+                attribute_name: 'topic',
+                key_type: 'HASH',
+            },
+            {
+                attribute_name: 'updated_at',
+                key_type: 'RANGE',
+            },
+        ],
+        provisioned_throughput: {
+            read_capacity_units: read_capacity_units,
+            write_capacity_units: write_capacity_units,
+        },
+        local_secondary_indexes: [
+            {
+                index_name: 'user_index',
+                key_schema: [
+                    {
+                        attribute_name: 'topic',
+                        key_type: 'HASH',
+                    },
+                    {
+                        attribute_name: 'user',
+                        key_type: 'RANGE',
+                    },
+                ],
+                projection: {
+                    projection_type: 'INCLUDE',
+                    non_key_attributes: ['text'],
+                },
+            },
+        ],
+    })
+
+posts = []
+posts << Post.create(
+    topic: topics.first.id,
+    text: 'My own experience',
+    state: 'approved',
+    user: user.id)
