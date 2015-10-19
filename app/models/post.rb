@@ -7,7 +7,7 @@ class Post < OceanDynamo::Table
   dynamo_schema(timestamps: [:created_at, :updated_at]) do
     attribute :topic
     attribute :text
-    attribute :state, default: "pending_review"
+    attribute :state, default: 'approved'
     attribute :notified, :boolean, default: false
     attribute :reply_to_post
   end

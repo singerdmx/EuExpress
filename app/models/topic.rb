@@ -7,7 +7,7 @@ class Topic < OceanDynamo::Table
     attribute :forum
     attribute :subject
     attribute :user, :integer
-    attribute :state, default: "pending_review"
+    attribute :state, default: 'approved'
     attribute :locked, :boolean, default: false
     attribute :pinned, :boolean, default: false
     attribute :hidden, :boolean, default: false
