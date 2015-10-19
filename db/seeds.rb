@@ -78,7 +78,7 @@ client.create_table(
         key_schema: [
             {
                 attribute_name: 'name',
-                key_type: "HASH",
+                key_type: 'HASH',
             },
         ],
         provisioned_throughput: {
@@ -103,15 +103,67 @@ client.create_table(
         key_schema: [
             {
                 attribute_name: 'category',
-                key_type: "HASH",
+                key_type: 'HASH',
             },
             {
                 attribute_name: 'name',
-                key_type: "RANGE",
+                key_type: 'RANGE',
             },
         ],
         provisioned_throughput: {
             read_capacity_units: read_capacity_units,
             write_capacity_units: write_capacity_units,
         },
+    })
+
+client.create_table(
+    {
+        attribute_definitions: [
+            {
+                attribute_name: 'id', # id = "forum#id"
+                attribute_type: 'S',
+            },
+            {
+                attribute_name: 'last_post_at',
+                attribute_type: 'N',
+            },
+            {
+                attribute_name: 'user',
+                attribute_type: 'N',
+            },
+        ],
+        table_name: Topic.table_name,
+        key_schema: [
+            {
+                attribute_name: 'id',
+                key_type: 'HASH',
+            },
+            {
+                attribute_name: 'last_post_at',
+                key_type: 'RANGE',
+            },
+        ],
+        provisioned_throughput: {
+            read_capacity_units: read_capacity_units,
+            write_capacity_units: write_capacity_units,
+        },
+        local_secondary_indexes: [
+            {
+                index_name: 'user_index',
+                key_schema: [
+                    {
+                        attribute_name: 'id',
+                        key_type: 'HASH',
+                    },
+                    {
+                        attribute_name: 'user',
+                        key_type: 'RANGE',
+                    },
+                ],
+                projection: {
+                    projection_type: 'INCLUDE',
+                    non_key_attributes: ['subject'],
+                },
+            },
+        ],
     })

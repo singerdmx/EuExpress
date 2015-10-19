@@ -1,14 +1,17 @@
-class Topic < OceanDynamo::Table
+require_relative '../../app/dynamo_db/connection'
 
-  dynamo_schema(:guid, create: true,
-                timestamps: [:created_at, :updated_at]) do
+class Topic < OceanDynamo::Table
+  include Connection
+
+  dynamo_schema(timestamps: [:created_at, :updated_at]) do
+    attribute :forum
     attribute :subject
-    attribute :user_id, :integer
+    attribute :user, :integer
     attribute :state, default: "pending_review"
     attribute :locked, :boolean, default: false
     attribute :pinned, :boolean, default: false
     attribute :hidden, :boolean, default: false
-    attribute :last_post_at, :datetime
+    attribute :last_post_at, :integer
     attribute :views_count, :integer, default: 0
   end
 
@@ -18,14 +21,10 @@ class Topic < OceanDynamo::Table
 
   attr_accessor :moderation_option
 
-  belongs_to :forum, composite_key: true
-  has_many :subscriptions, :dependent => :destroy
-  has_many :posts, :dependent => :destroy
-
   validates :subject, :presence => true, :length => {maximum: 255}
-  validates :user_id, :presence => true
+  validates :user, :forum, :presence => true
 
-  after_create :subscribe_poster
+  # after_create :subscribe_poster
   # after_create :skip_pending_review, :unless => :moderated?
 
   class << self
