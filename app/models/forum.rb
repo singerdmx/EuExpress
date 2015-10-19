@@ -1,23 +1,16 @@
 class Forum < OceanDynamo::Table
 
-  dynamo_schema(:guid,
-                timestamps: [:created_at, :updated_at]) do
+  dynamo_schema(timestamps: [:created_at, :updated_at]) do
+    attribute :category
     attribute :name
     attribute :description
     attribute :views_count, :integer, default: 0
     attribute :position, :integer, default: 0
   end
 
-  belongs_to :category
-
   include Concerns::Viewable
 
-  has_many :topics,     :dependent => :destroy
-  has_many :posts,      :dependent => :destroy
-  has_many :moderators
-  has_many :moderator_groups
-
-  validates :category_id, :name, :description, :presence => true
+  validates :category, :name, :description, :presence => true
   validates :position, numericality: { only_integer: true }
 
   alias_attribute :title, :name

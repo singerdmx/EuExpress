@@ -86,3 +86,32 @@ client.create_table(
             write_capacity_units: write_capacity_units,
         },
     })
+
+client.create_table(
+    {
+        attribute_definitions: [
+            {
+                attribute_name: 'category',
+                attribute_type: 'S',
+            },
+            {
+                attribute_name: 'name',
+                attribute_type: 'S',
+            },
+        ],
+        table_name: Forum.table_name,
+        key_schema: [
+            {
+                attribute_name: 'category',
+                key_type: "HASH",
+            },
+            {
+                attribute_name: 'name',
+                key_type: "RANGE",
+            },
+        ],
+        provisioned_throughput: {
+            read_capacity_units: read_capacity_units,
+            write_capacity_units: write_capacity_units,
+        },
+    })
