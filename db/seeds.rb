@@ -21,6 +21,8 @@ users = user_size.times.map do |i|
       forem_admin: i == 0)
 end
 
+user = User.first
+
 Forem::Category.delete_all
 Forem::Forum.delete_all
 Forem::Post.delete_all
@@ -37,7 +39,6 @@ Forem::Category.create(name: 'General Support')
 Forem::Category.create(name: 'Accessories')
 Forem::Category.create(name: 'Development')
 
-user = User.first
 forum = Forem::Forum.find_or_create_by_name(category_id: Forem::Category.first.id,
                                             name: "Announcements Forum",
                                             description: "Mi Band updates")
@@ -66,6 +67,11 @@ read_capacity_units = 10
 write_capacity_units = 5
 
 client = Aws::DynamoDB::Client.new
+
+###############################
+#         Category            #
+###############################
+
 client.create_table(
     {
         attribute_definitions: [
@@ -86,6 +92,11 @@ client.create_table(
             write_capacity_units: write_capacity_units,
         },
     })
+
+Category.create(name: 'Announcements')
+Category.create(name: 'General Support')
+Category.create(name: 'Accessories')
+Category.create(name: 'Development')
 
 client.create_table(
     {
