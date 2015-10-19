@@ -52,3 +52,12 @@ topic.state = 'approved'
 topic.posts = [post]
 
 topic.save!
+
+###############################
+#         DynamoDB            #
+###############################
+
+require_relative '../app/dynamo_db/cleaner'
+
+cleaner = DynamoDatabase::Cleaner.new
+cleaner.clean
