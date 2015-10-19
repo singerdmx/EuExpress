@@ -5,8 +5,9 @@ DynamoDB schema:
 category: name(hash)
 forum: category(hash) name(range)
 topic:
-  forum_name#uuid(hash) last_post_at(range) subject(string)
+  forum(hash) id(range) subject(string)
   local secondary index: user(int)
+  local secondary index: last_post_at(int)
 post:
   topic_uuid(hash) updated_at(range)
   local secondary index: user(int)

@@ -120,7 +120,11 @@ client.create_table(
     {
         attribute_definitions: [
             {
-                attribute_name: 'id', # id = "forum#id"
+                attribute_name: 'forum',
+                attribute_type: 'S',
+            },
+            {
+                attribute_name: 'id',
                 attribute_type: 'S',
             },
             {
@@ -135,11 +139,11 @@ client.create_table(
         table_name: Topic.table_name,
         key_schema: [
             {
-                attribute_name: 'id',
+                attribute_name: 'forum',
                 key_type: 'HASH',
             },
             {
-                attribute_name: 'last_post_at',
+                attribute_name: 'id',
                 key_type: 'RANGE',
             },
         ],
@@ -149,10 +153,27 @@ client.create_table(
         },
         local_secondary_indexes: [
             {
+                index_name: 'last_post_at_index',
+                key_schema: [
+                    {
+                        attribute_name: 'forum',
+                        key_type: 'HASH',
+                    },
+                    {
+                        attribute_name: 'last_post_at',
+                        key_type: 'RANGE',
+                    },
+                ],
+                projection: {
+                    projection_type: 'INCLUDE',
+                    non_key_attributes: ['subject'],
+                },
+            },
+            {
                 index_name: 'user_index',
                 key_schema: [
                     {
-                        attribute_name: 'id',
+                        attribute_name: 'forum',
                         key_type: 'HASH',
                     },
                     {
