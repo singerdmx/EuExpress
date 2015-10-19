@@ -3,10 +3,10 @@ class ForumsController < ApplicationController
   helper TopicsHelper
 
   def index
-    @categories = Forem::Category.all
+    @categories = Category.all
     respond_to do |format|
       format.html
-      format.json { render json: Forem::Forum.all }
+      format.json { render json: Forum.all }
     end
   end
 
