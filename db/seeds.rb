@@ -61,3 +61,28 @@ require_relative '../app/dynamo_db/cleaner'
 
 cleaner = DynamoDatabase::Cleaner.new
 cleaner.clean
+
+read_capacity_units = 10
+write_capacity_units = 5
+
+client = Aws::DynamoDB::Client.new
+client.create_table(
+    {
+        attribute_definitions: [
+            {
+                attribute_name: 'name',
+                attribute_type: 'S',
+            },
+        ],
+        table_name: Category.table_name,
+        key_schema: [
+            {
+                attribute_name: 'name',
+                key_type: "HASH",
+            },
+        ],
+        provisioned_throughput: {
+            read_capacity_units: read_capacity_units,
+            write_capacity_units: write_capacity_units,
+        },
+    })
