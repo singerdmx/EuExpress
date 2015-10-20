@@ -76,14 +76,14 @@ client.create_table(
     {
         attribute_definitions: [
             {
-                attribute_name: 'name',
+                attribute_name: 'id',
                 attribute_type: 'S',
             },
         ],
         table_name: Category.table_name,
         key_schema: [
             {
-                attribute_name: 'name',
+                attribute_name: 'id',
                 key_type: 'HASH',
             },
         ],
@@ -133,9 +133,17 @@ client.create_table(
     })
 
 forums = []
-forums << Forum.create(category: categories.first.name,
+forums << Forum.create(category: categories.first.id,
                        name: "Announcements Forum",
                        description: "Mi Band updates")
+
+forums << Forum.create(category: categories.first.id,
+                       name: "App Forum",
+                       description: "App discussion")
+
+forums << Forum.create(category: categories[1].id,
+                       name: "Beginner Forum",
+                       description: "Beginner tutorial")
 
 ###############################
 #           Topic             #

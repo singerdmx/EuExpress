@@ -1,11 +1,9 @@
 class CategoriesController < ApplicationController
   load_and_authorize_resource class: 'Category'
 
-  ATTRIBUTES_EXCLUSION = ApplicationHelper::ATTRIBUTES_EXCLUSION.dup << 'id'
-
   def index
     all_categories = Category.all
-    categories = attributes(all_categories, ['forums'], ATTRIBUTES_EXCLUSION)
+    categories = attributes(all_categories, ['forums'])
     if stale?(etag: categories, last_modified: max_updated_at(all_categories))
       render json: categories
     else

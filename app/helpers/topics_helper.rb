@@ -7,7 +7,7 @@ module TopicsHelper
 
   def simple_hash(topic_hash)
     h = {}
-    ['id', 'subject'].each do |k|
+    %w(id subject).each do |k|
       h[k] = topic_hash[k]
     end
 

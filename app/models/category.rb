@@ -1,5 +1,5 @@
 class Category < OceanDynamo::Table
-  include Connection
+  include ForumsHelper, Connection
 
   dynamo_schema(timestamps: [:created_at, :updated_at]) do
     attribute :name
@@ -12,8 +12,8 @@ class Category < OceanDynamo::Table
   end
 
   def forums
-    query(Forum.table_name, 'category = :n', ':n' => name).map do |f|
-      f['name']
+    query(Forum.table_name, 'category = :id', ':id' => id).map do |f|
+      simple_hash(f)
     end
   end
 
