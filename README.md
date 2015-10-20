@@ -3,7 +3,7 @@
 DynamoDB schema:
 
 category: id(hash), name(string)
-forum: category(hash, category_id) name(range)
+forum: category(hash, category_id), id(range), name(string)
 topic:
   forum(hash, forum_id) id(range) subject(string)
   local secondary index: user(int)

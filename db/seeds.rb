@@ -111,7 +111,7 @@ client.create_table(
                 attribute_type: 'S',
             },
             {
-                attribute_name: 'name',
+                attribute_name: 'id',
                 attribute_type: 'S',
             },
         ],
@@ -122,7 +122,7 @@ client.create_table(
                 key_type: 'HASH',
             },
             {
-                attribute_name: 'name',
+                attribute_name: 'id',
                 key_type: 'RANGE',
             },
         ],
