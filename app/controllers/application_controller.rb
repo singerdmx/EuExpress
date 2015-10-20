@@ -69,8 +69,12 @@ or; 2) Set Forem.sign_in_path to a String value that represents the location of 
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  def attributes(records, additions = [], exclusions = nil, to_sym = false)
-    records.map { |r| to_hash(r, additions, exclusions, to_sym) }
+  def attributes(target, additions = [], exclusions = nil, to_sym = false)
+    if target.is_a?(Enumerable)
+      target.map { |t| to_hash(t, additions, exclusions, to_sym) }
+    else
+      to_hash(target, additions, exclusions, to_sym)
+    end
   end
 
 end
