@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_ability
-    Forem::Ability.new(forem_user)
+    Ability.new(forem_user)
   end
 
   # Kaminari defaults page_method_name to :page, will_paginate always uses
