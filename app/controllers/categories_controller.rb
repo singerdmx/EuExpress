@@ -4,9 +4,10 @@ class CategoriesController < ApplicationController
   ATTRIBUTES_EXCLUSION = ApplicationHelper::ATTRIBUTES_EXCLUSION.dup << 'id'
 
   def index
-    categories = Category.all
-    if stale?(etag: categories, last_modified: max_updated_at(categories))
-      render json: attributes(categories, ['forums'], ATTRIBUTES_EXCLUSION)
+    all_categories = Category.all
+    categories = attributes(all_categories, ['forums'], ATTRIBUTES_EXCLUSION)
+    if stale?(etag: categories, last_modified: max_updated_at(all_categories))
+      render json: categories
     else
       head :not_modified
     end

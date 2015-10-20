@@ -1,5 +1,3 @@
-require_relative '../../app/dynamo_db/connection'
-
 class Forum < OceanDynamo::Table
   include TopicsHelper, Connection
 
@@ -19,6 +17,8 @@ class Forum < OceanDynamo::Table
   def topics
     query(Topic.table_name, 'forum = :n', ':n' => name).map do |t|
       simple_hash(t)
+    end.sort do |a, b|
+      b['last_post_at'] <=> a['last_post_at']
     end
   end
 

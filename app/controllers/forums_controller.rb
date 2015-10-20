@@ -5,9 +5,10 @@ class ForumsController < ApplicationController
   ATTRIBUTES_EXCLUSION = ApplicationHelper::ATTRIBUTES_EXCLUSION.dup << 'id'
 
   def index
-    forums = Forum.all
-    if stale?(etag: forums, last_modified: max_updated_at(forums))
-      render json: attributes(forums, ['topics'], ATTRIBUTES_EXCLUSION)
+    all_forums = Forum.all
+    forums = attributes(all_forums, ['topics'], ATTRIBUTES_EXCLUSION)
+    if stale?(etag: forums, last_modified: max_updated_at(all_forums))
+      render json: forums
     else
       head :not_modified
     end
