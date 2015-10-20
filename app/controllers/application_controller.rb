@@ -5,7 +5,7 @@ Dir[File.dirname(__FILE__) + "/../models/*.rb"].each do |f|
 end
 
 class ApplicationController < ActionController::Base
-  include Connection
+  include ApplicationHelper, Connection
   layout "application"
 
   rescue_from CanCan::AccessDenied do
@@ -68,4 +68,9 @@ or; 2) Set Forem.sign_in_path to a String value that represents the location of 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+
+  def attributes(records, additions = [], exclusions = nil, to_sym = false)
+    records.map { |r| to_hash(r, additions, exclusions, to_sym) }
+  end
+
 end

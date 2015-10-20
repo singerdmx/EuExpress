@@ -1,5 +1,8 @@
 module ApplicationHelper
   include FormattingHelper
+
+  ATTRIBUTES_EXCLUSION = ['created_at', 'updated_at', 'lock_version']
+
   # processes text with installed markup formatter
   def forem_format(text, *options)
     forem_emojify(as_formatted_html(text))
@@ -48,4 +51,21 @@ module ApplicationHelper
       end
     end.html_safe if content.present?
   end
+
+  def to_hash(record, additions = [], exclusions = nil, to_sym = false)
+    exclusions ||= ATTRIBUTES_EXCLUSION
+    hash = {}
+    record.attributes.each do |k,v|
+      k = k.to_sym if to_sym
+      hash[k] = v unless k.in? exclusions
+    end
+
+    additions.each do |addition|
+      addition = addition.to_sym if to_sym
+      hash[addition] = record.send(addition.to_s)
+    end
+
+    hash
+  end
+
 end

@@ -1,12 +1,15 @@
 class CategoriesController < ApplicationController
-  helper ForumsHelper
-  load_and_authorize_resource class: 'Forem::Category'
+  load_and_authorize_resource class: 'Category'
+
+  ATTRIBUTES_EXCLUSION = ApplicationHelper::ATTRIBUTES_EXCLUSION << 'id'
 
   def index
     @categories = Category.all
     respond_to do |format|
       format.html
-      format.json { render json: @categories }
+      format.json do
+        render json: attributes(@categories, ['forums'], ATTRIBUTES_EXCLUSION)
+      end
     end
   end
 end

@@ -5,7 +5,7 @@ class Category < OceanDynamo::Table
     attribute :name
   end
 
-  validates :name, :presence => true
+  validates :name, presence: true
 
   def to_s
     name
