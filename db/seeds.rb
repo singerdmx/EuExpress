@@ -245,6 +245,10 @@ client.create_table(
     {
         attribute_definitions: [
             {
+                attribute_name: 'id',
+                attribute_type: 'S',
+            },
+            {
                 attribute_name: 'topic',
                 attribute_type: 'S',
             },
@@ -264,7 +268,7 @@ client.create_table(
                 key_type: 'HASH',
             },
             {
-                attribute_name: 'updated_at',
+                attribute_name: 'id',
                 key_type: 'RANGE',
             },
         ],
@@ -273,6 +277,23 @@ client.create_table(
             write_capacity_units: write_capacity_units,
         },
         local_secondary_indexes: [
+            {
+                index_name: 'updated_at',
+                key_schema: [
+                    {
+                        attribute_name: 'topic',
+                        key_type: 'HASH',
+                    },
+                    {
+                        attribute_name: 'updated_at',
+                        key_type: 'RANGE',
+                    },
+                ],
+                projection: {
+                    projection_type: 'INCLUDE',
+                    non_key_attributes: ['text'],
+                },
+            },
             {
                 index_name: 'user_index',
                 key_schema: [
@@ -297,5 +318,12 @@ posts = []
 posts << Post.create(
     topic: topics.first.id,
     text: 'My own experience',
+    state: 'approved',
+    user: user.id)
+
+sleep 1
+posts << Post.create(
+    topic: topics.first.id,
+    text: 'It does not work',
     state: 'approved',
     user: user.id)

@@ -1,4 +1,20 @@
 module PostsHelper
+  include Connection
+
+  def get_posts(topic_id)
+    query(Post.table_name, 'topic = :t', ':t' => topic_id)
+  end
+
+  def simple_hash(post_hash)
+    h = {}
+    %w(id text reply_to_post updated_at).each do |k|
+      h[k] = post_hash[k]
+    end
+
+    h['updated_at'] = post_hash['updated_at'].to_i
+    h
+  end
+
   def forem_avatar(user, options = {})
     image = if Forem.avatar_user_method
               # Try to use the user's custom avatar method

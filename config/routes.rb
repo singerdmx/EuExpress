@@ -44,13 +44,17 @@ Rails.application.routes.draw do
   # Moderation of a single topic
   put '/:forum_id/topics/:topic_id/moderate', :to => "moderation#topic", :as => :moderate_forum_topic
 
-  resources :forums, :only => [:index, :show] do
+  resources :forums, only: [:index, :show] do
     resources :topics do
-      resources :posts, :except => :index
+      resources :posts, except: :index
       member do
         post :subscribe
         post :unsubscribe
       end
     end
+  end
+
+  resources :topics, only: [:index] do
+    resources :posts, only: [:index]
   end
 end
