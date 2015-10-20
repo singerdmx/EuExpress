@@ -216,14 +216,14 @@ client.create_table(
 
 topics = []
 topics << Topic.create(
-    forum: forums.first.name,
+    forum: forums.first.id,
     last_post_at: Time.now.to_i - 10,
     subject: 'How to upgrade',
     user: user.id,
     state: 'approved')
 
 topics << Topic.create(
-    forum: forums.first.name,
+    forum: forums.first.id,
     last_post_at: Time.now.to_i,
     subject: 'Amazfit new function',
     user: user.id,

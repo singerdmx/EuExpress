@@ -15,7 +15,7 @@ class Forum < OceanDynamo::Table
   alias_attribute :title, :name
 
   def topics
-    query(Topic.table_name, 'forum = :n', ':n' => name).map do |t|
+    query(Topic.table_name, 'forum = :id', ':id' => id).map do |t|
       simple_hash(t)
     end.sort do |a, b|
       b['last_post_at'] <=> a['last_post_at']
