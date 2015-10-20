@@ -1,6 +1,7 @@
 class ForumsController < ApplicationController
-  load_and_authorize_resource class: 'Forum', only: :show
+  before_filter :find_forum, only: [:show]
   helper TopicsHelper
+  include ForumsHelper
 
   def index
     respond_to do |format|
@@ -21,24 +22,8 @@ class ForumsController < ApplicationController
   end
 
   def show
-    authorize! :show, @forum
-    register_view
-
-    @topics = if forem_admin_or_moderator?(@forum)
-                @forum.topics
-              else
-                @forum.topics.visible.approved_or_pending_review_for(forem_user)
-              end
-
-    @topics = @topics.by_pinned_or_most_recent_post
-
-    # Kaminari allows to configure the method and param used
-    @topics = @topics.send(pagination_method, params[pagination_param]).per(Forem.per_page)
-
-    respond_to do |format|
-      format.html
-      format.atom { render :layout => false }
-    end
+    # register_view
+    render json: simple_hash(@forum)
   end
 
   private

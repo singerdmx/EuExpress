@@ -36,7 +36,9 @@ Rails.application.routes.draw do
     get 'users/autocomplete', :to => "users#autocomplete", :as => "user_autocomplete"
   end
 
-  resources :categories, :only => [:index, :show]
+  resources :categories, only: [:index, :show] do
+    resources :forums, only: [:show]
+  end
 
   get '/:forum_id/moderation', :to => "moderation#index", :as => :forum_moderator_tools
   # For mass moderation of posts
