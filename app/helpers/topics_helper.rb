@@ -1,4 +1,15 @@
 module TopicsHelper
+
+  def simple_hash(topic_hash)
+    h = {}
+    ['id', 'subject'].each do |k|
+      h[k] = topic_hash[k]
+    end
+
+    h['last_post_at'] = topic_hash['last_post_at'].to_i
+    h
+  end
+
   def link_to_latest_post(topic)
     post = relevant_posts(topic).last
     return '' unless post

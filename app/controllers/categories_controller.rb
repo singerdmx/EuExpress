@@ -1,7 +1,7 @@
 class CategoriesController < ApplicationController
   load_and_authorize_resource class: 'Category'
 
-  ATTRIBUTES_EXCLUSION = ApplicationHelper::ATTRIBUTES_EXCLUSION << 'id'
+  ATTRIBUTES_EXCLUSION = ApplicationHelper::ATTRIBUTES_EXCLUSION.dup << 'id'
 
   def index
     categories = Category.all

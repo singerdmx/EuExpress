@@ -1,19 +1,26 @@
+require_relative '../../app/dynamo_db/connection'
+
 class Forum < OceanDynamo::Table
+  include TopicsHelper, Connection
 
   dynamo_schema(timestamps: [:created_at, :updated_at]) do
     attribute :category
     attribute :name
     attribute :description
     attribute :views_count, :integer, default: 0
-    attribute :position, :integer, default: 0
   end
 
   include Concerns::Viewable
 
-  validates :category, :name, :description, :presence => true
-  validates :position, numericality: { only_integer: true }
+  validates :category, :name, :description, presence: true
 
   alias_attribute :title, :name
+
+  def topics
+    query(Topic.table_name, 'forum = :n', ':n' => name).map do |t|
+      simple_hash(t)
+    end
+  end
 
   def last_post_for(forem_user)
     if forem_user && (forem_user.forem_admin? || moderator?(forem_user))

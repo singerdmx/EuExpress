@@ -1,13 +1,19 @@
 class ForumsController < ApplicationController
-  load_and_authorize_resource class: 'Forem::Forum', only: :show
+  load_and_authorize_resource class: 'Forum', only: :show
   helper TopicsHelper
 
+  ATTRIBUTES_EXCLUSION = ApplicationHelper::ATTRIBUTES_EXCLUSION.dup << 'id'
+
   def index
-    @categories = Category.all
-    respond_to do |format|
-      format.html
-      format.json { render json: Forum.all }
+    forums = Forum.all
+    if stale?(etag: forums, last_modified: max_updated_at(forums))
+      render json: attributes(forums, ['topics'], ATTRIBUTES_EXCLUSION)
+    else
+      head :not_modified
     end
+  rescue Exception => e
+    Rails.logger.error "Encountered an error: #{e.inspect}\nbacktrace: #{e.backtrace}"
+    render json: {message: e.to_s}.to_json, status: :internal_server_error
   end
 
   def show
