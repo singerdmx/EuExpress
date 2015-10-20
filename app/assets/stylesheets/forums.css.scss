@@ -1,0 +1,7 @@
+div.forum-panel {
+  > div.panel-heading {
+    > h3 {
+      cursor: pointer;
+    }
+  }
+}

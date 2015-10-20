@@ -3,12 +3,17 @@ class ForumsController < ApplicationController
   helper TopicsHelper
 
   def index
-    all_forums = Forum.all
-    forums = attributes(all_forums, ['topics'])
-    if stale?(etag: forums, last_modified: max_updated_at(all_forums))
-      render json: forums
-    else
-      head :not_modified
+    respond_to do |format|
+      format.html
+      format.json do
+        all_forums = Forum.all
+        forums = attributes(all_forums, ['topics'])
+        if stale?(etag: forums, last_modified: max_updated_at(all_forums))
+          render json: forums
+        else
+          head :not_modified
+        end
+      end
     end
   rescue Exception => e
     Rails.logger.error "Encountered an error: #{e.inspect}\nbacktrace: #{e.backtrace}"
