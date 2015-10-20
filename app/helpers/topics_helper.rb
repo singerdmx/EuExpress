@@ -1,4 +1,9 @@
 module TopicsHelper
+  include Connection
+
+  def get_topics(forum_id)
+    query(Topic.table_name, 'forum = :f', ':f' => forum_id)
+  end
 
   def simple_hash(topic_hash)
     h = {}

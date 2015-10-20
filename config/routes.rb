@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   put '/:forum_id/topics/:topic_id/moderate', :to => "moderation#topic", :as => :moderate_forum_topic
 
   resources :forums, :only => [:index, :show] do
-    resources :topics, :except => :index do
+    resources :topics do
       resources :posts, :except => :index
       member do
         post :subscribe

@@ -1,5 +1,3 @@
-require_relative '../../app/dynamo_db/connection'
-
 class Topic < OceanDynamo::Table
   include Connection
 
@@ -21,8 +19,8 @@ class Topic < OceanDynamo::Table
 
   attr_accessor :moderation_option
 
-  validates :subject, :presence => true, :length => {maximum: 255}
-  validates :user, :forum, :presence => true
+  validates :subject, presence: true, length: {maximum: 255}
+  validates :user, :forum, presence: true
 
   # after_create :subscribe_poster
   # after_create :skip_pending_review, :unless => :moderated?

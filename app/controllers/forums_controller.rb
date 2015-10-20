@@ -2,11 +2,9 @@ class ForumsController < ApplicationController
   load_and_authorize_resource class: 'Forum', only: :show
   helper TopicsHelper
 
-  ATTRIBUTES_EXCLUSION = ApplicationHelper::ATTRIBUTES_EXCLUSION.dup << 'id'
-
   def index
     all_forums = Forum.all
-    forums = attributes(all_forums, ['topics'], ATTRIBUTES_EXCLUSION)
+    forums = attributes(all_forums, ['topics'])
     if stale?(etag: forums, last_modified: max_updated_at(all_forums))
       render json: forums
     else

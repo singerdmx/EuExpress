@@ -79,7 +79,14 @@ or; 2) Set Forem.sign_in_path to a String value that represents the location of 
 
   def max_updated_at(target)
     fail "#{target.inspect} is not Enumerable" unless target.is_a?(Enumerable)
-    target.map { |t| t.attributes['updated_at'] }.max
+    target.map do |t|
+      if t.is_a?(Hash)
+        updated_at = t['updated_at']
+      else
+        updated_at = t.attributes['updated_at']
+      end
+      Time.at(updated_at)
+    end.max
   end
 
 end

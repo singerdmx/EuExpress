@@ -1,8 +1,28 @@
 class TopicsController < ApplicationController
   helper PostsHelper
-  before_filter :authenticate_forem_user, :except => [:show]
-  before_filter :find_forum
-  before_filter :block_spammers, :only => [:new, :create]
+  include TopicsHelper
+
+  before_filter :authenticate_forem_user, except: [:index, :show]
+  # before_filter :find_forum
+  before_filter :block_spammers, only: [:new, :create]
+
+  def index
+    fail 'params forum_id is undefined!' unless params[:forum_id]
+    all_topics = get_topics(params[:forum_id])
+    topics = all_topics.map do |t|
+      simple_hash(t)
+    end.sort do |a, b|
+      b['last_post_at'] <=> a['last_post_at']
+    end
+    if stale?(etag: topics, last_modified: max_updated_at(all_topics))
+      render json: topics
+    else
+      head :not_modified
+    end
+  rescue Exception => e
+    Rails.logger.error "Encountered an error: #{e.inspect}\nbacktrace: #{e.backtrace}"
+    render json: {message: e.to_s}.to_json, status: :internal_server_error
+  end
 
   def show
     if find_topic
