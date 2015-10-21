@@ -1,6 +1,7 @@
 require 'friendly_id'
 
 class User < ActiveRecord::Base
+  include DefaultPermissions
 
   extend FriendlyId
   friendly_id :email, :use => [:slugged, :finders]
@@ -17,4 +18,13 @@ class User < ActiveRecord::Base
   def to_s
     name
   end
+
+  def forem_approved_to_post?
+    forem_state == 'approved'
+  end
+
+  def forem_spammer?
+    forem_state == 'spam'
+  end
+
 end
