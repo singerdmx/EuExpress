@@ -3,7 +3,7 @@ class TopicsController < ApplicationController
   include TopicsHelper
 
   before_filter :authenticate_forem_user, except: [:index, :show]
-  # before_filter :find_forum
+  before_filter :find_topic, only: [:show]
   before_filter :block_spammers, only: [:new, :create]
 
   def index
@@ -25,13 +25,9 @@ class TopicsController < ApplicationController
   end
 
   def show
-    if find_topic
-      register_view(@topic, forem_user)
-      @posts = find_posts(@topic)
-
-      # Kaminari allows to configure the method and param used
-      @posts = @posts.send(pagination_method, params[pagination_param]).per(Forem.per_page)
-    end
+    register_view_by(current_user, Topic.table_name, @topic['id'],
+                     {forum: params[:forum_id], id: params[:id]})
+    render json: simple_hash(@topic)
   end
 
   def new
@@ -124,20 +120,6 @@ class TopicsController < ApplicationController
       posts = posts.approved_or_pending_review_for(forem_user)
     end
     @posts = posts
-  end
-
-  def find_topic
-    begin
-      @topic = forum_topics(@forum, forem_user).friendly.find(params[:id])
-      authorize! :read, @topic
-    rescue ActiveRecord::RecordNotFound
-      flash.alert = t("forem.topic.not_found")
-      redirect_to @forum and return
-    end
-  end
-
-  def register_view(topic, user)
-    topic.register_view_by(user)
   end
 
   def block_spammers

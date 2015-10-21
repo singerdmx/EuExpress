@@ -15,6 +15,13 @@ module TopicsHelper
     h
   end
 
+  def find_topic(forum_id = params[:forum_id], topic_id = params[:id])
+    fail 'forum_id is not defined!' unless forum_id
+    fail 'id is not defined!' unless topic_id
+    @topic = get(Topic.table_name, {forum: forum_id, id: topic_id})
+    fail "Unable to find topic given forum #{forum_id} topic_id #{topic_id}" unless @topic
+  end
+
   def link_to_latest_post(topic)
     post = relevant_posts(topic).last
     return '' unless post
