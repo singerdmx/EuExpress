@@ -29,4 +29,14 @@ module Connection
     ).items
   end
 
+  def update(table_name, key, update_expression, expression_attribute_values)
+    client.update_item(
+        table_name: table_name,
+        key: key,
+        return_values: 'ALL_NEW',
+        update_expression: update_expression,
+        expression_attribute_values: expression_attribute_values
+    ).attributes
+  end
+
 end

@@ -3,7 +3,7 @@ class View < OceanDynamo::Table
   dynamo_schema(timestamps: [:created_at, :updated_at]) do
     attribute :user_id, :integer
     attribute :viewable_id
-    attribute :views_count, :integer, default: 0
+    attribute :views_count, :integer, default: 1
     attribute :viewable_type
     attribute :current_viewed_at, :integer
     attribute :past_viewed_at, :integer
