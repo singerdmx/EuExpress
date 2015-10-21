@@ -15,3 +15,4 @@ post:
 view:
   user(hash), id(range, string, "viewable_type#viewable_id")
   viewable_id(int, topic_id or forum_id) viewable_type(string, i.e. table_name, e.g. 'topics' or 'forums')
+group: id(hash), name(string)

@@ -354,3 +354,31 @@ views << View.create(
     id: "#{Topic.table_name}##{topics.first.id}",
     viewable_id: topics.first.id,
     viewable_type: Topic.table_name)
+
+###############################
+#           Group             #
+###############################
+
+client.create_table(
+    attribute_definitions: [
+        {
+            attribute_name: 'id',
+            attribute_type: 'S',
+        },
+    ],
+    table_name: Group.table_name,
+    key_schema: [
+        {
+            attribute_name: 'id',
+            key_type: 'HASH',
+        },
+    ],
+    provisioned_throughput: {
+        read_capacity_units: read_capacity_units,
+        write_capacity_units: write_capacity_units,
+    },
+)
+
+groups = []
+groups << Group.create(name: 'Moderator')
+groups << Group.create(name: 'Normal User')
