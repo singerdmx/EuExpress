@@ -12,7 +12,7 @@ module Admin
     end
 
     def create
-      category_name = category_params[:name]
+      category_name = params[:name]
       if attributes(Category.all).find { |c| c['name'] == category_name }
         create_failed "category '#{category_name}' already exists"
         return
@@ -23,7 +23,6 @@ module Admin
     rescue Exception => e
       Rails.logger.error "Encountered an error: #{e.inspect}\nbacktrace: #{e.backtrace}"
       create_failed t("forem.admin.category.not_created")
-      render action: 'new'
     end
 
     def update
