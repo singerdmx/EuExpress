@@ -15,36 +15,8 @@ end
 
 user = User.first
 
-Forem::Category.delete_all
-Forem::Forum.delete_all
-Forem::Post.delete_all
-Forem::Topic.delete_all
-
 # Force-decorate the User class in case it hasn't been yet. Fixes #495.
-Forem.decorate_user_class!
-
-###############################
-#         Category            #
-###############################
-Forem::Category.create(name: 'Announcements')
-Forem::Category.create(name: 'General Support')
-Forem::Category.create(name: 'Accessories')
-Forem::Category.create(name: 'Development')
-
-forum = Forem::Forum.find_or_create_by_name(category_id: Forem::Category.first.id,
-                                            name: "Announcements Forum",
-                                            description: "Mi Band updates")
-
-post = Forem::Post.find_or_initialize_by_text("Instruction")
-post.user = user
-
-topic = Forem::Topic.find_or_initialize_by_subject("How to upgrade")
-topic.forum = forum
-topic.user = user
-topic.state = 'approved'
-topic.posts = [post]
-
-topic.save!
+# Forem.decorate_user_class!
 
 ###############################
 #         DynamoDB            #
@@ -421,3 +393,41 @@ memberships << Membership.create(group: groups.first.id,
 
 memberships << Membership.create(group: groups[1].id,
                                  user_id: users[1].id)
+
+###############################
+#       ModeratorGroup        #
+###############################
+
+client.create_table(
+    attribute_definitions: [
+        {
+            attribute_name: 'group',
+            attribute_type: 'S',
+        },
+        {
+            attribute_name: 'forum',
+            attribute_type: 'S',
+        },
+    ],
+    table_name: ModeratorGroup.table_name,
+    key_schema: [
+        {
+            attribute_name: 'group',
+            key_type: 'HASH',
+        },
+        {
+            attribute_name: 'forum',
+            key_type: 'RANGE',
+        },
+    ],
+    provisioned_throughput: {
+        read_capacity_units: read_capacity_units,
+        write_capacity_units: write_capacity_units,
+    },
+)
+
+moderator_groups = []
+forums.each do |forum|
+  moderator_groups << ModeratorGroup.create(group: groups.first.id,
+                                            forum: forum.id)
+end
