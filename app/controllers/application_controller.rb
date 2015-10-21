@@ -96,10 +96,16 @@ or; 2) Set Forem.sign_in_path to a String value that represents the location of 
   # Track when users last viewed topics
   def register_view_by(user, viewable_type, viewable_id)
     return unless user
-    view = query('views',
-                 'user_id = :u and id = :i',
-                 ':u' => user.id,
-                 ':i' => "#{viewable_type}##{viewable_id}")
+    view = get('views', {user_id: user.id, id: "#{viewable_type}##{viewable_id}"})
+    unless view
+      view = View.create(
+          user_id: user.id,
+          id: "#{viewable_type}##{viewable_id}",
+          viewable_id: viewable_id,
+          viewable_type: viewable_type)
+    end
+
+
     # view.increment!('count')
     # increment!(:views_count)
     #
