@@ -1,4 +1,8 @@
-<%= simple_form_for [:admin, @category] do |f| %>
-  <%= f.input :name %>
-  <%= f.submit :class => "btn btn-primary" %>
+<%= simple_form_for([:admin, @category], defaults: {input_html: {class: "form-control"}}) do |f| %>
+    <div class="input-group">
+      <%= f.input :name %>
+    </div>
+    <div class="margin-top-15-px">
+      <%= f.submit class: "btn btn-primary" %>
+    </div>
 <% end %>
