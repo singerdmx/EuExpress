@@ -18,7 +18,7 @@
         <td><%= link_to t('delete', :scope => 'forem.admin.categories'), admin_category_path(category), :method => :delete,
         data: { :confirm => t("delete_confirm", :scope => 'forem.admin.categories') }, :class => "btn btn-danger" %></td>
         <td>
-          <%= forem_emojify(category.name) %>
+          <%= forem_emojify(category['name']) %>
         </td>
       </tr>
     <% end %>

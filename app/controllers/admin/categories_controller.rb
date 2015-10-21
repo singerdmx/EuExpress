@@ -3,7 +3,7 @@ module Admin
     before_filter :find_category, :only => [:edit, :update, :destroy]
 
     def index
-      @categories = Forem::Category.by_position
+      @categories = attributes(Category.all, ['forums'])
     end
 
     def new
