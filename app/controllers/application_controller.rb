@@ -94,8 +94,15 @@ or; 2) Set Forem.sign_in_path to a String value that represents the location of 
   # end
 
   # Track when users last viewed topics
-  def register_view_by(user, viewable_type, viewable_id)
+  def register_view_by(user, viewable_type, viewable_id, viewable_key)
     return unless user
+
+    update_expression = 'SET views_count = views_count + :val'
+    expression_attribute_values = {':val' => 1}
+    update(viewable_type, viewable_key,
+           update_expression,
+           expression_attribute_values)
+
     view_key = {user_id: user.id, id: "#{viewable_type}##{viewable_id}"}
     view = get('views', view_key)
     unless view
@@ -105,9 +112,6 @@ or; 2) Set Forem.sign_in_path to a String value that represents the location of 
           viewable_id: viewable_id,
           viewable_type: viewable_type)
     else
-      update_expression = 'SET views_count = views_count + :val'
-      expression_attribute_values = {':val' => 1}
-
       # Update the current_viewed_at if it is BEFORE 15 minutes ago.
       if view['current_viewed_at'].to_i < 15.minutes.ago.to_i
         update_expression += ', current_viewed_at = :current_viewed_at'
@@ -121,7 +125,6 @@ or; 2) Set Forem.sign_in_path to a String value that represents the location of 
              expression_attribute_values)
     end
 
-    # increment!(:views_count)
   end
 
 end

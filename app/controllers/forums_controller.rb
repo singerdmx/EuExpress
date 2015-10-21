@@ -22,7 +22,8 @@ class ForumsController < ApplicationController
   end
 
   def show
-    register_view_by(current_user, Forum.table_name, @forum['id'])
+    register_view_by(current_user, Forum.table_name, @forum['id'],
+                     {category: params[:category_id], id: params[:id]})
     render json: simple_hash(@forum)
   end
 end
