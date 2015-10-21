@@ -431,3 +431,42 @@ forums.each do |forum|
   moderator_groups << ModeratorGroup.create(group: groups.first.id,
                                             forum: forum.id)
 end
+
+###############################
+#         Subscription        #
+###############################
+
+client.create_table(
+    attribute_definitions: [
+        {
+            attribute_name: 'topic',
+            attribute_type: 'S',
+        },
+        {
+            attribute_name: 'user_id',
+            attribute_type: 'N',
+        },
+    ],
+    table_name: Subscription.table_name,
+    key_schema: [
+        {
+            attribute_name: 'topic',
+            key_type: 'HASH',
+        },
+        {
+            attribute_name: 'user_id',
+            key_type: 'RANGE',
+        },
+    ],
+    provisioned_throughput: {
+        read_capacity_units: read_capacity_units,
+        write_capacity_units: write_capacity_units,
+    },
+)
+
+subscriptions = []
+users.each do |u|
+  subscriptions << Subscription.create(topic: topics.first.id,
+                                       user_id: u.id)
+end
+

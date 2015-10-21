@@ -17,3 +17,5 @@ view:
   viewable_id(int, topic_id or forum_id) viewable_type(string, i.e. table_name, e.g. 'topics' or 'forums')
 group: id(hash), name(string)
 membership: group(hash, group_id), user_id(range)
+moderator_group: group(hash, group_id), forum(range, forum_id)
+subscription: topic(hash, topic_id), user_id(range)
