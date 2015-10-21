@@ -22,12 +22,7 @@ class ForumsController < ApplicationController
   end
 
   def show
-    # register_view
+    register_view_by(current_user, Forum.table_name, @forum['id'])
     render json: simple_hash(@forum)
-  end
-
-  private
-  def register_view
-    @forum.register_view_by(forem_user)
   end
 end

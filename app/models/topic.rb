@@ -2,10 +2,9 @@ class Topic < OceanDynamo::Table
   include Connection
 
   dynamo_schema(timestamps: [:created_at, :updated_at]) do
-    attribute :user, :integer
+    attribute :user_id, :integer
     attribute :forum
     attribute :subject
-    attribute :user, :integer
     attribute :state, default: 'approved'
     attribute :locked, :boolean, default: false
     attribute :pinned, :boolean, default: false
@@ -14,14 +13,13 @@ class Topic < OceanDynamo::Table
     attribute :views_count, :integer, default: 0
   end
 
-  include Concerns::Viewable
   include Workflow
   include StateWorkflow
 
   attr_accessor :moderation_option
 
   validates :subject, presence: true, length: {maximum: 255}
-  validates :user, :forum, presence: true
+  validates :user_id, :forum, presence: true
 
   # after_create :subscribe_poster
   # after_create :skip_pending_review, :unless => :moderated?

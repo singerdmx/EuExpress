@@ -1,11 +1,3 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-
 ###############################
 #           User              #
 ###############################
@@ -162,7 +154,7 @@ client.create_table(
             attribute_type: 'N',
         },
         {
-            attribute_name: 'user',
+            attribute_name: 'user_id',
             attribute_type: 'N',
         },
     ],
@@ -207,7 +199,7 @@ client.create_table(
                     key_type: 'HASH',
                 },
                 {
-                    attribute_name: 'user',
+                    attribute_name: 'user_id',
                     key_type: 'RANGE',
                 },
             ],
@@ -224,14 +216,14 @@ topics << Topic.create(
     forum: forums.first.id,
     last_post_at: Time.now.to_i - 10,
     subject: 'How to upgrade',
-    user: user.id,
+    user_id: user.id,
     state: 'approved')
 
 topics << Topic.create(
     forum: forums.first.id,
     last_post_at: Time.now.to_i,
     subject: 'Amazfit new function',
-    user: user.id,
+    user_id: user.id,
     state: 'approved')
 
 ###############################
@@ -253,7 +245,7 @@ client.create_table(
             attribute_type: 'N',
         },
         {
-            attribute_name: 'user',
+            attribute_name: 'user_id',
             attribute_type: 'N',
         },
     ],
@@ -298,7 +290,7 @@ client.create_table(
                     key_type: 'HASH',
                 },
                 {
-                    attribute_name: 'user',
+                    attribute_name: 'user_id',
                     key_type: 'RANGE',
                 },
             ],
@@ -315,14 +307,14 @@ posts << Post.create(
     topic: topics.first.id,
     text: 'My own experience',
     state: 'approved',
-    user: user.id)
+    user_id: user.id)
 
 sleep 1
 posts << Post.create(
     topic: topics.first.id,
     text: 'It does not work',
     state: 'approved',
-    user: user.id)
+    user_id: user.id)
 
 ###############################
 #           Views             #
@@ -335,14 +327,14 @@ client.create_table(
             attribute_type: 'S',
         },
         {
-            attribute_name: 'user',
+            attribute_name: 'user_id',
             attribute_type: 'N',
         },
     ],
     table_name: View.table_name,
     key_schema: [
         {
-            attribute_name: 'user',
+            attribute_name: 'user_id',
             key_type: 'HASH',
         },
         {
@@ -358,7 +350,7 @@ client.create_table(
 
 views = []
 views << View.create(
-    user: user.id,
+    user_id: user.id,
     id: "#{Topic.table_name}##{topics.first.id}",
     viewable_id: topics.first.id,
     viewable_type: Topic.table_name)

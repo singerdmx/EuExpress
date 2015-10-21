@@ -5,7 +5,7 @@ class Post < OceanDynamo::Table
   include StateWorkflow
 
   dynamo_schema(timestamps: [:created_at, :updated_at]) do
-    attribute :user, :integer
+    attribute :user_id, :integer
     attribute :topic
     attribute :text
     attribute :state, default: 'approved'

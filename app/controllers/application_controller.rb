@@ -89,4 +89,32 @@ or; 2) Set Forem.sign_in_path to a String value that represents the location of 
     end.max
   end
 
+  # def view_for(user)
+  #   views.find_by(user_id: user.id)
+  # end
+
+  # Track when users last viewed topics
+  def register_view_by(user, viewable_type, viewable_id)
+    return unless user
+    view = query('views',
+                 'user_id = :u and id = :i',
+                 ':u' => user.id,
+                 ':i' => "#{viewable_type}##{viewable_id}")
+    # view.increment!('count')
+    # increment!(:views_count)
+    #
+    # # update current_viewed_at if more than 15 minutes ago
+    # if view.current_viewed_at.nil?
+    #   view.past_viewed_at = view.current_viewed_at = Time.now
+    # end
+    #
+    # # Update the current_viewed_at if it is BEFORE 15 minutes ago.
+    # if view.current_viewed_at < 15.minutes.ago
+    #   view.past_viewed_at = view.current_viewed_at
+    #   view.current_viewed_at = Time.now
+    #   view.save
+    # end
+    view
+  end
+
 end

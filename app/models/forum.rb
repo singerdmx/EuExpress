@@ -8,8 +8,6 @@ class Forum < OceanDynamo::Table
     attribute :views_count, :integer, default: 0
   end
 
-  include Concerns::Viewable
-
   validates :category, :name, :description, presence: true
 
   alias_attribute :title, :name
