@@ -16,3 +16,8 @@
 //= require forem
 //= require_tree .
 //= require bootstrap.min
+//= require angular
+//= require angular-animate
+//= require angular-resource
+//= require ui-bootstrap-tpls-0.14.2
+//= require forum

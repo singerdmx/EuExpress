@@ -1,6 +1,12 @@
-<%= render 'forums/forums' %>
-<%= render 'forums/topics' %>
-<%= render 'forums/posts' %>
+<div ng-app="forum">
+  <div ng-controller="ForumController">
+    <uib-accordion close-others="oneAtATime">
+      <%= render 'forums/forums' %>
+      <%= render 'forums/topics' %>
+      <%= render 'forums/posts' %>
+    </uib-accordion>
+  </div>
+</div>
 
 <br>
 <footer id='admin_link'>

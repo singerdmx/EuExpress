@@ -1,11 +1,6 @@
-<div class="panel panel-info forum-panel">
-  <div class="panel-heading">
-    <h3 class="panel-title">
-      <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
-      Forums
-    </h3>
-  </div>
-  <div class="panel-body">
-    Panel content
-  </div>
-</div>
+<uib-accordion-group is-open="forumStatus.open">
+  <uib-accordion-heading>
+    Forums <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': forumStatus.open, 'glyphicon-chevron-right': !forumStatus.open}"></i>
+  </uib-accordion-heading>
+  Content
+</uib-accordion-group>
