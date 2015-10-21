@@ -1,5 +1,6 @@
 module Admin
   class CategoriesController < BaseController
+    include Connection
     before_filter :find_category, :only => [:edit, :update, :destroy]
 
     def index
@@ -7,15 +8,22 @@ module Admin
     end
 
     def new
-      @category = Forem::Category.new
+      @category = Category.new
     end
 
     def create
-      if @category = Forem::Category.create(category_params)
-        create_successful
-      else
-        create_failed
+      category_name = category_params[:name]
+      if attributes(Category.all).find { |c| c['name'] == category_name }
+        create_failed "category '#{category_name}' already exists"
+        return
       end
+
+      Category.create(name: category_name)
+      create_successful
+    rescue Exception => e
+      Rails.logger.error "Encountered an error: #{e.inspect}\nbacktrace: #{e.backtrace}"
+      create_failed t("forem.admin.category.not_created")
+      render action: 'new'
     end
 
     def update
@@ -46,9 +54,10 @@ module Admin
       redirect_to admin_categories_path
     end
 
-    def create_failed
-      flash.now.alert = t("forem.admin.category.not_created")
-      render :action => "new"
+    def create_failed(alert_msg)
+      flash.now.alert = alert_msg
+      @category = Category.new
+      render action: 'new'
     end
 
     def destroy_successful

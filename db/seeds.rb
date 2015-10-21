@@ -39,12 +39,20 @@ client.create_table(
             attribute_name: 'id',
             attribute_type: 'S',
         },
+        {
+            attribute_name: 'name',
+            attribute_type: 'S',
+        },
     ],
     table_name: Category.table_name,
     key_schema: [
         {
             attribute_name: 'id',
             key_type: 'HASH',
+        },
+        {
+            attribute_name: 'name',
+            key_type: 'RANGE',
         },
     ],
     provisioned_throughput: {

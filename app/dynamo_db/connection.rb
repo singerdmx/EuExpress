@@ -20,13 +20,16 @@ module Connection
 
   def query(table_name,
             key_condition_expression,
-            expression_attribute_values)
-    client.query(
+            expression_attribute_values,
+            index_name = nil)
+    query_params = {
         table_name: table_name,
         consistent_read: false,
         key_condition_expression: key_condition_expression,
         expression_attribute_values: expression_attribute_values
-    ).items
+    }
+    query_params[:index_name] = index_name if index_name
+    client.query(query_params).items
   end
 
   def update(table_name, key, update_expression, expression_attribute_values)
