@@ -73,25 +73,24 @@ client = Aws::DynamoDB::Client.new
 ###############################
 
 client.create_table(
-    {
-        attribute_definitions: [
-            {
-                attribute_name: 'id',
-                attribute_type: 'S',
-            },
-        ],
-        table_name: Category.table_name,
-        key_schema: [
-            {
-                attribute_name: 'id',
-                key_type: 'HASH',
-            },
-        ],
-        provisioned_throughput: {
-            read_capacity_units: read_capacity_units,
-            write_capacity_units: write_capacity_units,
+    attribute_definitions: [
+        {
+            attribute_name: 'id',
+            attribute_type: 'S',
         },
-    })
+    ],
+    table_name: Category.table_name,
+    key_schema: [
+        {
+            attribute_name: 'id',
+            key_type: 'HASH',
+        },
+    ],
+    provisioned_throughput: {
+        read_capacity_units: read_capacity_units,
+        write_capacity_units: write_capacity_units,
+    },
+)
 
 categories = []
 categories << Category.create(name: 'Announcements')
@@ -104,33 +103,32 @@ categories << Category.create(name: 'Development')
 ###############################
 
 client.create_table(
-    {
-        attribute_definitions: [
-            {
-                attribute_name: 'category',
-                attribute_type: 'S',
-            },
-            {
-                attribute_name: 'id',
-                attribute_type: 'S',
-            },
-        ],
-        table_name: Forum.table_name,
-        key_schema: [
-            {
-                attribute_name: 'category',
-                key_type: 'HASH',
-            },
-            {
-                attribute_name: 'id',
-                key_type: 'RANGE',
-            },
-        ],
-        provisioned_throughput: {
-            read_capacity_units: read_capacity_units,
-            write_capacity_units: write_capacity_units,
+    attribute_definitions: [
+        {
+            attribute_name: 'category',
+            attribute_type: 'S',
         },
-    })
+        {
+            attribute_name: 'id',
+            attribute_type: 'S',
+        },
+    ],
+    table_name: Forum.table_name,
+    key_schema: [
+        {
+            attribute_name: 'category',
+            key_type: 'HASH',
+        },
+        {
+            attribute_name: 'id',
+            key_type: 'RANGE',
+        },
+    ],
+    provisioned_throughput: {
+        read_capacity_units: read_capacity_units,
+        write_capacity_units: write_capacity_units,
+    },
+)
 
 forums = []
 forums << Forum.create(category: categories.first.id,
@@ -150,77 +148,76 @@ forums << Forum.create(category: categories[1].id,
 ###############################
 
 client.create_table(
-    {
-        attribute_definitions: [
-            {
-                attribute_name: 'forum',
-                attribute_type: 'S',
-            },
-            {
-                attribute_name: 'id',
-                attribute_type: 'S',
-            },
-            {
-                attribute_name: 'last_post_at',
-                attribute_type: 'N',
-            },
-            {
-                attribute_name: 'user',
-                attribute_type: 'N',
-            },
-        ],
-        table_name: Topic.table_name,
-        key_schema: [
-            {
-                attribute_name: 'forum',
-                key_type: 'HASH',
-            },
-            {
-                attribute_name: 'id',
-                key_type: 'RANGE',
-            },
-        ],
-        provisioned_throughput: {
-            read_capacity_units: read_capacity_units,
-            write_capacity_units: write_capacity_units,
+    attribute_definitions: [
+        {
+            attribute_name: 'forum',
+            attribute_type: 'S',
         },
-        local_secondary_indexes: [
-            {
-                index_name: 'last_post_at_index',
-                key_schema: [
-                    {
-                        attribute_name: 'forum',
-                        key_type: 'HASH',
-                    },
-                    {
-                        attribute_name: 'last_post_at',
-                        key_type: 'RANGE',
-                    },
-                ],
-                projection: {
-                    projection_type: 'INCLUDE',
-                    non_key_attributes: ['subject'],
+        {
+            attribute_name: 'id',
+            attribute_type: 'S',
+        },
+        {
+            attribute_name: 'last_post_at',
+            attribute_type: 'N',
+        },
+        {
+            attribute_name: 'user',
+            attribute_type: 'N',
+        },
+    ],
+    table_name: Topic.table_name,
+    key_schema: [
+        {
+            attribute_name: 'forum',
+            key_type: 'HASH',
+        },
+        {
+            attribute_name: 'id',
+            key_type: 'RANGE',
+        },
+    ],
+    provisioned_throughput: {
+        read_capacity_units: read_capacity_units,
+        write_capacity_units: write_capacity_units,
+    },
+    local_secondary_indexes: [
+        {
+            index_name: 'last_post_at_index',
+            key_schema: [
+                {
+                    attribute_name: 'forum',
+                    key_type: 'HASH',
                 },
-            },
-            {
-                index_name: 'user_index',
-                key_schema: [
-                    {
-                        attribute_name: 'forum',
-                        key_type: 'HASH',
-                    },
-                    {
-                        attribute_name: 'user',
-                        key_type: 'RANGE',
-                    },
-                ],
-                projection: {
-                    projection_type: 'INCLUDE',
-                    non_key_attributes: ['subject'],
+                {
+                    attribute_name: 'last_post_at',
+                    key_type: 'RANGE',
                 },
+            ],
+            projection: {
+                projection_type: 'INCLUDE',
+                non_key_attributes: ['subject'],
             },
-        ],
-    })
+        },
+        {
+            index_name: 'user_index',
+            key_schema: [
+                {
+                    attribute_name: 'forum',
+                    key_type: 'HASH',
+                },
+                {
+                    attribute_name: 'user',
+                    key_type: 'RANGE',
+                },
+            ],
+            projection: {
+                projection_type: 'INCLUDE',
+                non_key_attributes: ['subject'],
+            },
+        },
+    ],
+)
 
 topics = []
 topics << Topic.create(
@@ -242,77 +239,76 @@ topics << Topic.create(
 ###############################
 
 client.create_table(
-    {
-        attribute_definitions: [
-            {
-                attribute_name: 'id',
-                attribute_type: 'S',
-            },
-            {
-                attribute_name: 'topic',
-                attribute_type: 'S',
-            },
-            {
-                attribute_name: 'updated_at',
-                attribute_type: 'N',
-            },
-            {
-                attribute_name: 'user',
-                attribute_type: 'N',
-            },
-        ],
-        table_name: Post.table_name,
-        key_schema: [
-            {
-                attribute_name: 'topic',
-                key_type: 'HASH',
-            },
-            {
-                attribute_name: 'id',
-                key_type: 'RANGE',
-            },
-        ],
-        provisioned_throughput: {
-            read_capacity_units: read_capacity_units,
-            write_capacity_units: write_capacity_units,
+    attribute_definitions: [
+        {
+            attribute_name: 'id',
+            attribute_type: 'S',
         },
-        local_secondary_indexes: [
-            {
-                index_name: 'updated_at',
-                key_schema: [
-                    {
-                        attribute_name: 'topic',
-                        key_type: 'HASH',
-                    },
-                    {
-                        attribute_name: 'updated_at',
-                        key_type: 'RANGE',
-                    },
-                ],
-                projection: {
-                    projection_type: 'INCLUDE',
-                    non_key_attributes: ['text'],
+        {
+            attribute_name: 'topic',
+            attribute_type: 'S',
+        },
+        {
+            attribute_name: 'updated_at',
+            attribute_type: 'N',
+        },
+        {
+            attribute_name: 'user',
+            attribute_type: 'N',
+        },
+    ],
+    table_name: Post.table_name,
+    key_schema: [
+        {
+            attribute_name: 'topic',
+            key_type: 'HASH',
+        },
+        {
+            attribute_name: 'id',
+            key_type: 'RANGE',
+        },
+    ],
+    provisioned_throughput: {
+        read_capacity_units: read_capacity_units,
+        write_capacity_units: write_capacity_units,
+    },
+    local_secondary_indexes: [
+        {
+            index_name: 'updated_at',
+            key_schema: [
+                {
+                    attribute_name: 'topic',
+                    key_type: 'HASH',
                 },
-            },
-            {
-                index_name: 'user_index',
-                key_schema: [
-                    {
-                        attribute_name: 'topic',
-                        key_type: 'HASH',
-                    },
-                    {
-                        attribute_name: 'user',
-                        key_type: 'RANGE',
-                    },
-                ],
-                projection: {
-                    projection_type: 'INCLUDE',
-                    non_key_attributes: ['text'],
+                {
+                    attribute_name: 'updated_at',
+                    key_type: 'RANGE',
                 },
+            ],
+            projection: {
+                projection_type: 'INCLUDE',
+                non_key_attributes: ['text'],
             },
-        ],
-    })
+        },
+        {
+            index_name: 'user_index',
+            key_schema: [
+                {
+                    attribute_name: 'topic',
+                    key_type: 'HASH',
+                },
+                {
+                    attribute_name: 'user',
+                    key_type: 'RANGE',
+                },
+            ],
+            projection: {
+                projection_type: 'INCLUDE',
+                non_key_attributes: ['text'],
+            },
+        },
+    ],
+)
 
 posts = []
 posts << Post.create(
@@ -327,3 +323,42 @@ posts << Post.create(
     text: 'It does not work',
     state: 'approved',
     user: user.id)
+
+###############################
+#           Views             #
+###############################
+
+client.create_table(
+    attribute_definitions: [
+        {
+            attribute_name: 'id',
+            attribute_type: 'S',
+        },
+        {
+            attribute_name: 'user',
+            attribute_type: 'N',
+        },
+    ],
+    table_name: View.table_name,
+    key_schema: [
+        {
+            attribute_name: 'user',
+            key_type: 'HASH',
+        },
+        {
+            attribute_name: 'id',
+            key_type: 'RANGE',
+        },
+    ],
+    provisioned_throughput: {
+        read_capacity_units: read_capacity_units,
+        write_capacity_units: write_capacity_units,
+    },
+)
+
+views = []
+views << View.create(
+    user: user.id,
+    id: "#{Topic.table_name}##{topics.first.id}",
+    viewable_id: topics.first.id,
+    viewable_type: Topic.table_name)

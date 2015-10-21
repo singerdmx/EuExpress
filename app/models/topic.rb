@@ -2,6 +2,7 @@ class Topic < OceanDynamo::Table
   include Connection
 
   dynamo_schema(timestamps: [:created_at, :updated_at]) do
+    attribute :user, :integer
     attribute :forum
     attribute :subject
     attribute :user, :integer
