@@ -1,7 +1,6 @@
 require 'friendly_id'
 
 class User < ActiveRecord::Base
-  extend Autocomplete
   include DefaultPermissions
 
   extend FriendlyId
@@ -24,6 +23,13 @@ class User < ActiveRecord::Base
 
     def per_page
       @@per_page || 20
+    end
+
+    def forem_autocomplete(term)
+      where("#{User.autocomplete_field} LIKE ?", "%#{term}%").
+          limit(10).
+          select("#{User.autocomplete_field}, id").
+          order("#{User.autocomplete_field}")
     end
   end
 
