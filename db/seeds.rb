@@ -382,3 +382,42 @@ client.create_table(
 groups = []
 groups << Group.create(name: 'Moderator')
 groups << Group.create(name: 'Normal User')
+
+###############################
+#         Membership          #
+###############################
+
+client.create_table(
+    attribute_definitions: [
+        {
+            attribute_name: 'group',
+            attribute_type: 'S',
+        },
+        {
+            attribute_name: 'user_id',
+            attribute_type: 'N',
+        },
+    ],
+    table_name: Membership.table_name,
+    key_schema: [
+        {
+            attribute_name: 'group',
+            key_type: 'HASH',
+        },
+        {
+            attribute_name: 'user_id',
+            key_type: 'RANGE',
+        },
+    ],
+    provisioned_throughput: {
+        read_capacity_units: read_capacity_units,
+        write_capacity_units: write_capacity_units,
+    },
+)
+
+memberships = []
+memberships << Membership.create(group: groups.first.id,
+                                 user_id: user.id)
+
+memberships << Membership.create(group: groups[1].id,
+                                 user_id: users[1].id)
