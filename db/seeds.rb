@@ -15,9 +15,6 @@ end
 
 user = User.first
 
-# Force-decorate the User class in case it hasn't been yet. Fixes #495.
-# Forem.decorate_user_class!
-
 ###############################
 #         DynamoDB            #
 ###############################
