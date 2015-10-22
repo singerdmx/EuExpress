@@ -3,7 +3,7 @@ module Admin
     include Connection
 
     def index
-      @categories = attributes(Category.all, ['forums'])
+      @categories = attributes(Category.all)
     end
 
     def new

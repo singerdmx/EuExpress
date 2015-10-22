@@ -1,5 +1,6 @@
 class Topic < OceanDynamo::Table
-  include Connection
+  include Connection, PostsHelper
+  extend Translation
 
   dynamo_schema(timestamps: [:created_at, :updated_at]) do
     attribute :user_id, :integer
@@ -20,6 +21,14 @@ class Topic < OceanDynamo::Table
 
   validates :subject, presence: true, length: {maximum: 255}
   validates :user_id, :forum, presence: true
+
+  def posts
+    query(Post.table_name, 'topic = :id', ':id' => id).map do |t|
+      simple_hash(t)
+    end.sort do |a, b|
+      b['updated_at'] <=> a['updated_at']
+    end
+  end
 
   # after_create :subscribe_poster
   # after_create :skip_pending_review, :unless => :moderated?

@@ -8,8 +8,8 @@ class TopicsController < ApplicationController
 
   def index
     fail 'params forum_id is undefined!' unless params[:forum_id]
-    all_topics = get_topics(params[:forum_id])
-    topics = all_topics.map do |t|
+    all_topics = get_topics(params[:forum_id]).map { |t| Topic.new_from_hash(t) }
+    topics = attributes(all_topics, ['posts']).map do |t|
       simple_hash(t)
     end.sort do |a, b|
       b['last_post_at'] <=> a['last_post_at']
