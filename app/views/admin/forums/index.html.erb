@@ -24,7 +24,16 @@
                 <%= link_to forem_emojify(forum['name']), forum_path(forum) %>
                 <div class='description'><%= forem_format(forum['description']) %></div>
                 <%= t('.last_post') %>
-
+                <% if last_post = @forum_last_post[forum['id']] %>
+                    <%= forem_emojify(last_post['topic']['subject']) -%> <%= t('by') %> <%= last_post['user'] %> <%= time_ago_in_words(Time.at(last_post['created_at'])) -%>
+                <% else %>
+                    <%= t('.none') %>
+                <% end %>
+                <br>
+              <span class='moderators'>
+                <strong><%= t('.moderators') %>:</strong>
+                <%= t('.none') %>
+              </span>
               </td>
               <td><%= forum['topics'].size %></td>
               <td><%= @forum_post_counts[forum['id']] %></td>

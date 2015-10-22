@@ -9,13 +9,25 @@ module Admin
       attributes(Category.all).each do |c|
         @categories_id_name_map[c['id']] = c['category_name']
       end
-      @forum_post_counts = {}
+      @forum_post_counts = Hash.new(0)
+      @forum_last_post = {}
       @forums.each do |forum|
         all_topics = get_topics(forum['id']).map { |t| Topic.new_from_hash(t) }
         topics = attributes(all_topics, ['posts'])
-        @forum_post_counts[forum['id']] = topics.inject(0) do |count, topic|
-          count + topic['posts'].size
+        topics.each do |topic|
+          @forum_post_counts[forum['id']] += topic['posts'].size
+          unless topic['posts'].empty?
+            topic_last_post = topic['posts'].first
+            if @forum_last_post[forum['id']].nil? || topic_last_post['updated_at'] > @forum_last_post[forum['id']]['updated_at']
+              topic_last_post['topic'] = topic
+              @forum_last_post[forum['id']] = topic_last_post
+            end
+          end
         end
+      end
+
+      @forum_last_post.each do |forum_id, post|
+        post['user'] = User.find(post['user_id']).name
       end
     end
 

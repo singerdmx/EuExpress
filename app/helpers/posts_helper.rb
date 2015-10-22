@@ -11,7 +11,10 @@ module PostsHelper
       h[k] = post_hash[k]
     end
 
-    h['updated_at'] = post_hash['updated_at'].to_i
+    %w(updated_at user_id created_at).each do |k|
+      h[k] = post_hash[k].to_i
+    end
+
     h
   end
 
