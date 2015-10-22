@@ -1,7 +1,6 @@
 module Admin
   class CategoriesController < BaseController
     include Connection
-    before_filter :find_category, :only => [:edit, :update, :destroy]
 
     def index
       @categories = attributes(Category.all, ['forums'])
@@ -34,7 +33,7 @@ module Admin
     end
 
     def destroy
-      @category.destroy
+      delete(Category.table_name, {id: params[:id], name: params[:name]})
       destroy_successful
     end
 
@@ -42,10 +41,6 @@ module Admin
 
     def category_params
       params.require(:category).permit(:name, :position)
-    end
-
-    def find_category
-      @category = Forem::Category.friendly.find(params[:id])
     end
 
     def create_successful

@@ -42,4 +42,11 @@ module Connection
     ).attributes
   end
 
+  def delete(table_name, key)
+    client.delete_item(
+        table_name: table_name,
+        key: key,
+    )
+  end
+
 end
