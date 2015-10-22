@@ -2,10 +2,10 @@ class Category < OceanDynamo::Table
   include ForumsHelper, Connection
 
   dynamo_schema(timestamps: [:created_at, :updated_at]) do
-    attribute :name
+    attribute :category_name
   end
 
-  validates :name, presence: true
+  validates :category_name, presence: true
 
   def self.new_from_hash(hash)
     category = self.new

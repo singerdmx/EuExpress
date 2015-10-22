@@ -7,7 +7,7 @@
               <abbr title="required">*</abbr> Name
             </label>
 
-            <% category_name = @category.attributes['name'] %>
+            <% category_name = @category.attributes['category_name'] %>
             <% if category_name %>
                 <input type="hidden" value="<%= @category.attributes['id']%>" name="category_id">
             <% end %>

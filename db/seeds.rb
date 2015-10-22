@@ -54,10 +54,10 @@ client.create_table(
 )
 
 categories = []
-categories << Category.create(name: 'Announcements')
-categories << Category.create(name: 'General Support')
-categories << Category.create(name: 'Accessories')
-categories << Category.create(name: 'Development')
+categories << Category.create(category_name: 'Announcements')
+categories << Category.create(category_name: 'General Support')
+categories << Category.create(category_name: 'Accessories')
+categories << Category.create(category_name: 'Development')
 
 ###############################
 #           Forum             #
