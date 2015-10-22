@@ -50,10 +50,6 @@ module Admin
 
     private
 
-    def category_params
-      params.require(:category).permit(:name, :position)
-    end
-
     def create_successful
       flash[:notice] = t("forem.admin.category.created")
       redirect_to admin_categories_path
