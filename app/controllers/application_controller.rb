@@ -1,7 +1,15 @@
 require_relative '../dynamo_db/connection'
 
-Dir[File.dirname(__FILE__) + "/../models/*.rb"].each do |f|
-  load f unless f.end_with?('user.rb')
+Dir[File.dirname(__FILE__) + "/../models/dynamo/*.rb"].each do |f|
+  load f
+
+  class_name = File.basename(f, '.rb').split('_').each do |c|
+    c[0] = c[0].capitalize
+  end.join()
+  clazz = Object.const_get(class_name)
+  clazz.class_eval do
+    include Connection, Translation
+  end
 end
 
 class ApplicationController < ActionController::Base

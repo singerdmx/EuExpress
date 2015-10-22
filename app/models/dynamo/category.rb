@@ -1,6 +1,5 @@
 class Category < OceanDynamo::Table
-  include ForumsHelper, Connection
-  extend Translation
+  include ForumsHelper
 
   dynamo_schema(timestamps: [:created_at, :updated_at]) do
     attribute :category_name

@@ -1,6 +1,5 @@
 class Topic < OceanDynamo::Table
-  include Connection, PostsHelper
-  extend Translation
+  include PostsHelper
 
   dynamo_schema(timestamps: [:created_at, :updated_at]) do
     attribute :user_id, :integer

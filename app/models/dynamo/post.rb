@@ -1,4 +1,4 @@
-require_relative '../../lib/state_workflow'
+require_relative '../../../lib/state_workflow'
 
 class Post < OceanDynamo::Table
   include Workflow

@@ -1,5 +1,5 @@
 class Forum < OceanDynamo::Table
-  include TopicsHelper, Connection
+  include TopicsHelper
 
   dynamo_schema(timestamps: [:created_at, :updated_at]) do
     attribute :category
