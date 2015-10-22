@@ -7,7 +7,7 @@
       <div class="collapse navbar-collapse" id="navbar">
         <ul class="nav navbar-nav">
           <li><%= link_to 'Home', main_app.root_path %></li>
-          <li><%= link_to 'Forums', forums_path %></li>
+          <li><%= link_to 'Forums', nil, onclick: 'location.href="/forums"' %></li>
           <% if user_signed_in? %>
               <li class="dropdown">
                 <a aria-expanded="true" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#">
