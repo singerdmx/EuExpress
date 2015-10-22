@@ -6,12 +6,15 @@
             <label for="category_name" class="string required">
               <abbr title="required">*</abbr> Name
             </label>
-            <input type="text" value="" ng-model="catogery_name" name="name" id="category_name" class="string required form-control ng-valid ng-dirty ng-valid-parse ng-touched" required>
+
+            <% category_name = @category.attributes['name'] %>
+            <% if category_name %>
+                <input type="hidden" value="<%= @category.attributes['id']%>" name="category_id">
+            <% end %>
+            <input type="text" placeholder="<%= category_name %>" value="<%= category_name %>" ng-model="catogery_name" name="name" id="category_name" class="string required form-control ng-valid ng-dirty ng-valid-parse ng-touched" required>
           </div>
         </div>
-        <div class="margin-top-15-px">
-          <%= f.submit class: "btn btn-primary", 'ng-show' => '!create_category_form.name.$error.required'%>
-        </div>
+        <input type="submit" value="Submit" ng-show="!create_category_form.name.$error.required" name="commit" style="margin-top: 15px" class="btn btn-primary">
     <% end %>
   </div>
 </div>

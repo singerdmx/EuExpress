@@ -13,7 +13,7 @@ module ForumsHelper
   def find_forum(category_id = params[:category_id], forum_id = params[:id])
     fail 'category_id is not defined!' unless category_id
     fail 'id is not defined!' unless forum_id
-    @forum = get(Forum.table_name, {category: category_id, id: forum_id})
+    @forum = get(Forum, {category: category_id, id: forum_id})
     fail "Unable to find forum given category #{category_id} forum_id #{forum_id}" unless @forum
   end
 

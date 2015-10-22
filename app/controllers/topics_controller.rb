@@ -25,7 +25,7 @@ class TopicsController < ApplicationController
   end
 
   def show
-    register_view_by(current_user, Topic.table_name, @topic['id'],
+    register_view_by(current_user, Topic, @topic['id'],
                      {forum: params[:forum_id], id: params[:id]})
     render json: simple_hash(@topic)
   end

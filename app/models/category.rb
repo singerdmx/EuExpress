@@ -7,6 +7,15 @@ class Category < OceanDynamo::Table
 
   validates :name, presence: true
 
+  def self.new_from_hash(hash)
+    category = self.new
+    hash.each do |k, v|
+      category.attributes[k] = v
+    end
+
+    category
+  end
+
   def to_s
     name
   end

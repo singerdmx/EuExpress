@@ -10,10 +10,10 @@ module Connection
     self.class.table_name
   end
 
-  def get(table_name,
+  def get(clazz,
           key)
     client.get_item(
-        table_name: table_name,
+        table_name: clazz.table_name,
         key: key,
         consistent_read: false).item
   end
@@ -32,9 +32,9 @@ module Connection
     client.query(query_params).items
   end
 
-  def update(table_name, key, update_expression, expression_attribute_values)
+  def update(clazz, key, update_expression, expression_attribute_values)
     client.update_item(
-        table_name: table_name,
+        table_name: clazz.table_name,
         key: key,
         return_values: 'ALL_NEW',
         update_expression: update_expression,

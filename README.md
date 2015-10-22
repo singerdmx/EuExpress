@@ -2,7 +2,7 @@
 
 DynamoDB schema:
 
-category: id(hash), name(range)
+category: id(hash)
 forum: category(hash, category_id), id(range), name(string)
 topic:
   forum(hash, forum_id) id(range) subject(string)

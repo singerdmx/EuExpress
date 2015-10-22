@@ -4,21 +4,21 @@ module Viewable
   # end
 
   # Track when users last viewed topics
-  def register_view_by(user, viewable_type, viewable_id, viewable_key)
+  def register_view_by(user, viewable_class, viewable_id, viewable_key)
     return unless user
 
     update_expression = 'SET views_count = views_count + :val'
     expression_attribute_values = {':val' => 1}
-    update(viewable_type, viewable_key,
+    update(viewable_class, viewable_key,
            update_expression,
            expression_attribute_values)
 
-    view_key = {user_id: user.id, id: "#{viewable_type}##{viewable_id}"}
-    view = get('views', view_key)
+    view_key = {user_id: user.id, id: "#{viewable_class.table_name}##{viewable_id}"}
+    view = get(View, view_key)
     unless view
       View.create(
           user_id: user.id,
-          id: "#{viewable_type}##{viewable_id}",
+          id: "#{viewable_class.table_name}##{viewable_id}",
           viewable_id: viewable_id,
           viewable_type: viewable_type)
     else
@@ -30,7 +30,7 @@ module Viewable
         expression_attribute_values[':current_viewed_at'] = Time.now.to_i
       end
 
-      update('views', view_key,
+      update(View, view_key,
              update_expression,
              expression_attribute_values)
     end
