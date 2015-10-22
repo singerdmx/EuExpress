@@ -8,7 +8,7 @@ class ForumsController < ApplicationController
       format.html
       format.json do
         all_forums = Forum.all
-        forums = attributes(all_forums, ['topics'])
+        forums = attributes(all_forums, ['topics', 'moderators'])
         if stale?(etag: forums, last_modified: max_updated_at(all_forums))
           render json: forums
         else

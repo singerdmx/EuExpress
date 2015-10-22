@@ -12,7 +12,7 @@ class Category < OceanDynamo::Table
   end
 
   def forums
-    query(Forum.table_name, 'category = :id', ':id' => id).map do |f|
+    query(Forum, 'category = :id', ':id' => id).map do |f|
       simple_hash(f)
     end
   end

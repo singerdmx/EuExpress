@@ -2,7 +2,7 @@ module PostsHelper
   include Connection
 
   def get_posts(topic_id)
-    query(Post.table_name, 'topic = :t', ':t' => topic_id)
+    query(Post, 'topic = :t', ':t' => topic_id)
   end
 
   def simple_hash(post_hash)

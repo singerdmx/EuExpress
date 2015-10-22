@@ -18,12 +18,16 @@ module Connection
         consistent_read: false).item
   end
 
-  def query(table_name,
+  def batch_get(request_items)
+    client.batch_get_item({request_items: request_items})
+  end
+
+  def query(clazz,
             key_condition_expression,
             expression_attribute_values,
             index_name = nil)
     query_params = {
-        table_name: table_name,
+        table_name: clazz.table_name,
         consistent_read: false,
         key_condition_expression: key_condition_expression,
         expression_attribute_values: expression_attribute_values

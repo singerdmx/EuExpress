@@ -13,11 +13,27 @@ class Forum < OceanDynamo::Table
   alias_attribute :title, :name
 
   def topics
-    query(Topic.table_name, 'forum = :id', ':id' => id).map do |t|
+    query(Topic, 'forum = :id', ':id' => id).map do |t|
       simple_hash(t)
     end.sort do |a, b|
       b['last_post_at'] <=> a['last_post_at']
     end
+  end
+
+  def moderators
+    moderator_group_ids = query(ModeratorGroup, 'forum = :id', ':id' => id).map do |moderator_group|
+      moderator_group['group']
+    end
+    
+    return [] if moderator_group_ids.empty?
+
+    moderators = Set.new
+    moderator_group_ids.each do |moderator_group_id|
+      query(Membership, 'group_id = :val', ':val' => moderator_group_id).each do |membership|
+        moderators.add membership['user_id'].to_i
+      end
+    end
+    moderators
   end
 
   def last_post_for(forem_user)

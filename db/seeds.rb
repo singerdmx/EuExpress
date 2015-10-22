@@ -351,6 +351,7 @@ client.create_table(
 groups = []
 groups << Group.create(name: 'Moderator')
 groups << Group.create(name: 'Normal User')
+groups << Group.create(name: 'Super Moderator')
 
 ###############################
 #         Membership          #
@@ -359,7 +360,7 @@ groups << Group.create(name: 'Normal User')
 client.create_table(
     attribute_definitions: [
         {
-            attribute_name: 'group',
+            attribute_name: 'group_id',
             attribute_type: 'S',
         },
         {
@@ -370,7 +371,7 @@ client.create_table(
     table_name: Membership.table_name,
     key_schema: [
         {
-            attribute_name: 'group',
+            attribute_name: 'group_id',
             key_type: 'HASH',
         },
         {
@@ -385,11 +386,16 @@ client.create_table(
 )
 
 memberships = []
-memberships << Membership.create(group: groups.first.id,
+memberships << Membership.create(group_id: groups.first.id,
                                  user_id: user.id)
 
-memberships << Membership.create(group: groups[1].id,
+memberships << Membership.create(group_id: groups[1].id,
                                  user_id: users[1].id)
+
+memberships << Membership.create(group_id: groups[2].id,
+                                 user_id: user.id)
+memberships << Membership.create(group_id: groups[2].id,
+                                 user_id: users[2].id)
 
 ###############################
 #       ModeratorGroup        #
@@ -409,11 +415,11 @@ client.create_table(
     table_name: ModeratorGroup.table_name,
     key_schema: [
         {
-            attribute_name: 'group',
+            attribute_name: 'forum',
             key_type: 'HASH',
         },
         {
-            attribute_name: 'forum',
+            attribute_name: 'group',
             key_type: 'RANGE',
         },
     ],
@@ -426,6 +432,8 @@ client.create_table(
 moderator_groups = []
 forums.each do |forum|
   moderator_groups << ModeratorGroup.create(group: groups.first.id,
+                                            forum: forum.id)
+  moderator_groups << ModeratorGroup.create(group: groups.last.id,
                                             forum: forum.id)
 end
 

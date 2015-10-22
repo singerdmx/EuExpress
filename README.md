@@ -30,8 +30,8 @@ view:
   
 group: id(hash), name(string)
 
-membership: group(hash, group_id), user_id(range)
+membership: group_id(hash), user_id(range)
 
-moderator_group: group(hash, group_id), forum(range, forum_id)
+moderator_group: forum(hash, forum_id), group(range, group_id) 
 
 subscription: topic(hash, topic_id), user_id(range)

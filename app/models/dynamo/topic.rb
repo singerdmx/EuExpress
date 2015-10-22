@@ -22,7 +22,7 @@ class Topic < OceanDynamo::Table
   validates :user_id, :forum, presence: true
 
   def posts
-    query(Post.table_name, 'topic = :id', ':id' => id).map do |t|
+    query(Post, 'topic = :id', ':id' => id).map do |t|
       simple_hash(t)
     end.sort do |a, b|
       b['updated_at'] <=> a['updated_at']
