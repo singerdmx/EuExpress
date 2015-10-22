@@ -1,9 +1,22 @@
 module Admin
   class ForumsController < BaseController
+    include TopicsHelper
     before_filter :find_forum, :only => [:edit, :update, :destroy]
 
     def index
-      @forums = Forem::Forum.all
+      @forums = attributes(Forum.all, ['topics'])
+      @categories_id_name_map = {}
+      attributes(Category.all).each do |c|
+        @categories_id_name_map[c['id']] = c['category_name']
+      end
+      @forum_post_counts = {}
+      @forums.each do |forum|
+        all_topics = get_topics(forum['id']).map { |t| Topic.new_from_hash(t) }
+        topics = attributes(all_topics, ['posts'])
+        @forum_post_counts[forum['id']] = topics.inject(0) do |count, topic|
+          count + topic['posts'].size
+        end
+      end
     end
 
     def new

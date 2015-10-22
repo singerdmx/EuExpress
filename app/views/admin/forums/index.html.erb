@@ -1,51 +1,36 @@
 <div>
   <h2><%= t("forem.admin.forum.index") %></h2>
-  <%= link_to t('back_to_admin', :scope => "forem.admin"), admin_root_path %><br><br>
-  <%= link_to t("forem.admin.forum.new_link"), new_admin_forum_path, :class => "btn btn-primary" %>
+  <%= link_to t('back_to_admin', scope: "forem.admin"), admin_root_path %><br><br>
+  <%= link_to t("forem.admin.forum.new_link"), new_admin_forum_path, class: "btn btn-primary" %>
 
-  <% @forums.group_by(&:category).each do |category, forums| %>
-    <h2><%= category.try(:name) || t('.no_category') %></h2>
-    <table id='forums' class='forums table table-striped' cellspacing='0'>
-      <thead>
+  <% @forums.group_by { |h| h['category'] }.each do |category_id, forums| %>
+      <h2><%= @categories_id_name_map[category_id] || t('.no_category') %></h2>
+      <table id='forums' class='forums table table-striped' cellspacing='0'>
+        <thead>
         <tr>
-          <th><%= t('edit', :scope => 'forem.admin.forums') %></th>
-          <th><%= t('delete', :scope => 'forem.admin.forums') %></th>
-          <th><%= t('forum', :scope => 'forem.general') %></th>
-          <th><%= t('topics', :scope => 'forem.general') %></th>
-          <th><%= t('posts', :scope => 'forem.general') %></th>
+          <th><%= t('edit', scope: 'forem.admin.forums') %></th>
+          <th><%= t('delete', scope: 'forem.admin.forums') %></th>
+          <th><%= t('forum', scope: 'forem.general') %></th>
+          <th><%= t('topics', scope: 'forem.general') %></th>
+          <th><%= t('posts', scope: 'forem.general') %></th>
         </tr>
-      </thead>
-      <tbody>
+        </thead>
+        <tbody>
         <% forums.each do |forum| %>
-          <tr class="forum <%= cycle("odd", "even") %>">
-            <td><%= link_to t('edit', :scope => 'forem.admin.forums'), edit_admin_forum_path(forum), :class => "btn btn-info" %></td>
-            <td><%= link_to t('delete', :scope => 'forem.admin.forums'), admin_forum_path(forum), :method => :delete, data: { :confirm => t("delete_confirm", :scope => "forem.admin.forums") }, :class => "btn btn-danger" %></td>
-            <td>
-              <%= link_to forem_emojify(forum.title), forum_path(forum) %>
-              <div class='description'><%= forem_format(forum.description) %></div>
-              <%= t('.last_post') %>
-              <% if last_post = forum.posts.last %>
-  <%= link_to(forem_emojify(last_post.topic.subject), forum_topic_path(forum, last_post.topic)) -%> <%= t('by') %> <%= last_post.user %> <%= time_ago_in_words(last_post.created_at) -%>
-              <% else %>
-                <%= t('.none') %>
-              <% end %>
-              <br>
-              <span class='moderators'>
-                <strong><%= t('.moderators') %>:</strong>
-                <% if forum.moderators.exists? %>
-                  <% forum.moderators.map do |moderator| %>
-                    <%= link_to moderator, [:admin, moderator] %>
-                  <% end.to_sentence %>
-                <% else %>
-                  <%= t('.none') %>
-                <% end %>
-              </span>
-            </td>
-            <td><%= forum.topics.count %></td>
-            <td><%= forum.posts.count %></td>
-          </tr>
+            <tr class="forum <%= cycle("odd", "even") %>">
+              <td><%= link_to t('edit', scope: 'forem.admin.forums'), edit_admin_forum_path(forum), class: "btn btn-info" %></td>
+              <td><%= link_to t('delete', scope: 'forem.admin.forums'), admin_forum_path(forum), method: :delete, data: {confirm: t("delete_confirm", :scope => "forem.admin.forums")}, :class => "btn btn-danger" %></td>
+              <td>
+                <%= link_to forem_emojify(forum['name']), forum_path(forum) %>
+                <div class='description'><%= forem_format(forum['description']) %></div>
+                <%= t('.last_post') %>
+
+              </td>
+              <td><%= forum['topics'].size %></td>
+              <td><%= @forum_post_counts[forum['id']] %></td>
+            </tr>
         <% end %>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
   <% end %>
 </div>
