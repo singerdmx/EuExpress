@@ -44,7 +44,7 @@ module Admin
     end
 
     def destroy
-      delete(Category.table_name, {id: params[:id]})
+      delete(Category, {id: params[:id]})
       destroy_successful
     end
 

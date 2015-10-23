@@ -20,9 +20,12 @@ user = User.first
 ###############################
 
 require_relative '../app/dynamo_db/cleaner'
+require_relative '../app/dynamo_db/initializer'
 
 cleaner = DynamoDatabase::Cleaner.new
 cleaner.clean
+
+DynamoDatabase::Initializer.new.load_table_classes
 
 read_capacity_units = 10
 write_capacity_units = 5
@@ -40,7 +43,7 @@ client.create_table(
             attribute_type: 'S',
         },
     ],
-    table_name: Category.table_name,
+    table_name: Category.get_table_name,
     key_schema: [
         {
             attribute_name: 'id',
@@ -74,7 +77,7 @@ client.create_table(
             attribute_type: 'S',
         },
     ],
-    table_name: Forum.table_name,
+    table_name: Forum.get_table_name,
     key_schema: [
         {
             attribute_name: 'category',
@@ -127,7 +130,7 @@ client.create_table(
             attribute_type: 'N',
         },
     ],
-    table_name: Topic.table_name,
+    table_name: Topic.get_table_name,
     key_schema: [
         {
             attribute_name: 'forum',
@@ -218,7 +221,7 @@ client.create_table(
             attribute_type: 'N',
         },
     ],
-    table_name: Post.table_name,
+    table_name: Post.get_table_name,
     key_schema: [
         {
             attribute_name: 'topic',
@@ -300,7 +303,7 @@ client.create_table(
             attribute_type: 'N',
         },
     ],
-    table_name: View.table_name,
+    table_name: View.get_table_name,
     key_schema: [
         {
             attribute_name: 'user_id',
@@ -320,9 +323,9 @@ client.create_table(
 views = []
 views << View.create(
     user_id: user.id,
-    id: "#{Topic.table_name}##{topics.first.id}",
+    id: "#{Topic.get_table_name}##{topics.first.id}",
     viewable_id: topics.first.id,
-    viewable_type: Topic.table_name)
+    viewable_type: Topic.get_table_name)
 
 ###############################
 #           Group             #
@@ -335,7 +338,7 @@ client.create_table(
             attribute_type: 'S',
         },
     ],
-    table_name: Group.table_name,
+    table_name: Group.get_table_name,
     key_schema: [
         {
             attribute_name: 'id',
@@ -368,7 +371,7 @@ client.create_table(
             attribute_type: 'N',
         },
     ],
-    table_name: Membership.table_name,
+    table_name: Membership.get_table_name,
     key_schema: [
         {
             attribute_name: 'group_id',
@@ -412,7 +415,7 @@ client.create_table(
             attribute_type: 'S',
         },
     ],
-    table_name: ModeratorGroup.table_name,
+    table_name: ModeratorGroup.get_table_name,
     key_schema: [
         {
             attribute_name: 'forum',
@@ -452,7 +455,7 @@ client.create_table(
             attribute_type: 'N',
         },
     ],
-    table_name: Subscription.table_name,
+    table_name: Subscription.get_table_name,
     key_schema: [
         {
             attribute_name: 'topic',

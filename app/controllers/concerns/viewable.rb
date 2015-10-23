@@ -13,12 +13,12 @@ module Viewable
            update_expression,
            expression_attribute_values)
 
-    view_key = {user_id: user.id, id: "#{viewable_class.table_name}##{viewable_id}"}
+    view_key = {user_id: user.id, id: "#{viewable_class.get_table_name}##{viewable_id}"}
     view = get(View, view_key)
     unless view
       View.create(
           user_id: user.id,
-          id: "#{viewable_class.table_name}##{viewable_id}",
+          id: "#{viewable_class.get_table_name}##{viewable_id}",
           viewable_id: viewable_id,
           viewable_type: viewable_type)
     else

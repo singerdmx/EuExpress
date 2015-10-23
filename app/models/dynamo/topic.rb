@@ -1,7 +1,7 @@
 class Topic < OceanDynamo::Table
   include PostsHelper
 
-  dynamo_schema(timestamps: [:created_at, :updated_at]) do
+  dynamo_schema(table_name_prefix: Translation::TABLE_NAME_PREFIX, timestamps: [:created_at, :updated_at]) do
     attribute :user_id, :integer
     attribute :forum
     attribute :subject

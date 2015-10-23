@@ -6,14 +6,10 @@ module Connection
     @client ||= Aws::DynamoDB::Client.new
   end
 
-  def table_name
-    self.class.table_name
-  end
-
   def get(clazz,
           key)
     client.get_item(
-        table_name: clazz.table_name,
+        table_name: clazz.get_table_name,
         key: key,
         consistent_read: false).item
   end
@@ -27,7 +23,7 @@ module Connection
             expression_attribute_values,
             index_name = nil)
     query_params = {
-        table_name: clazz.table_name,
+        table_name: clazz.get_table_name,
         consistent_read: false,
         key_condition_expression: key_condition_expression,
         expression_attribute_values: expression_attribute_values
@@ -38,7 +34,7 @@ module Connection
 
   def update(clazz, key, update_expression, expression_attribute_values)
     client.update_item(
-        table_name: clazz.table_name,
+        table_name: clazz.get_table_name,
         key: key,
         return_values: 'ALL_NEW',
         update_expression: update_expression,
@@ -46,9 +42,9 @@ module Connection
     ).attributes
   end
 
-  def delete(table_name, key)
+  def delete(clazz, key)
     client.delete_item(
-        table_name: table_name,
+        table_name:  clazz.get_table_name,
         key: key,
     )
   end
