@@ -60,6 +60,8 @@ module Admin
         fail error_msg
       end
       if params[:forum_id].blank?
+        created_forum = Forum.create(category: category, forum_name: forum_name, description: description)
+        Rails.logger.info "created forum #{created_forum.inspect}"
         create_successful
       else
         update_successful
@@ -82,7 +84,7 @@ module Admin
     # end
 
     def destroy
-      @forum.destroy
+      delete(Forum, {category: params[:category], id: params[:id]})
       destroy_successful
     end
 
