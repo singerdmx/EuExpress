@@ -1,9 +1,32 @@
-<%= simple_form_for [:admin, @forum] do |f| %>
-  <%= f.association :category, :include_blank => false %>
-  <%= f.input :title %>
-  <%= f.input :description, :as => :text %>
-
-  <h3><%= t('forem.admin.forum.moderator_groups') %></h3>
-  <%= f.association :moderators, :as => :check_boxes %>
-  <%= f.submit :class => "btn btn-primary" %>
-<% end %>
+<div ng-app="forumAdmin">
+  <div ng-controller="FormController">
+    <%= simple_form_for [:admin, @forum], html: {"name" => "create_forum_form"} do |f| %>
+        <div class="input-group">
+          <div class="input string required" style="margin-top: 10px">
+            <label for="forum_name" class="string required" style="padding-right: 5px">
+              <abbr title="required">*</abbr> Category
+            </label>
+            <%= f.select :category, @categories.map { |c| [c['category_name'], c['id']] } %>
+          </div>
+          <div class="input string required" style="margin-top: 10px">
+            <label for="forum_name" class="string required">
+              <abbr title="required">*</abbr> Title
+            </label>
+            <% forum_name = @forum.attributes['name'] %>
+            <% if forum_name %>
+                <input type="hidden" value="<%= @forum.attributes['id'] %>" name="forum_id">
+            <% end %>
+            <input type="text" placeholder="<%= forum_name %>" value="<%= forum_name %>" ng-model="forum_name" name="name" id="forum_name" class="string required form-control ng-valid ng-dirty ng-valid-parse ng-touched" required>
+          </div>
+          <div class="input text required">
+            <label for="forum_description" class="text required" style="margin-top: 10px">
+              <abbr title="required">*</abbr> Description
+            </label>
+            <textarea name="description" id="forum_description" class="text required form-control" ng-model="forum_description" required></textarea>
+          </div>
+        </div>
+        <h5><%= t('forem.admin.forum.moderator_groups') %></h5>
+        <input type="submit" value="Submit" ng-show="!create_forum_form.name.$error.required && !create_forum_form.description.$error.required" name="commit" style="margin-top: 15px" class="btn btn-primary">
+    <% end %>
+  </div>
+</div>

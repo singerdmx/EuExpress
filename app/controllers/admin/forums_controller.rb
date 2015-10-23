@@ -34,7 +34,8 @@ module Admin
     end
 
     def new
-      @forum = Forem::Forum.new
+      @categories = attributes(Category.all)
+      @forum = Forum.new
     end
 
     def create

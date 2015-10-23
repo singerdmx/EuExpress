@@ -1,5 +1,4 @@
-require_relative '../dynamo_db/connection'
-
+load File.dirname(__FILE__) + '/../dynamo_db/connection.rb'
 load File.dirname(__FILE__) + '/../dynamo_db/initializer.rb'
 DynamoDatabase::Initializer.new.load_table_classes
 

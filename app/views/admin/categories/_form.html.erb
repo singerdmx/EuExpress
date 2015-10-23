@@ -2,7 +2,7 @@
   <div ng-controller="FormController">
     <%= simple_form_for([:admin, @category], html: {"name" => "create_category_form"}) do |f| %>
         <div class="input-group">
-          <div class="input string required category_name">
+          <div class="input string required">
             <label for="category_name" class="string required">
               <abbr title="required">*</abbr> Name
             </label>
