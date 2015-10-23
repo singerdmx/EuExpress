@@ -32,7 +32,13 @@
                 <br>
               <span class='moderators'>
                 <strong><%= t('.moderators') %>:</strong>
-                <%= t('.none') %>
+                <% if forum['moderators'].blank? %>
+                    <%= t('.none') %>
+                <% else %>
+                  <% forum['moderators'].map do |moderator| %>
+                    <%= moderator %>
+                  <% end.to_sentence %>
+                <% end %>
               </span>
               </td>
               <td><%= forum['topics'].size %></td>

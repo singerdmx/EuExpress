@@ -4,7 +4,7 @@ module Admin
     before_filter :find_forum, :only => [:edit, :update, :destroy]
 
     def index
-      @forums = attributes(Forum.all, ['topics'])
+      @forums = attributes(Forum.all, ['topics', 'moderators'])
       @categories_id_name_map = {}
       attributes(Category.all).each do |c|
         @categories_id_name_map[c['id']] = c['category_name']
@@ -24,6 +24,8 @@ module Admin
             end
           end
         end
+
+        forum['moderators'] = forum['moderators'].map { |id| User.find(id).name }
       end
 
       @forum_last_post.each do |forum_id, post|

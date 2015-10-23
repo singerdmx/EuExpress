@@ -1,6 +1,6 @@
 require_relative '../dynamo_db/connection'
-require_relative '../dynamo_db/initializer'
 
+load File.dirname(__FILE__) + '/../dynamo_db/initializer.rb'
 DynamoDatabase::Initializer.new.load_table_classes
 
 class ApplicationController < ActionController::Base
