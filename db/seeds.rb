@@ -76,6 +76,10 @@ client.create_table(
             attribute_name: 'id',
             attribute_type: 'S',
         },
+        {
+            attribute_name: 'forum_name',
+            attribute_type: 'S',
+        },
     ],
     table_name: Forum.get_table_name,
     key_schema: [
@@ -92,19 +96,38 @@ client.create_table(
         read_capacity_units: read_capacity_units,
         write_capacity_units: write_capacity_units,
     },
+    local_secondary_indexes: [
+        {
+            index_name: 'name_index',
+            key_schema: [
+                {
+                    attribute_name: 'category',
+                    key_type: 'HASH',
+                },
+                {
+                    attribute_name: 'forum_name',
+                    key_type: 'RANGE',
+                },
+            ],
+            projection: {
+                projection_type: 'INCLUDE',
+                non_key_attributes: ['id'],
+            },
+        },
+    ],
 )
 
 forums = []
 forums << Forum.create(category: categories.first.id,
-                       name: "Announcements Forum",
+                       forum_name: "Announcements Forum",
                        description: "Mi Band updates")
 
 forums << Forum.create(category: categories.first.id,
-                       name: "App Forum",
+                       forum_name: "App Forum",
                        description: "App discussion")
 
 forums << Forum.create(category: categories[1].id,
-                       name: "Beginner Forum",
+                       forum_name: "Beginner Forum",
                        description: "Beginner tutorial")
 
 ###############################

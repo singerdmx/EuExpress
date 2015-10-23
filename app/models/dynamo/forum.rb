@@ -3,14 +3,14 @@ class Forum < OceanDynamo::Table
 
   dynamo_schema(table_name_prefix: Translation::TABLE_NAME_PREFIX, timestamps: [:created_at, :updated_at]) do
     attribute :category
-    attribute :name
+    attribute :forum_name
     attribute :description
     attribute :views_count, :integer, default: 0
   end
 
-  validates :category, :name, :description, presence: true
+  validates :category, :forum_name, :description, presence: true
 
-  alias_attribute :title, :name
+  alias_attribute :title, :forum_name
 
   def topics
     query(Topic, 'forum = :id', ':id' => id).map do |t|
@@ -54,7 +54,7 @@ class Forum < OceanDynamo::Table
   end
 
   def to_s
-    name
+    forum_name
   end
 
 end

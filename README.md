@@ -4,7 +4,9 @@ DynamoDB schema:
 
 category: id(hash)
 
-forum: category(hash, category_id), id(range), name(string)
+forum: category(hash, category_id), id(range), forum_name(string)
+
+  local secondary index: forum_name(string)
 
 topic:
 

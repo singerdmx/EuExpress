@@ -1,7 +1,6 @@
 module Admin
   class ForumsController < BaseController
-    include TopicsHelper, GroupHelper
-    before_filter :find_forum, :only => [:edit, :update, :destroy]
+    include ForumsHelper, TopicsHelper, GroupHelper
 
     def index
       @forums = attributes(Forum.all, ['topics', 'moderators'])
@@ -24,8 +23,6 @@ module Admin
             end
           end
         end
-
-        # forum['moderators'] = forum['moderators'].map { |id| User.find(id).name }
       end
 
       @forum_last_post.each do |forum_id, post|
@@ -34,28 +31,55 @@ module Admin
     end
 
     def new
-      @categories = attributes(Category.all)
-      @forum = Forum.new
-      moderator_group_ids = attributes(ModeratorGroup.all).map {|g| g['group']}.uniq
-      @moderator_groups = batch_get_groups(moderator_group_ids)
+      for_new_forum
     end
 
     def create
-      @forum = Forem::Forum.new(forum_params)
-      if @forum.save
+      error_msg = ''
+      forum_name = params['name']
+      description = params['description']
+      category = params['forum']['category']
+      if forum_name.blank?
+        error_msg = 'Category name can not be empty! '
+      end
+
+      if description.blank?
+        error_msg = 'Description can not be empty!'
+      end
+
+      unless error_msg.blank?
+        fail error_msg
+      end
+
+      error_msg = nil
+
+      c = find_forum_by_name(category, forum_name)
+      Rails.logger.info "find_forum_by_name #{category} #{forum_name}: #{c.inspect}"
+      unless c.empty?
+        error_msg = "Forum '#{forum_name}' already exists"
+        fail error_msg
+      end
+      if params[:forum_id].blank?
         create_successful
       else
-        create_failed
+        update_successful
+      end
+    rescue Exception => e
+      Rails.logger.error "Encountered an error: #{e.inspect}\nbacktrace: #{e.backtrace}"
+      if params[:forum_id].blank?
+        create_failed error_msg || t("forem.admin.forum.not_created")
+      else
+        update_failed error_msg || t("forem.admin.category.not_updated")
       end
     end
 
-    def update
-      if @forum.update_attributes(forum_params)
-        update_successful
-      else
-        update_failed
-      end
-    end
+    # def update
+    #   if @forum.update_attributes(forum_params)
+    #     update_successful
+    #   else
+    #     update_failed
+    #   end
+    # end
 
     def destroy
       @forum.destroy
@@ -77,9 +101,10 @@ module Admin
       redirect_to admin_forums_path
     end
 
-    def create_failed
-      flash.now.alert = t("forem.admin.forum.not_created")
-      render :action => "new"
+    def create_failed(alert_msg)
+      flash.now.alert = alert_msg
+      for_new_forum
+      render action: 'new'
     end
 
     def destroy_successful
@@ -92,9 +117,16 @@ module Admin
       redirect_to admin_forums_path
     end
 
-    def update_failed
-      flash.now.alert = t("forem.admin.forum.not_updated")
-      render :action => "edit"
+    def update_failed(alert_msg)
+      flash.now.alert = alert_msg
+      render action: 'edit'
+    end
+
+    def for_new_forum
+      @categories = attributes(Category.all)
+      @forum = Forum.new
+      moderator_group_ids = attributes(ModeratorGroup.all).map {|g| g['group']}.uniq
+      @moderator_groups = batch_get_groups(moderator_group_ids)
     end
 
   end
