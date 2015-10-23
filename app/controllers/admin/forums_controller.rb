@@ -25,7 +25,7 @@ module Admin
           end
         end
 
-        forum['moderators'] = forum['moderators'].map { |id| User.find(id).name }
+        # forum['moderators'] = forum['moderators'].map { |id| User.find(id).name }
       end
 
       @forum_last_post.each do |forum_id, post|

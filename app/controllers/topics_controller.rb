@@ -10,7 +10,7 @@ class TopicsController < ApplicationController
     fail 'params forum_id is undefined!' unless params[:forum_id]
     all_topics = get_topics(params[:forum_id]).map { |t| Topic.new_from_hash(t) }
     topics = attributes(all_topics, ['posts']).map do |t|
-      simple_hash(t)
+      simple_topic_hash(t)
     end.sort do |a, b|
       b['last_post_at'] <=> a['last_post_at']
     end
@@ -27,7 +27,7 @@ class TopicsController < ApplicationController
   def show
     register_view_by(current_user, Topic, @topic['id'],
                      {forum: params[:forum_id], id: params[:id]})
-    render json: simple_hash(@topic)
+    render json: simple_topic_hash(@topic)
   end
 
   def new

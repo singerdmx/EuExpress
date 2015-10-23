@@ -15,7 +15,7 @@ module Connection
   end
 
   def batch_get(request_items)
-    client.batch_get_item({request_items: request_items})
+    client.batch_get_item({request_items: request_items}).responses
   end
 
   def query(clazz,

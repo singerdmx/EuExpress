@@ -5,7 +5,7 @@ module TopicsHelper
     query(Topic, 'forum = :f', ':f' => forum_id)
   end
 
-  def simple_hash(topic_hash)
+  def simple_topic_hash(topic_hash)
     h = {}
     %w(id subject posts).each do |k|
       h[k] = topic_hash[k] if topic_hash[k]

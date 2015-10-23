@@ -1,5 +1,5 @@
 class Forum < OceanDynamo::Table
-  include TopicsHelper
+  include TopicsHelper, GroupHelper
 
   dynamo_schema(table_name_prefix: Translation::TABLE_NAME_PREFIX, timestamps: [:created_at, :updated_at]) do
     attribute :category
@@ -14,7 +14,7 @@ class Forum < OceanDynamo::Table
 
   def topics
     query(Topic, 'forum = :id', ':id' => id).map do |t|
-      simple_hash(t)
+      simple_topic_hash(t)
     end.sort do |a, b|
       b['last_post_at'] <=> a['last_post_at']
     end
@@ -27,13 +27,28 @@ class Forum < OceanDynamo::Table
     
     return [] if moderator_group_ids.empty?
 
-    moderators = Set.new
-    moderator_group_ids.each do |moderator_group_id|
-      query(Membership, 'group_id = :val', ':val' => moderator_group_id).each do |membership|
-        moderators.add membership['user_id'].to_i
-      end
+    keys = moderator_group_ids.map do |moderator_group_id|
+      {
+          id: moderator_group_id,
+      }
     end
-    moderators
+
+    response = batch_get(
+        {
+            Group.get_table_name => {
+                keys: keys,
+                consistent_read: false,
+            }
+        })
+
+    response[Group.get_table_name].map { |g| simple_group_hash(g) }
+    # moderators = Set.new
+    # moderator_group_ids.each do |moderator_group_id|
+    #   query(Membership, 'group_id = :val', ':val' => moderator_group_id).each do |membership|
+    #     moderators.add membership['user_id'].to_i
+    #   end
+    # end
+    # moderators
   end
 
   def last_post_for(forem_user)
