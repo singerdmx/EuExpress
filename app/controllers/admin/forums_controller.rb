@@ -1,6 +1,6 @@
 module Admin
   class ForumsController < BaseController
-    include TopicsHelper
+    include TopicsHelper, GroupHelper
     before_filter :find_forum, :only => [:edit, :update, :destroy]
 
     def index
@@ -36,6 +36,8 @@ module Admin
     def new
       @categories = attributes(Category.all)
       @forum = Forum.new
+      moderator_group_ids = attributes(ModeratorGroup.all).map {|g| g['group']}.uniq
+      @moderator_groups = batch_get_groups(moderator_group_ids)
     end
 
     def create

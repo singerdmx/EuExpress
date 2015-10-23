@@ -27,21 +27,7 @@ class Forum < OceanDynamo::Table
     
     return [] if moderator_group_ids.empty?
 
-    keys = moderator_group_ids.map do |moderator_group_id|
-      {
-          id: moderator_group_id,
-      }
-    end
-
-    response = batch_get(
-        {
-            Group.get_table_name => {
-                keys: keys,
-                consistent_read: false,
-            }
-        })
-
-    response[Group.get_table_name].map { |g| simple_group_hash(g) }
+    batch_get_groups(moderator_group_ids)
     # moderators = Set.new
     # moderator_group_ids.each do |moderator_group_id|
     #   query(Membership, 'group_id = :val', ':val' => moderator_group_id).each do |membership|
