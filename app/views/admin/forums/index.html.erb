@@ -37,9 +37,9 @@
                 <% if forum['moderators'].blank? %>
                     <%= t('.none') %>
                 <% else %>
-                  <% forum['moderators'].map do |moderator| %>
-                    <a href="/admin/groups/<%= moderator['id']%>"><%= moderator['name']%></a>
-                  <% end.to_sentence %>
+                  <% forum['moderators'].each do |moderator| %>
+                    <a href="/admin/groups/<%= moderator['id']%>" style="padding: 2px"><%= moderator['name']%></a>
+                  <% end %>
                 <% end %>
               </span>
               </td>

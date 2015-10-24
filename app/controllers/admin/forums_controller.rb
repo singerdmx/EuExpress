@@ -123,8 +123,7 @@ module Admin
     def for_new_forum
       @categories = attributes(Category.all)
       @forum = Forum.new
-      moderator_group_ids = attributes(ModeratorGroup.all).map {|g| g['group']}.uniq
-      @moderator_groups = batch_get_groups(moderator_group_ids)
+      @groups = attributes(Group.all)
     end
 
     def get_forum_from_params(category, id_key)

@@ -30,12 +30,12 @@
         <h4><%= t('forem.admin.forum.moderator_groups') %></h4>
 
         <div class="input check_boxes optional">
-          <% @moderator_groups.each_with_index do |moderator_group, i| %>
+          <% @groups.each_with_index do |group, i| %>
             <span class="checkbox">
               <label for="forum_moderator_ids_1">
-                <input type="checkbox" value="<%= moderator_group['id'] %>" name="forum[moderator_ids][]"
-                       id="forum_moderator_ids_<%= i %>" class="check_boxes optional"<%= (@forum_moderators || []).include?(moderator_group['id']) ? ' checked' : '' %>>
-                <a href="/admin/groups/<%= moderator_group['id']%>"><%= moderator_group['name']%></a>
+                <input type="checkbox" value="<%= group['id'] %>" name="forum[moderator_ids][]"
+                       id="forum_moderator_ids_<%= i %>" class="check_boxes optional"<%= (@forum_moderators || []).include?(group['id']) ? ' checked' : '' %>>
+                <a href="/admin/groups/<%= group['id']%>"><%= group['name']%></a>
               </label>
             </span>
           <% end %>
