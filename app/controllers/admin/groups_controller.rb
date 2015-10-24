@@ -1,6 +1,6 @@
 module Admin
   class GroupsController < BaseController
-    before_filter :find_group, :only => [:show, :destroy]
+    before_filter :find_group, only: [:show, :destroy]
 
     def index
       @groups = attributes(Group.all)
@@ -30,7 +30,7 @@ module Admin
     private
 
     def find_group
-      @group = Forem::Group.find(params[:id])
+      @group = Group.new_from_hash(get(Group, id: params[:id]))
     end
 
     def group_params

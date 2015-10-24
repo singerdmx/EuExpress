@@ -3,6 +3,8 @@ require 'friendly_id'
 class User < ActiveRecord::Base
   include DefaultPermissions
 
+  mattr_accessor :autocomplete_field
+
   extend FriendlyId
   friendly_id :email, :use => [:slugged, :finders]
 
