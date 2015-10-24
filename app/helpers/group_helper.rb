@@ -12,11 +12,9 @@ module GroupHelper
 
   def simple_membership_hash(membership_hash)
     h = {}
-    %w(group_id user_id).each do |k|
-      h[k] = membership_hash[k] if membership_hash[k]
-    end
-
-    h['user'] = User.find(membership_hash['user_id'].to_i).name
+    h['group_id'] = membership_hash['group_id']
+    h['user_id'] = membership_hash['user_id'].to_i
+    h['user'] = User.find(h['user_id']).name
     h
   end
 
