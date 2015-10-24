@@ -3,7 +3,7 @@ module Admin
     before_filter :find_group, :only => [:show, :destroy]
 
     def index
-      @groups = Forem::Group.all
+      @groups = attributes(Group.all)
     end
 
     def new
