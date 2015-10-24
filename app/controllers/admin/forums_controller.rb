@@ -63,9 +63,18 @@ module Admin
         create_successful
       else
         key = {category: category, id: params[:forum_id]}
-        forum = get(Forum, key)
-        update(Forum, key, 'SET forum_name = :val', {':val' => forum_name}) if forum['forum_name'] != forum_name
-        update(Forum, key, 'SET description = :val', {':val' => description}) if forum['description'] != description
+        forum = Forum.new_from_hash(get(Forum, key))
+        update(Forum, key, 'SET forum_name = :val', {':val' => forum_name}) if forum.forum_name != forum_name
+        update(Forum, key, 'SET description = :val', {':val' => description}) if forum.description != description
+        original_moderators = forum.moderators.map { |group| group['id'] }
+        to_add = forum_params['moderator_ids'] - original_moderators
+        to_remove = original_moderators - forum_params['moderator_ids']
+        to_add.each do |group|
+          ModeratorGroup.create(group: group, forum: forum.id)
+        end
+        to_remove.each do |group|
+          delete(ModeratorGroup, {forum: forum.id, group: group})
+        end
         update_successful
       end
     rescue Exception => e
