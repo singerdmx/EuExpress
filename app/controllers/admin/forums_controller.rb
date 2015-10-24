@@ -44,7 +44,7 @@ module Admin
       end
 
       if description.blank?
-        error_msg = 'Description can not be empty!'
+        error_msg += 'Description can not be empty!'
       end
 
       unless error_msg.blank?
@@ -74,13 +74,9 @@ module Admin
       end
     end
 
-    # def update
-    #   if @forum.update_attributes(forum_params)
-    #     update_successful
-    #   else
-    #     update_failed
-    #   end
-    # end
+    def edit
+      get_forum_from_params params['category'], :id
+    end
 
     def destroy
       delete(Forum, {category: params[:category], id: params[:id]})
@@ -120,6 +116,7 @@ module Admin
 
     def update_failed(alert_msg)
       flash.now.alert = alert_msg
+      get_forum_from_params params['forum']['category'], :forum_id
       render action: 'edit'
     end
 
@@ -128,6 +125,14 @@ module Admin
       @forum = Forum.new
       moderator_group_ids = attributes(ModeratorGroup.all).map {|g| g['group']}.uniq
       @moderator_groups = batch_get_groups(moderator_group_ids)
+    end
+
+    def get_forum_from_params(category, id_key)
+      for_new_forum
+      @category = get(Category, {id: category})
+      forum = get(Forum, {category: category, id: params[id_key]})
+      @forum = Forum.new_from_hash(forum)
+      @forum_moderators = @forum.moderators.map { |m| m['id'] }
     end
 
   end

@@ -12,7 +12,8 @@
             <label for="forum_name" class="string required">
               <abbr title="required">*</abbr> Title
             </label>
-            <% forum_name = @forum.attributes['name'] %>
+            <% forum_name = @forum.attributes['forum_name'] %>
+            <% forum_description = @forum.attributes['description'] %>
             <% if forum_name %>
                 <input type="hidden" value="<%= @forum.attributes['id'] %>" name="forum_id">
             <% end %>
@@ -22,7 +23,7 @@
             <label for="forum_description" class="text required" style="margin-top: 10px">
               <abbr title="required">*</abbr> Description
             </label>
-            <textarea name="description" id="forum_description" class="text required form-control" ng-model="forum_description" required></textarea>
+            <textarea name="description" placeholder="<%= forum_description %>" value="<%= forum_description %>" id="forum_description" class="text required form-control" ng-model="forum_description" required></textarea>
           </div>
         </div>
         <hr>
@@ -32,7 +33,8 @@
           <% @moderator_groups.each_with_index do |moderator_group, i| %>
             <span class="checkbox">
               <label for="forum_moderator_ids_1">
-                <input type="checkbox" value="<%= moderator_group['id'] %>" name="forum[moderator_ids][]" id="forum_moderator_ids_<%= i %>" class="check_boxes optional">
+                <input type="checkbox" value="<%= moderator_group['id'] %>" name="forum[moderator_ids][]"
+                       id="forum_moderator_ids_<%= i %>" class="check_boxes optional"<%= (@forum_moderators || []).include?(moderator_group['id']) ? ' checked' : '' %>>
                 <a href="/admin/groups/<%= moderator_group['id']%>"><%= moderator_group['name']%></a>
               </label>
             </span>

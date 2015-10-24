@@ -88,8 +88,6 @@ module Admin
       render action: 'edit'
     end
 
-    private
-
     def get_category_from_params(id_key)
       category = get(Category, {id: params[id_key]})
       @category = Category.new_from_hash(category)
