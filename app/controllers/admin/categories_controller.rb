@@ -18,15 +18,14 @@ module Admin
         fail error_msg
       end
 
-      if attributes(Category.all).find { |c| c['category_name'] == category_name }
-        error_msg = "category '#{category_name}' already exists"
-        fail error_msg
-      end
-
       unless params[:category_id].blank?
         update(Category, {id: params[:category_id]}, 'SET category_name = :val', {':val' => category_name})
         update_successful
       else
+        if attributes(Category.all).find { |c| c['category_name'] == category_name }
+          error_msg = "category '#{category_name}' already exists"
+          fail error_msg
+        end
         Category.create(category_name: category_name)
         create_successful
       end

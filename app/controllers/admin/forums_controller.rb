@@ -52,17 +52,20 @@ module Admin
       end
 
       error_msg = nil
-
-      c = find_forum_by_name(category, forum_name)
-      Rails.logger.info "find_forum_by_name #{category} #{forum_name}: #{c.inspect}"
-      unless c.empty?
-        error_msg = "Forum '#{forum_name}' already exists"
-        fail error_msg
-      end
       if params[:forum_id].blank?
+        c = find_forum_by_name(category, forum_name)
+        Rails.logger.info "find_forum_by_name #{category} #{forum_name}: #{c.inspect}"
+        unless c.empty?
+          error_msg = "Forum '#{forum_name}' already exists"
+          fail error_msg
+        end
         create_forum(category, forum_name, description, forum_params['moderator_ids'])
         create_successful
       else
+        key = {category: category, id: params[:forum_id]}
+        forum = get(Forum, key)
+        update(Forum, key, 'SET forum_name = :val', {':val' => forum_name}) if forum['forum_name'] != forum_name
+        update(Forum, key, 'SET description = :val', {':val' => description}) if forum['description'] != description
         update_successful
       end
     rescue Exception => e
@@ -79,7 +82,7 @@ module Admin
     end
 
     def destroy
-      delete(Forum, {category: params[:category], id: params[:id]})
+      delete_forum(params[:category], params[:id])
       destroy_successful
     end
 

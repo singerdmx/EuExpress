@@ -3,10 +3,17 @@
     <%= simple_form_for [:admin, @forum], html: {"name" => "create_forum_form"} do |f| %>
         <div class="input-group">
           <div class="input string required" style="margin-top: 10px">
-            <label for="forum_name" class="string required" style="padding-right: 5px">
+            <label for="forum_name" class="string required" style="padding-right: 10px">
               <abbr title="required">*</abbr> Category
             </label>
-            <%= f.select :category, @categories.map { |c| [c['category_name'], c['id']] } %>
+            <% if @category %>
+                <input type="hidden" value="<%= @category['id'] %>" name="forum[category]">
+                <span style="font-size: 15px">
+                  <%= @category['category_name'] %>
+                </span>
+            <% else %>
+                <%= f.select :category, @categories.map { |c| [c['category_name'], c['id']] } %>
+            <% end %>
           </div>
           <div class="input string required" style="margin-top: 10px">
             <label for="forum_name" class="string required">
@@ -23,7 +30,7 @@
             <label for="forum_description" class="text required" style="margin-top: 10px">
               <abbr title="required">*</abbr> Description
             </label>
-            <textarea name="description" placeholder="<%= forum_description %>" value="<%= forum_description %>" id="forum_description" class="text required form-control" ng-model="forum_description" required></textarea>
+            <textarea name="description" placeholder="<%= forum_description %>" id="forum_description" class="text required form-control" ng-model="forum_description" required><%= forum_description %></textarea>
           </div>
         </div>
         <hr>

@@ -34,6 +34,10 @@ module ForumsHelper
     end
   end
 
+  def delete_forum(category, forum_id)
+    delete(Forum, {category: category, id: forum_id})
+  end
+
   def topics_count(forum)
     if forem_admin_or_moderator?(forum)
       forum.topics.count
