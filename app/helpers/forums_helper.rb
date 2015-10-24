@@ -24,6 +24,16 @@ module ForumsHelper
           {':category_id' => category_id, ':n' => name}, 'name_index')
   end
 
+  def create_forum(category, forum_name, description, moderator_groups)
+    created_forum = Forum.create(category: category, forum_name: forum_name, description: description)
+    Rails.logger.info "created_forum #{created_forum.inspect}"
+
+    moderator_groups.each do |group_id|
+      created_moderator_group = ModeratorGroup.create(group: group_id, forum: created_forum.attributes['id'])
+      Rails.logger.info "created_moderator_group #{created_moderator_group.inspect}"
+    end
+  end
+
   def topics_count(forum)
     if forem_admin_or_moderator?(forum)
       forum.topics.count

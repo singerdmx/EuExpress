@@ -377,7 +377,7 @@ client.create_table(
 groups = []
 groups << Group.create(name: 'Moderator')
 groups << Group.create(name: 'Normal User')
-groups << Group.create(name: 'Super Moderator')
+groups << Group.create(name: 'Admin')
 
 ###############################
 #         Membership          #

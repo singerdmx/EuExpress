@@ -60,8 +60,7 @@ module Admin
         fail error_msg
       end
       if params[:forum_id].blank?
-        created_forum = Forum.create(category: category, forum_name: forum_name, description: description)
-        Rails.logger.info "created forum #{created_forum.inspect}"
+        create_forum(category, forum_name, description, forum_params['moderator_ids'])
         create_successful
       else
         update_successful
