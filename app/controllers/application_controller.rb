@@ -1,6 +1,6 @@
 load File.dirname(__FILE__) + '/../dynamo_db/connection.rb'
 load File.dirname(__FILE__) + '/../dynamo_db/initializer.rb'
-DynamoDatabase::Initializer.new.load_table_classes
+DynamoDatabase::Initializer.load_table_classes
 
 class ApplicationController < ActionController::Base
   include ApplicationHelper, Connection, Viewable

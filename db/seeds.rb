@@ -25,7 +25,7 @@ require_relative '../app/dynamo_db/initializer'
 cleaner = DynamoDatabase::Cleaner.new
 cleaner.clean
 
-DynamoDatabase::Initializer.new.load_table_classes
+DynamoDatabase::Initializer.load_table_classes
 
 read_capacity_units = 10
 write_capacity_units = 5
