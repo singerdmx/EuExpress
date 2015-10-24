@@ -44,8 +44,14 @@ module Admin
     end
 
     def destroy
-      delete(Category, {id: params[:id]})
-      destroy_successful
+      category_name = params[:category_name]
+      category_forums = Category.new_from_hash('id' => params[:id], 'category_name' => category_name).forums
+      if category_forums.empty?
+        delete(Category, {id: params[:id]})
+        destroy_successful
+      else
+        destroy_failed "Category #{category_name} can not be deleted having forum(s): #{category_forums.map { |f| f['forum_name'] }.join(', ')}"
+      end
     end
 
     private
@@ -63,6 +69,11 @@ module Admin
 
     def destroy_successful
       flash[:notice] = t("forem.admin.category.deleted")
+      redirect_to admin_categories_path
+    end
+
+    def destroy_failed(alert_msg)
+      flash[:notice] = alert_msg
       redirect_to admin_categories_path
     end
 

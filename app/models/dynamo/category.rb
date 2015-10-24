@@ -8,7 +8,7 @@ class Category < OceanDynamo::Table
   validates :category_name, presence: true
 
   def to_s
-    name
+    category_name
   end
 
   def forums
