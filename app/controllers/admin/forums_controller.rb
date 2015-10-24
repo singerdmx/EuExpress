@@ -101,10 +101,6 @@ module Admin
       params.require(:forum).permit(:category_id, :title, :description, :position, {:moderator_ids => []})
     end
 
-    def find_forum
-      @forum = Forem::Forum.friendly.find(params[:id])
-    end
-
     def create_successful
       flash[:notice] = t("forem.admin.forum.created")
       redirect_to admin_forums_path
