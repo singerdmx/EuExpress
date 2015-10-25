@@ -20,6 +20,11 @@ module GroupHelper
 
   def delete_group(group_id)
     delete(Group, {id: group_id})
+    memberships = query(Membership, 'group_id = :g', ':g' => group_id)
+    memberships.each do |membership|
+      m = simple_membership_hash(membership)
+      delete(Membership, {group_id: group_id, user_id: m['user_id']})
+    end
   end
 
   def group_url(group_id, group_name)
