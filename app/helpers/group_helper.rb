@@ -18,6 +18,10 @@ module GroupHelper
     h
   end
 
+  def group_url(group_id, group_name)
+    "/admin/groups/#{group_id}?name=#{group_name}"
+  end
+
   def batch_get_groups(group_ids)
     keys = group_ids.map do |group_id|
       {

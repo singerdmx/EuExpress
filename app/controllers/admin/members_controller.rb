@@ -1,12 +1,14 @@
 module Admin
   class MembersController < BaseController
+    include GroupHelper
+
     def add
       user_id = params[:user_id].to_i
       user = User.friendly.find(user_id)
       unless group_members.include?(user.id)
         Membership.create(user_group_membership_key(user_id))
       end
-      redirect_to group_url
+      redirect_to group_url(group.id, group.name)
     end
 
     def destroy
@@ -18,7 +20,7 @@ module Admin
       else
         flash[:alert] = t("forem.admin.groups.show.no_member_to_remove")
       end
-      redirect_to group_url
+      redirect_to group_url(group.id, group.name)
     end
 
     private
@@ -29,10 +31,6 @@ module Admin
 
     def group_members
       @group_members ||= group.members.map { |m| m['user_id'] }
-    end
-
-    def group_url
-      "/admin/groups/#{group.id}?name=#{group.name}"
     end
 
     def user_group_membership_key(user_id)
