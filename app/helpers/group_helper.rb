@@ -18,6 +18,10 @@ module GroupHelper
     h
   end
 
+  def delete_group(group_id)
+    delete(Group, {id: group_id})
+  end
+
   def group_url(group_id, group_name)
     "/admin/groups/#{group_id}?name=#{group_name}"
   end

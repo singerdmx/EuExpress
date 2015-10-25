@@ -31,7 +31,7 @@ module Admin
     end
 
     def destroy
-      @group.destroy
+      delete_group(params[:id])
       flash[:notice] = t("forem.admin.group.deleted")
       redirect_to admin_groups_path
     end

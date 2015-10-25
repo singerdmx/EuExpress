@@ -17,7 +17,7 @@
           <%= link_to t('edit', scope: 'forem.admin.groups'), admin_group_path(group) %>
         </td>
         <td>
-          <%= link_to t('delete',scope: 'forem.admin.groups'), admin_group_path(group), method: :delete %>
+          <%= link_to t('delete',scope: 'forem.admin.groups'), admin_group_path(group), method: :delete, data: { confirm: 'Are you sure?' } %>
         </td>
         <td>
           <%= link_to forem_emojify(group['name']), admin_group_path(group) %>
