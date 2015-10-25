@@ -36,6 +36,11 @@ module ForumsHelper
 
   def delete_forum(category, forum_id)
     delete(Forum, {category: category, id: forum_id})
+    groups = query(ModeratorGroup, 'forum = :f', ':f' => forum_id)
+    groups.each do |group|
+      g = simple_group_hash(group)
+      delete(ModeratorGroup, {group: g['id'], forum: forum_id})
+    end
   end
 
   def topics_count(forum)

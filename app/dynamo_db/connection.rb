@@ -15,14 +15,14 @@ module Connection
     }
     Rails.logger.info "get_item request_params:\n#{request_params}"
     response = client.get_item(request_params).item
-    Rails.logger.info "get_item response:\n#{response}"
+    Rails.logger.info "get_item response:\n#{response.inspect}"
     response
   end
 
   def batch_get(request_items)
     Rails.logger.info "batch_get_item request_items:\n#{request_items}"
     response = client.batch_get_item({request_items: request_items}).responses
-    Rails.logger.info "batch_get_item response:\n#{response}"
+    Rails.logger.info "batch_get_item response:\n#{response.inspect}"
     response
   end
 
@@ -39,7 +39,7 @@ module Connection
     query_params[:index_name] = index_name if index_name
     Rails.logger.info "query query_params:\n#{query_params}"
     response = client.query(query_params).items
-    Rails.logger.info "query response:\n#{response}"
+    Rails.logger.info "query response:\n#{response.inspect}"
     response
   end
 
@@ -53,7 +53,7 @@ module Connection
     }
     Rails.logger.info "update_item request_params:\n#{request_params}"
     response = client.update_item(request_params).attributes
-    Rails.logger.info "update_item response:\n#{response}"
+    Rails.logger.info "update_item response:\n#{response.inspect}"
     response
   end
 
@@ -64,7 +64,7 @@ module Connection
     }
     Rails.logger.info "delete_item request_params:\n#{request_params}"
     response = client.delete_item(request_params)
-    Rails.logger.info "delete_item response:\n#{response}"
+    Rails.logger.info "delete_item response:\n#{response.inspect}"
     response
   end
 
