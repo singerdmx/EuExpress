@@ -25,6 +25,7 @@ module GroupHelper
       m = simple_membership_hash(membership)
       delete(Membership, {group_id: group_id, user_id: m['user_id']})
     end
+    #TODO delete associated ModeratorGroup
   end
 
   def group_url(group_id, group_name)

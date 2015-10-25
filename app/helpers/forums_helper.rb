@@ -41,6 +41,7 @@ module ForumsHelper
       g = simple_group_hash(group)
       delete(ModeratorGroup, {group: g['id'], forum: forum_id})
     end
+    #TODO delete associated Topics
   end
 
   def topics_count(forum)
