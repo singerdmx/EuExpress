@@ -8,14 +8,22 @@ module Connection
 
   def get(clazz,
           key)
-    client.get_item(
+    request_params = {
         table_name: clazz.get_table_name,
         key: key,
-        consistent_read: false).item
+        consistent_read: false
+    }
+    Rails.logger.info "get_item request_params:\n#{request_params}"
+    response = client.get_item(request_params).item
+    Rails.logger.info "get_item response:\n#{response}"
+    response
   end
 
   def batch_get(request_items)
-    client.batch_get_item({request_items: request_items}).responses
+    Rails.logger.info "batch_get_item request_items:\n#{request_items}"
+    response = client.batch_get_item({request_items: request_items}).responses
+    Rails.logger.info "batch_get_item response:\n#{response}"
+    response
   end
 
   def query(clazz,
@@ -29,24 +37,35 @@ module Connection
         expression_attribute_values: expression_attribute_values
     }
     query_params[:index_name] = index_name if index_name
-    client.query(query_params).items
+    Rails.logger.info "query query_params:\n#{query_params}"
+    response = client.query(query_params).items
+    Rails.logger.info "query response:\n#{response}"
+    response
   end
 
   def update(clazz, key, update_expression, expression_attribute_values)
-    client.update_item(
+    request_params = {
         table_name: clazz.get_table_name,
         key: key,
         return_values: 'ALL_NEW',
         update_expression: update_expression,
         expression_attribute_values: expression_attribute_values
-    ).attributes
+    }
+    Rails.logger.info "update_item request_params:\n#{request_params}"
+    response = client.update_item(request_params).attributes
+    Rails.logger.info "update_item response:\n#{response}"
+    response
   end
 
   def delete(clazz, key)
-    client.delete_item(
+    request_params = {
         table_name:  clazz.get_table_name,
         key: key,
-    )
+    }
+    Rails.logger.info "delete_item request_params:\n#{request_params}"
+    response = client.delete_item(request_params)
+    Rails.logger.info "delete_item response:\n#{response}"
+    response
   end
 
 end
