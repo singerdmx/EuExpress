@@ -25,7 +25,12 @@ module GroupHelper
       m = simple_membership_hash(membership)
       delete(Membership, {group_id: group_id, user_id: m['user_id']})
     end
-    #TODO delete associated ModeratorGroup
+
+    ModeratorGroup.all.select do |moderator_group|
+      moderator_group.attributes['group'] == group_id
+    end.each do |moderator_group|
+      delete(ModeratorGroup, {forum: moderator_group.attributes['forum'], group: group_id})
+    end
   end
 
   def group_url(group_id, group_name)
