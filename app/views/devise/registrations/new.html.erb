@@ -1,17 +1,16 @@
-<h2>Sign up</h2>
+<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'form-signin'}, defaults: { input_html: { class: 'form-control' } }) do |f| %>
+    <%= f.error_notification %>
+    <h2 class="form-signin-heading">Sign up</h2>
+    <%= f.input :email, required: true, autofocus: true,input_html: { placeholder: 'Email Address' } %>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
+    <% password_placeholder = 'Password' %>
+    <% if @minimum_password_length %>
+        <% password_placeholder += " (#{@minimum_password_length} characters minimum)" %>
+    <% end %>
+    <%= f.input :password, required: true, input_html: { placeholder: password_placeholder } %>
+    <%= f.input :password_confirmation, required: true, input_html: { placeholder: 'Password Confirmation' } %>
 
-  <div class="form-inputs">
-    <%= f.input :email, required: true, autofocus: true %>
-    <%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
-    <%= f.input :password_confirmation, required: true %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
-  </div>
+    <button type="submit" class="btn btn-lg btn-primary btn-block">Sign up</button>
 <% end %>
 
 <%= render "devise/shared/links" %>
