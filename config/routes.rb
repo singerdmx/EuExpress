@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   root to: 'static_pages#home'
   mount Forem::Engine, :at => '/forems'
 
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'registrations' }
 
   namespace :admin do
     root :to => "base#index"
