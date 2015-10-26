@@ -1,6 +1,6 @@
 (function () {
     var forum = angular.module('forum', ['ngAnimate', 'ui.bootstrap']);
-    var forumController = function ($scope) {
+    var forumController = function ($scope, $log) {
         $scope.oneAtATime = true;
 
         $scope.forumStatus = {
@@ -18,8 +18,9 @@
         };
 
         $scope.init = function () {
+            $log.info('Initializing');
         }
     };
 
-    forum.controller('ForumController', ['$scope', forumController]);
+    forum.controller('ForumController', ['$scope', '$log', forumController]);
 }());
