@@ -6,12 +6,13 @@ class User < ActiveRecord::Base
   mattr_accessor :autocomplete_field
 
   extend FriendlyId
-  friendly_id :email, :use => [:slugged, :finders]
+  friendly_id :email, use: [:slugged, :finders]
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :confirmable
 
   class << self
     def moderate_first_post
