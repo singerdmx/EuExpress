@@ -4,6 +4,7 @@
         $scope.oneAtATime = true;
 
         $scope.forumStatus = {
+            open: true,
             isFirstOpen: true,
             isFirstDisabled: false
         };
@@ -15,6 +16,9 @@
             isFirstOpen: true,
             isFirstDisabled: false
         };
+
+        $scope.init = function () {
+        }
     };
 
     forum.controller('ForumController', forumController);

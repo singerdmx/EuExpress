@@ -1,5 +1,5 @@
 <div ng-app="forum">
-  <div ng-controller="ForumController">
+  <div ng-controller="ForumController" ng-init="init()">
     <uib-accordion close-others="oneAtATime">
       <%= render 'forums/forums' %>
       <%= render 'forums/topics' %>
