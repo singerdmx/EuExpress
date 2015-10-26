@@ -21,5 +21,5 @@
         }
     };
 
-    forum.controller('ForumController', forumController);
+    forum.controller('ForumController', ['$scope', forumController]);
 }());

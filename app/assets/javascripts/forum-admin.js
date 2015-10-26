@@ -1,7 +1,7 @@
 (function () {
     var forumAdmin = angular.module('forumAdmin', ['ngAnimate', 'ui.bootstrap']);
-    var forumController = function ($scope) {
+    var formController = function ($scope) {
     };
 
-    forumAdmin.controller('FormController', ['$scope', forumController]);
+    forumAdmin.controller('FormController', ['$scope', formController]);
 }());
