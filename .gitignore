@@ -18,3 +18,6 @@
 /log/*
 !/log/.keep
 /tmp
+
+# Ignore files storing password
+config/secrets/*

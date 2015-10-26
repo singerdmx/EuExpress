@@ -10,6 +10,8 @@ users = user_size.times.map do |i|
       password: 'user1234',
       password_confirmation: 'user1234',
       name: 'u' + i.to_s,
+      confirmed_at: Time.now,
+      confirmation_sent_at: Time.now - 30,
       forem_admin: i == 0)
 end
 
