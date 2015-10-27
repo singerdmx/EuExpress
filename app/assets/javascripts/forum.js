@@ -2,16 +2,16 @@
     var forum = angular.module('forum', ['ngAnimate', 'ui.bootstrap']);
 
     var forumService = function ($http, $log) {
-        var getForums = function () {
-            return $http.get('/forums.json')
+        var getCategories = function () {
+            return $http.get('/categories')
                 .then(function (response) {
-                    $log.info(response.data);
+                    $log.info('GET /categories response', response);
                     return response.data;
                 });
         };
 
         return {
-            getForums: getForums,
+            getCategories: getCategories,
         };
     };
 
@@ -34,8 +34,34 @@
             isFirstDisabled: false
         };
 
+        var onError = function (reason) {
+            $log.error('onError', reason);
+        }
+
+        var renderCategoriesTable = function (categories) {
+            $log.info('categories', categories);
+            var columns = [
+                {'sTitle': 'Category'},
+                {'sTitle': 'Forums'},
+            ]
+
+            var data = _.map(categories, function (c) {
+                var result = [c.category_name, _.map(c.forums, function (f) {
+                    return f.forum_name;
+                }).join(', ')];
+                return result;
+            });
+
+            var tableDefinition = {
+                'aaData': data,
+                'aoColumns': columns,
+            };
+            $log.info('tableDefinition', tableDefinition);
+            $('table#categoriesTable').dataTable(tableDefinition);
+        };
+
         $scope.init = function () {
-            ForumService.getForums();
+            ForumService.getCategories().then(renderCategoriesTable, onError);
         }
     };
 
