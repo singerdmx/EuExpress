@@ -8,4 +8,15 @@ div.forum-panel {
 
 div.tableDiv {
   padding: 15px;
+  thead {
+    th {
+      background-color: #d9edf7;
+      border-color: #bce8f1;
+      color: #31708f;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      padding: 10px 15px;
+      box-sizing: border-box;
+    }
+  }
 }

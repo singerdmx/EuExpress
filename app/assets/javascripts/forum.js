@@ -41,8 +41,14 @@
         var renderCategoriesTable = function (categories) {
             $log.info('categories', categories);
             var columns = [
-                {'sTitle': 'Category'},
-                {'sTitle': 'Forums'},
+                {
+                    'sTitle': 'Category',
+                    'sClass': 'center panel-title',
+                },
+                {
+                    'sTitle': 'Forums',
+                    'sClass': 'center panel-title',
+                },
             ]
 
             var data = _.map(categories, function (c) {
