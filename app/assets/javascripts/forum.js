@@ -40,6 +40,7 @@
 
         var renderCategoriesTable = function (categories) {
             $log.info('categories', categories);
+            var template = _.template(htmlTemplates.forums);
             var columns = [
                 {
                     'sTitle': 'Category',
@@ -48,14 +49,14 @@
                 {
                     'sTitle': 'Forums',
                     'sClass': 'center panel-title contentColumn',
+                    'render': function (data, type, row) {
+                        return template({data: data});
+                    }
                 },
             ]
 
             var data = _.map(categories, function (c) {
-                var result = [c.category_name, _.map(c.forums, function (f) {
-                    return f.forum_name;
-                }).join(', ')];
-                return result;
+                return [c.category_name, c]
             });
 
             var tableDefinition = {
