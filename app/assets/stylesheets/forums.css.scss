@@ -17,6 +17,19 @@ div.tableDiv {
       border-top-right-radius: 3px;
       padding: 10px 15px;
       box-sizing: border-box;
+      font-weight: bolder;
+    }
+  }
+  tbody {
+    tr.even {
+      background-color: lightcyan;
+    }
+    td.titleColumn {
+      color: #3c763d;
+      font-weight: bold;
+    }
+    td.contentColumn {
+      color: lightsalmon;
     }
   }
 }

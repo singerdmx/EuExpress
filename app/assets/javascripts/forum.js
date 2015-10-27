@@ -43,11 +43,11 @@
             var columns = [
                 {
                     'sTitle': 'Category',
-                    'sClass': 'center panel-title',
+                    'sClass': 'center panel-title titleColumn',
                 },
                 {
                     'sTitle': 'Forums',
-                    'sClass': 'center panel-title',
+                    'sClass': 'center panel-title contentColumn',
                 },
             ]
 
@@ -62,7 +62,7 @@
                 aaData: data,
                 aoColumns: columns,
                 columnDefs: [
-                    {orderable: false, targets: 1}
+                    {orderable: false, targets: 1},
                 ],
                 bLengthChange: false,
                 bInfo: false,

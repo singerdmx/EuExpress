@@ -132,6 +132,18 @@ forums << Forum.create(category: categories[1].id,
                        forum_name: "Beginner Forum",
                        description: "Beginner tutorial")
 
+forums << Forum.create(category: categories[2].id,
+                       forum_name: "Battery",
+                       description: "Battery discussion")
+
+forums << Forum.create(category: categories[2].id,
+                       forum_name: "Bands",
+                       description: "Band styles")
+
+forums << Forum.create(category: categories[3].id,
+                       forum_name: "Contribute to App",
+                       description: "How to contribute your code")
+
 ###############################
 #           Topic             #
 ###############################
