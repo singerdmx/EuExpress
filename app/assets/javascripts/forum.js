@@ -71,21 +71,26 @@
             $log.info('Categories table definition', tableDefinition);
             $('table#categoriesTable').dataTable(tableDefinition);
             $compile($('div#categoriesTableDiv'))($scope);
+            $('div#categoriesTable_paginate a').on('click', function () {
+                $compile($('div#categoriesTableDiv'))($scope);
+            });
         };
 
         $scope.init = function () {
             ForumService.getCategories().then(renderCategoriesTable, onError);
         };
         $scope.toggleFavorite = function (category, forum, $event) {
-            $log.info('toggleFavorite: category '+ category + ', forum ' + forum);
+            $log.info('toggleFavorite: category ' + category + ', forum ' + forum);
             var target = $($event.target);
             target.toggleClass('glyphicon-star-empty');
             target.toggleClass('glyphicon-star');
         };
         $scope.selectForum = function (category, forum, $event) {
-            $log.info('selectForum: category '+ category + ', forum ' + forum);
+            $log.info('selectForum: category ' + category + ', forum ' + forum);
+            var oTable = $("table#categoriesTable").dataTable();
+            oTable.$('span.selectedForum').removeClass('selectedForum');
             var target = $($event.target);
-            target.toggleClass('selectedForum');
+            target.addClass('selectedForum');
         };
     };
 

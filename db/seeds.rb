@@ -144,6 +144,17 @@ forums << Forum.create(category: categories[3].id,
                        forum_name: "Contribute to App",
                        description: "How to contribute your code")
 
+if ENV['massive_seeding']
+  (0..9).each do |i|
+    c = Category.create(category_name: 'Category' + i.to_s)
+    (0..9).each do |j|
+        Forum.create(category: c.id,
+                     forum_name: "f#{i}#{j}",
+                     description: "f#{i}#{j}")
+    end
+  end
+end
+
 ###############################
 #           Topic             #
 ###############################
