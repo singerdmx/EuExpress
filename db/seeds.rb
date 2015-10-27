@@ -147,10 +147,11 @@ forums << Forum.create(category: categories[3].id,
 if ENV['massive_seeding']
   (0..9).each do |i|
     c = Category.create(category_name: 'Category - ' + i.to_s)
+    categories << c
     (0..9).each do |j|
-        Forum.create(category: c.id,
-                     forum_name: "Forum - #{i}#{j}",
-                     description: "f#{i}#{j}")
+        forums << Forum.create(category: c.id,
+                               forum_name: "Forum - #{i}#{j}",
+                               description: "f#{i}#{j}")
     end
   end
 end
@@ -525,4 +526,38 @@ users.each do |u|
   subscriptions << Subscription.create(topic: topics.first.id,
                                        user_id: u.id)
 end
+
+###############################
+#        User Favorites       #
+###############################
+
+client.create_table(
+    attribute_definitions: [
+        {
+            attribute_name: 'type',
+            attribute_type: 'S',
+        },
+        {
+            attribute_name: 'user_id',
+            attribute_type: 'N',
+        },
+    ],
+    table_name: UserFavorites.get_table_name,
+    key_schema: [
+        {
+            attribute_name: 'user_id',
+            key_type: 'HASH',
+        },
+        {
+            attribute_name: 'type',
+            key_type: 'RANGE',
+        },
+    ],
+    provisioned_throughput: {
+        read_capacity_units: read_capacity_units,
+        write_capacity_units: write_capacity_units,
+    },
+)
+
+UserFavorites.create(user_id: user.id, type: 'forum', favorite: forums.first.id)
 
