@@ -1,13 +1,11 @@
 <uib-accordion-group is-open="forumStatus.open">
   <uib-accordion-heading>
-    Forums <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': forumStatus.open, 'glyphicon-chevron-right': !forumStatus.open}"></i>
+    Forums
+    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': forumStatus.open, 'glyphicon-chevron-right': !forumStatus.open}"></i>
   </uib-accordion-heading>
   <div class="table-banner">
-    <button class="btn btn-info" type="button" ng-click="refreshCategoriesTable()">
-      <i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh
-    </button>
+    <span class="label label-danger favorites-title"><%= current_user.name %> Favorites</span>
   </div>
-
   <div>
     <div id="categoriesTableDiv" class="table-div">
       <table id="categoriesTable"></table>

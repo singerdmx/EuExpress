@@ -67,7 +67,7 @@
             ]
 
             var data = _.map(categories, function (c) {
-                return [c.category_name, c]
+                return [c.category_name, c];
             });
 
             var tableDefinition = {
@@ -78,9 +78,12 @@
                 ],
                 bLengthChange: false,
                 bInfo: false,
+                dom: '<"categories-table-toolbar">frtip',
             };
             $log.info('Categories table definition', tableDefinition);
             $('table#categoriesTable').dataTable(tableDefinition);
+            var refreshButtonHtml = '<button class="btn btn-info" type="button" ng-click="refreshCategoriesTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
+            $("div.categories-table-toolbar").html(refreshButtonHtml);
             $compile($('div#categoriesTableDiv'))($scope);
             $('div#categoriesTable_paginate a').on('click', function () {
                 $compile($('div#categoriesTableDiv'))($scope);
