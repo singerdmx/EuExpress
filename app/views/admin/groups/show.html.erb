@@ -20,7 +20,7 @@
       <ul id='members'>
         <% members.each do |member| %>
             <li>
-              <%= member['user'] %> |
+              <%= member['user'] %> | <%= member['email'] %> |
               <a rel="nofollow" href="/admin/groups/<%= @group.id %>/members/<%= member['user_id'] %>" data-method="delete" data-confirm="Are you sure?">
                  <%= t('forem.admin.groups.show.remove_member') %>
               </a>
