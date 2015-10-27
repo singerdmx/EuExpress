@@ -17,7 +17,7 @@
 
     forum.service('ForumService', forumService);
 
-    var forumController = function ($scope, $log, ForumService) {
+    var forumController = function ($scope, $log, $compile, ForumService) {
         $scope.oneAtATime = true;
 
         $scope.forumStatus = {
@@ -36,7 +36,7 @@
 
         var onError = function (reason) {
             $log.error('onError', reason);
-        }
+        };
 
         var renderCategoriesTable = function (categories) {
             $log.info('categories', categories);
@@ -70,12 +70,19 @@
             };
             $log.info('Categories table definition', tableDefinition);
             $('table#categoriesTable').dataTable(tableDefinition);
+            $compile($('div#categoriesTableDiv'))($scope);
         };
 
         $scope.init = function () {
             ForumService.getCategories().then(renderCategoriesTable, onError);
-        }
+        };
+        $scope.toggleFavorite = function (category, forum) {
+            $log.info('toggleFavorite: category '+ category + ', forum ' + forum);
+        };
+        $scope.selectForum = function (category, forum) {
+            $log.info('selectForum: category '+ category + ', forum ' + forum);
+        };
     };
 
-    forum.controller('ForumController', forumController);
+    forum.controller('ForumController', ['$scope', '$log', '$compile', 'ForumService', forumController]);
 }());
