@@ -534,7 +534,7 @@ end
 client.create_table(
     attribute_definitions: [
         {
-            attribute_name: 'type',
+            attribute_name: 'favorite',
             attribute_type: 'S',
         },
         {
@@ -549,7 +549,7 @@ client.create_table(
             key_type: 'HASH',
         },
         {
-            attribute_name: 'type',
+            attribute_name: 'favorite',
             key_type: 'RANGE',
         },
     ],
@@ -559,5 +559,7 @@ client.create_table(
     },
 )
 
-UserFavorites.create(user_id: user.id, type: 'forum', favorite: forums.first.id)
+(0..3).each do |i|
+    UserFavorites.create(user_id: user.id, type: 'forum', favorite: forums[i].id)
+end
 

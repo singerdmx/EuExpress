@@ -58,4 +58,6 @@ Rails.application.routes.draw do
   resources :topics, only: [:index] do
     resources :posts, only: [:index]
   end
+
+  resources :favorites, only: [:index]
 end
