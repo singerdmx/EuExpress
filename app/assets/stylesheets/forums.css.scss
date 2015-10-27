@@ -21,15 +21,21 @@ div.tableDiv {
     }
   }
   tbody {
+    i.star {
+      color: red;
+    }
+    span.selectedForum {
+      background-color: #d9edf7;
+    }
     tr.even {
       background-color: lightcyan;
     }
     td.titleColumn {
-      color: #3c763d;
+      color: dimgrey;
       font-weight: bold;
     }
     td.contentColumn {
-      color: lightsalmon;
+      color: dimgrey;
     }
   }
 }
@@ -41,6 +47,6 @@ i.forumIcon {
 
 span.forumItem {
   cursor: pointer;
-  padding-right: 10px;
-  padding-bottom: 3px;
+  padding: 5px;
+  margin-right: 8px;
 }

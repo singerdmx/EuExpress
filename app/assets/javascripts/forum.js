@@ -76,11 +76,16 @@
         $scope.init = function () {
             ForumService.getCategories().then(renderCategoriesTable, onError);
         };
-        $scope.toggleFavorite = function (category, forum) {
+        $scope.toggleFavorite = function (category, forum, $event) {
             $log.info('toggleFavorite: category '+ category + ', forum ' + forum);
+            var target = $($event.target);
+            target.toggleClass('glyphicon-star-empty');
+            target.toggleClass('glyphicon-star');
         };
-        $scope.selectForum = function (category, forum) {
+        $scope.selectForum = function (category, forum, $event) {
             $log.info('selectForum: category '+ category + ', forum ' + forum);
+            var target = $($event.target);
+            target.toggleClass('selectedForum');
         };
     };
 
