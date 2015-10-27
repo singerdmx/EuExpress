@@ -3,7 +3,7 @@
     Forums <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': forumStatus.open, 'glyphicon-chevron-right': !forumStatus.open}"></i>
   </uib-accordion-heading>
   <div class="table-banner">
-    <button class="btn btn-info" type="button">
+    <button class="btn btn-info" type="button" ng-click="refreshCategoriesTable()">
       <i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh
     </button>
   </div>

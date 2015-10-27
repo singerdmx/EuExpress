@@ -87,10 +87,14 @@
         };
         $scope.selectForum = function (category, forum, $event) {
             $log.info('selectForum: category ' + category + ', forum ' + forum);
-            var oTable = $("table#categoriesTable").dataTable();
+            var oTable = $('table#categoriesTable').dataTable();
             oTable.$('span.selected-forum').removeClass('selected-forum');
             var target = $($event.target);
             target.addClass('selected-forum');
+        };
+        $scope.refreshCategoriesTable = function () {
+            $('table#categoriesTable').dataTable().fnDestroy();
+            ForumService.getCategories().then(renderCategoriesTable, onError);
         };
     };
 
