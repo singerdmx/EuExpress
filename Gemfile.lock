@@ -1,22 +1,4 @@
 GIT
-  remote: git://github.com/radar/forem-bootstrap.git
-  revision: 10be50afc1d0a22af1306076e41624c55fc585be
-  ref: 10be50afc1d0
-  specs:
-    forem-bootstrap (0.0.1)
-      bootstrap-sass (~> 3.1)
-
-GIT
-  remote: git://github.com/radar/forem-redcarpet.git
-  revision: c53be9a5c3e97d65546f3f56b53f82669f3a5af5
-  ref: c53be9a5c3e9
-  specs:
-    forem-redcarpet (1.0.2)
-      nokogiri
-      pygments.rb (= 0.5.4)
-      redcarpet (= 3.0.0)
-
-GIT
   remote: git://github.com/radar/forem.git
   revision: c3a1634f33d54a2c79dfeb092ca3686246b3aa4c
   ref: c3a1634f33d5
@@ -62,21 +44,15 @@ GEM
       tzinfo (~> 0.3.37)
     angularjs-rails (1.4.7)
     arel (4.0.2)
-    autoprefixer-rails (6.0.3)
-      execjs
-      json
-    aws-sdk (2.1.30)
-      aws-sdk-resources (= 2.1.30)
-    aws-sdk-core (2.1.30)
+    aws-sdk (2.1.32)
+      aws-sdk-resources (= 2.1.32)
+    aws-sdk-core (2.1.32)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.1.30)
-      aws-sdk-core (= 2.1.30)
+    aws-sdk-resources (2.1.32)
+      aws-sdk-core (= 2.1.32)
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    bootstrap-sass (3.3.5.1)
-      autoprefixer-rails (>= 5.0.0.1)
-      sass (>= 3.3.0)
     builder (3.1.4)
     byebug (6.0.2)
     cancan (1.6.10)
@@ -126,10 +102,6 @@ GEM
       aws-sdk (~> 2)
     orm_adapter (0.5.0)
     pg (0.18.3)
-    posix-spawn (0.3.11)
-    pygments.rb (0.5.4)
-      posix-spawn (~> 0.3.6)
-      yajl-ruby (~> 1.1.0)
     rack (1.5.5)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -148,7 +120,6 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
     rdoc (4.2.0)
-    redcarpet (3.0.0)
     responders (1.1.2)
       railties (>= 3.2, < 4.2)
     sanitize (2.0.6)
@@ -194,7 +165,6 @@ GEM
       sprockets-rails (>= 2.0, < 4.0)
     will_paginate (3.0.5)
     workflow (1.0.0)
-    yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
@@ -206,8 +176,6 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   devise (~> 3.5.2)
   forem!
-  forem-bootstrap!
-  forem-redcarpet!
   jbuilder (~> 2.0)
   jquery-rails
   ocean-dynamo (~> 1.2.4)

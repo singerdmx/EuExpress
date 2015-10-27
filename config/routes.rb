@@ -6,7 +6,6 @@ Rails.application.routes.draw do
   #
   # We ask that you don't use the :as option here, as Forem relies on it being the default of "forem"
   root to: 'static_pages#home'
-  mount Forem::Engine, :at => '/forems'
 
   devise_for :users, controllers: { registrations: 'registrations' }
 
