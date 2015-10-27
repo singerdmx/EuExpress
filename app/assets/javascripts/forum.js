@@ -59,10 +59,15 @@
             });
 
             var tableDefinition = {
-                'aaData': data,
-                'aoColumns': columns,
+                aaData: data,
+                aoColumns: columns,
+                columnDefs: [
+                    {orderable: false, targets: 1}
+                ],
+                bLengthChange: false,
+                bInfo: false,
             };
-            $log.info('tableDefinition', tableDefinition);
+            $log.info('Categories table definition', tableDefinition);
             $('table#categoriesTable').dataTable(tableDefinition);
         };
 
