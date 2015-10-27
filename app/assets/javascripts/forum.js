@@ -1,21 +1,32 @@
 (function () {
     var forum = angular.module('forum', ['ngAnimate', 'ui.bootstrap']);
 
-    var forumService = function ($http, $log) {
-        var getCategories = function () {
-            return $http.get('/categories')
-                .then(function (response) {
-                    $log.info('GET /categories response', response);
-                    return response.data;
-                });
-        };
+    var forumService = function ($http, $log, $q) {
+        var getCategories = $http.get('/categories');
+        var getUserFavorites = $http.get('/favorites');
 
         return {
-            getCategories: getCategories,
+            getCategories: function () {
+                return $q.all([getCategories, getUserFavorites]).then(function (response) {
+                    var categories = response[0].data;
+                    $log.info('categories', categories);
+                    var user_favorites = response[1].data;
+                    $log.info('user_favorites', user_favorites);
+
+                    _.each(categories, function (c) {
+                        _.each(c.forums, function (f) {
+                            if (_.contains(user_favorites.forum, f.id)) {
+                                f.favorite = true;
+                            }
+                        });
+                    });
+                    return categories;
+                });
+            },
         };
     };
 
-    forum.service('ForumService', forumService);
+    forum.service('ForumService', ['$http', '$log', '$q', forumService]);
 
     var forumController = function ($scope, $log, $compile, ForumService) {
         $scope.oneAtATime = true;
