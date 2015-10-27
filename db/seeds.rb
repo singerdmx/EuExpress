@@ -146,10 +146,10 @@ forums << Forum.create(category: categories[3].id,
 
 if ENV['massive_seeding']
   (0..9).each do |i|
-    c = Category.create(category_name: 'Category' + i.to_s)
+    c = Category.create(category_name: 'Category - ' + i.to_s)
     (0..9).each do |j|
         Forum.create(category: c.id,
-                     forum_name: "f#{i}#{j}",
+                     forum_name: "Forum - #{i}#{j}",
                      description: "f#{i}#{j}")
     end
   end

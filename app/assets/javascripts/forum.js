@@ -44,11 +44,11 @@
             var columns = [
                 {
                     'sTitle': 'Category',
-                    'sClass': 'center panel-title titleColumn',
+                    'sClass': 'center panel-title title-column',
                 },
                 {
                     'sTitle': 'Forums',
-                    'sClass': 'center panel-title contentColumn',
+                    'sClass': 'center panel-title content-column',
                     'render': function (data, type, row) {
                         return template({data: data});
                     }
@@ -88,9 +88,9 @@
         $scope.selectForum = function (category, forum, $event) {
             $log.info('selectForum: category ' + category + ', forum ' + forum);
             var oTable = $("table#categoriesTable").dataTable();
-            oTable.$('span.selectedForum').removeClass('selectedForum');
+            oTable.$('span.selected-forum').removeClass('selected-forum');
             var target = $($event.target);
-            target.addClass('selectedForum');
+            target.addClass('selected-forum');
         };
     };
 

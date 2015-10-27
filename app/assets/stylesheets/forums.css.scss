@@ -5,8 +5,11 @@ div.forum-panel {
     }
   }
 }
+div.table-banner {
+  padding: 13px;
+}
 
-div.tableDiv {
+div.table-div {
   padding: 15px;
   thead {
     th {
@@ -24,28 +27,28 @@ div.tableDiv {
     i.star {
       color: red;
     }
-    span.selectedForum {
+    span.selected-forum {
       background-color: #d9edf7;
     }
     tr.even {
       background-color: lightcyan;
     }
-    td.titleColumn {
+    td.title-column {
       color: dimgrey;
       font-weight: bold;
     }
-    td.contentColumn {
+    td.content-column {
       color: dimgrey;
     }
   }
 }
 
-i.forumIcon {
+i.forum-icon {
   cursor: pointer;
   top: 2px;
 }
 
-span.forumItem {
+span.forum-item {
   cursor: pointer;
   padding: 5px;
   margin-right: 8px;
