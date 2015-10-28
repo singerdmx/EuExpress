@@ -90,6 +90,7 @@
                 bLengthChange: false,
                 bInfo: false,
                 dom: '<"categories-table-toolbar">frtip',
+                pagingType: 'full_numbers',
             };
             $log.info('Categories table definition', tableDefinition);
             $('table#categoriesTable').dataTable(tableDefinition);
