@@ -204,8 +204,7 @@ client.create_table(
                 },
             ],
             projection: {
-                projection_type: 'INCLUDE',
-                non_key_attributes: ['subject'],
+                projection_type: 'ALL',
             },
         },
     ],
@@ -225,6 +224,19 @@ topics << Topic.create(
     subject: 'Amazfit new function',
     user_id: user.id,
     state: 'approved')
+
+if ENV['massive_seeding']
+  forums.each do |f|
+    (0..90).each do |i|
+      topics << Topic.create(
+          forum: f.id,
+          last_post_at: Time.now.to_i - i * 10,
+          subject: "Topic #{i}",
+          user_id: users[i % users.size].id,
+          state: 'approved')
+    end
+  end
+end
 
 ###############################
 #           Post              #
@@ -274,8 +286,7 @@ client.create_table(
                 },
             ],
             projection: {
-                projection_type: 'INCLUDE',
-                non_key_attributes: ['text'],
+                projection_type: 'ALL',
             },
         },
     ],

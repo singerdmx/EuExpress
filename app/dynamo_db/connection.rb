@@ -29,12 +29,14 @@ module Connection
   def query(clazz,
             key_condition_expression,
             expression_attribute_values,
-            index_name = nil)
+            index_name = nil,
+            scan_index_forward = false)
     query_params = {
         table_name: clazz.get_table_name,
         consistent_read: false,
         key_condition_expression: key_condition_expression,
-        expression_attribute_values: expression_attribute_values
+        expression_attribute_values: expression_attribute_values,
+        scan_index_forward: scan_index_forward,
     }
     query_params[:index_name] = index_name if index_name
     Rails.logger.info "query query_params:\n#{query_params}"

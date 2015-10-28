@@ -2,7 +2,7 @@ module TopicsHelper
   include Connection
 
   def get_topics(forum_id)
-    query(Topic, 'forum = :f', ':f' => forum_id)
+    query(Topic, 'forum = :f', {':f' => forum_id}, 'last_post_at_index')
   end
 
   def simple_topic_hash(topic_hash)
