@@ -164,6 +164,11 @@
             $scope.topicStatus.open = true;
             ForumService.getForum(category, id).then(function (data) {
                 $scope.selectedForum = data;
+                var found = _.findWhere($scope.favoriteForums, {id: id});
+                $log.debug('found', found);
+                $scope.selectedForum.favorite = found != undefined;
+                $scope.selectedForum.category = category;
+                $log.info('selectedForum', $scope.selectedForum);
             }, onError);
         };
         $scope.refreshCategoriesTable = function () {
