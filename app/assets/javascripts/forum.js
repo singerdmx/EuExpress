@@ -2,42 +2,42 @@
     var forum = angular.module('forum', ['ngAnimate', 'ui.bootstrap']);
 
     var forumService = function ($http, $log, $q) {
-        var getCategories = $http.get('/categories');
-        var getUserFavorites = $http.get('/favorites');
         var addUserFavorite = function (requestParams) {
             return $http.post('/favorites', requestParams)
                 .then(function (response) {
-                   $log.info('POST /favorites response', response);
+                    $log.info('POST /favorites response', response);
                     return response.data;
                 });
         };
 
-        return {
-            getCategories: function () {
-                return $q.all([getCategories, getUserFavorites]).then(function (response) {
-                    var categories = response[0].data;
-                    $log.info('categories', categories);
-                    var user_favorites = response[1].data;
-                    $log.info('user_favorites', user_favorites);
-                    var favoriteForums = [];
+        var getCategoriesWithFavorites = function () {
+            $log.info('getCategoriesWithFavorites');
+            return $q.all([$http.get('/categories'), $http.get('/favorites')]).then(function (response) {
+                var categories = response[0].data;
+                $log.info('categories', categories);
+                var user_favorites = response[1].data;
+                $log.info('user_favorites', user_favorites);
+                var favoriteForums = [];
 
-                    _.each(categories, function (c) {
-                        _.each(c.forums, function (f) {
-                            if (_.contains(user_favorites.forum, f.id)) {
-                                f.favorite = true;
-                                favoriteForums.push({
-                                    id: f.id,
-                                    name: f.forum_name,
-                                });
-                            }
-                        });
+                _.each(categories, function (c) {
+                    _.each(c.forums, function (f) {
+                        if (_.contains(user_favorites.forum, f.id)) {
+                            f.favorite = true;
+                            favoriteForums.push({
+                                id: f.id,
+                                name: f.forum_name,
+                            });
+                        }
                     });
-                    return {
-                        categories: categories,
-                        favoriteForums: favoriteForums,
-                    };
                 });
-            },
+                return {
+                    categories: categories,
+                    favoriteForums: favoriteForums,
+                };
+            });
+        };
+        return {
+            getCategories: getCategoriesWithFavorites,
             addUserFavorite: addUserFavorite,
         };
     };
