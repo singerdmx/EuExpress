@@ -2,10 +2,18 @@
     var forum = angular.module('forum', ['ngAnimate', 'ui.bootstrap']);
 
     var forumService = function ($http, $log, $q) {
-        var addUserFavorite = function (requestParams) {
-            return $http.post('/favorites', requestParams)
+        var addUserFavorite = function (favorite, type) {
+            return $http.post('/favorites', {favorite: favorite, type: type})
                 .then(function (response) {
                     $log.info('POST /favorites response', response);
+                    return response.data;
+                });
+        };
+
+        var removeUserFavorite = function (favorite, type) {
+            return $http.delete('/favorites/' + favorite, {params: {type: type}})
+                .then(function (response) {
+                    $log.info('DELETE /favorites response', response);
                     return response.data;
                 });
         };
@@ -15,13 +23,13 @@
             return $q.all([$http.get('/categories'), $http.get('/favorites')]).then(function (response) {
                 var categories = response[0].data;
                 $log.info('categories', categories);
-                var user_favorites = response[1].data;
-                $log.info('user_favorites', user_favorites);
+                var userFavorites = response[1].data;
+                $log.info('userFavorites', userFavorites);
                 var favoriteForums = [];
 
                 _.each(categories, function (c) {
                     _.each(c.forums, function (f) {
-                        if (_.contains(user_favorites.forum, f.id)) {
+                        if (_.contains(userFavorites.forum, f.id)) {
                             f.favorite = true;
                             favoriteForums.push({
                                 id: f.id,
@@ -39,6 +47,7 @@
         return {
             getCategories: getCategoriesWithFavorites,
             addUserFavorite: addUserFavorite,
+            removeUserFavorite: removeUserFavorite,
         };
     };
 
@@ -120,16 +129,14 @@
             target.toggleClass('glyphicon-star');
             if (target.attr('class').indexOf('glyphicon-star-empty') < 0) {
                 $log.info('POST /favorites: forum = ' + id);
-                ForumService.addUserFavorite({
-                    type: 'forum',
-                    favorite: id,
-                });
+                ForumService.addUserFavorite(id, 'forum');
                 $scope.favoriteForums.push({
                     name: name,
                     id: id,
                 });
             } else {
                 $log.info('DELETE /favorites: forum = ' + id);
+                ForumService.removeUserFavorite(id, 'forum');
                 $scope.favoriteForums = _.without($scope.favoriteForums,
                     _.findWhere($scope.favoriteForums, {id: id}));
             }

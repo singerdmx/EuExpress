@@ -12,15 +12,11 @@ topic:
 
   forum(hash, forum_id) id(range) subject(string)
   
-  local secondary index: user(int)
-  
   local secondary index: last_post_at(int)
   
 post:
 
   topic(hash, topic_id) id(range) updated_at(int)
-  
-  local secondary index: user(int)
   
   local secondary index: updated_at(int)
   
@@ -38,4 +34,5 @@ moderator_group: forum(hash, forum_id), group(range, group_id)
 
 subscription: topic(hash, topic_id), user_id(range)
 
-user_favorites: user_id(hash), type(string, forum|topic|post), favorite(string, forum_id|topic_id|post_id)
+user_favorites: user_id(hash), id(range, string, "type#favorite"), type(string, forum|topic|post),
+favorite(string, forum_id|topic_id|post_id) 

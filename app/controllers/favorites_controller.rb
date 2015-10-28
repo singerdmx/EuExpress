@@ -1,10 +1,14 @@
 class FavoritesController < ApplicationController
   include Connection
 
-  before_filter :authenticate_forem_user
-  protect_from_forgery except: :create
+  protect_from_forgery except: [:create, :destroy]
 
   def index
+    if current_user.nil?
+      render json: {}
+      return
+    end
+
     favorites = query(UserFavorites, 'user_id = :u', ':u' => current_user.id)
     if stale?(etag: favorites, last_modified: max_updated_at(favorites))
       result = {}
@@ -23,7 +27,12 @@ class FavoritesController < ApplicationController
   end
 
   def create
-    UserFavorites.create(user_id: current_user.id, type: params['type'], favorite: params['favorite'])
+    if current_user.nil?
+      render json: {success: true}
+      return
+    end
+    UserFavorites.create(user_id: current_user.id, id: params['type'] + '#' + params['favorite'],
+                         type: params['type'], favorite: params['favorite'])
     render json: {success: true}
   rescue Exception => e
     Rails.logger.error "Encountered an error: #{e.inspect}\nbacktrace: #{e.backtrace}"
@@ -31,7 +40,15 @@ class FavoritesController < ApplicationController
   end
 
   def destroy
-
+    if current_user.nil?
+      render json: {success: true}
+      return
+    end
+    delete(UserFavorites, {user_id: current_user.id, id: params['type'] + '#' + params['id']})
+    render json: {success: true}
+  rescue Exception => e
+    Rails.logger.error "Encountered an error: #{e.inspect}\nbacktrace: #{e.backtrace}"
+    render json: {message: e.to_s}.to_json, status: :internal_server_error
   end
 
 end

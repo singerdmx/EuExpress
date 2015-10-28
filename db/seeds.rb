@@ -174,10 +174,6 @@ client.create_table(
             attribute_name: 'last_post_at',
             attribute_type: 'N',
         },
-        {
-            attribute_name: 'user_id',
-            attribute_type: 'N',
-        },
     ],
     table_name: Topic.get_table_name,
     key_schema: [
@@ -204,23 +200,6 @@ client.create_table(
                 },
                 {
                     attribute_name: 'last_post_at',
-                    key_type: 'RANGE',
-                },
-            ],
-            projection: {
-                projection_type: 'INCLUDE',
-                non_key_attributes: ['subject'],
-            },
-        },
-        {
-            index_name: 'user_index',
-            key_schema: [
-                {
-                    attribute_name: 'forum',
-                    key_type: 'HASH',
-                },
-                {
-                    attribute_name: 'user_id',
                     key_type: 'RANGE',
                 },
             ],
@@ -265,10 +244,6 @@ client.create_table(
             attribute_name: 'updated_at',
             attribute_type: 'N',
         },
-        {
-            attribute_name: 'user_id',
-            attribute_type: 'N',
-        },
     ],
     table_name: Post.get_table_name,
     key_schema: [
@@ -295,23 +270,6 @@ client.create_table(
                 },
                 {
                     attribute_name: 'updated_at',
-                    key_type: 'RANGE',
-                },
-            ],
-            projection: {
-                projection_type: 'INCLUDE',
-                non_key_attributes: ['text'],
-            },
-        },
-        {
-            index_name: 'user_index',
-            key_schema: [
-                {
-                    attribute_name: 'topic',
-                    key_type: 'HASH',
-                },
-                {
-                    attribute_name: 'user_id',
                     key_type: 'RANGE',
                 },
             ],
@@ -534,7 +492,7 @@ end
 client.create_table(
     attribute_definitions: [
         {
-            attribute_name: 'favorite',
+            attribute_name: 'id',
             attribute_type: 'S',
         },
         {
@@ -549,7 +507,7 @@ client.create_table(
             key_type: 'HASH',
         },
         {
-            attribute_name: 'favorite',
+            attribute_name: 'id',
             key_type: 'RANGE',
         },
     ],
@@ -560,6 +518,6 @@ client.create_table(
 )
 
 (0..3).each do |i|
-    UserFavorites.create(user_id: user.id, type: 'forum', favorite: forums[i].id)
+    UserFavorites.create(user_id: user.id, id: "fourm##{forums[i].id}", type: 'forum', favorite: forums[i].id)
 end
 
