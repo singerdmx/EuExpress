@@ -5,6 +5,7 @@ div.forum-panel {
     }
   }
 }
+
 div.table-banner {
   margin-left: 14px;
   span.favorites-title {
@@ -14,13 +15,12 @@ div.table-banner {
   > div {
     margin-top: 15px;
 
-     > span:first-child {
-       width: 150px;
-       margin-right: 5px;
-       display: inline-block;
-     }
+    > span:first-child {
+      width: 150px;
+      margin-right: 5px;
+      display: inline-block;
+    }
   }
-
 }
 
 div.categories-table-toolbar {
@@ -63,9 +63,11 @@ i.forum-icon {
   cursor: pointer;
   top: 2px;
 }
+
 span.selected-forum {
   background-color: #d9edf7;
 }
+
 span.forum-item {
   cursor: pointer;
   padding: 5px;

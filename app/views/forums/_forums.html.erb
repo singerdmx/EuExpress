@@ -8,7 +8,7 @@
         <div>
           <span class="label label-danger favorites-title">Favorite Forums</span>
           <% @favorites['forum'].each do |forum| %>
-              <span ng-click="selectForum('', '<%= forum['id'] %>', $event)" class="forum-item panel-title"><%= forum['name'] %></span>
+              <span ng-click="selectForum('<%= forum['name'] %>', '<%= forum['id'] %>', $event)" class="forum-item panel-title"><%= forum['name'] %></span>
           <% end %>
         </div>
         <div>
