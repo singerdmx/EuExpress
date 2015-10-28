@@ -1,10 +1,14 @@
 module ForumsHelper
   include Connection
 
-  def simple_hash(forum_hash)
+  def simple_forum_hash(forum_hash)
     h = {}
-    %w(id forum_name).each do |k|
+    %w(id forum_name description).each do |k|
       h[k] = forum_hash[k]
+    end
+
+    %w(updated_at views_count created_at).each do |k|
+      h[k] = forum_hash[k].to_i
     end
 
     h

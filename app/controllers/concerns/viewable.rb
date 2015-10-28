@@ -20,7 +20,7 @@ module Viewable
           user_id: user.id,
           id: "#{viewable_class.get_table_name}##{viewable_id}",
           viewable_id: viewable_id,
-          viewable_type: viewable_type)
+          viewable_type: viewable_class.get_table_name)
     else
       # Update the current_viewed_at if it is BEFORE 15 minutes ago.
       if view['current_viewed_at'].to_i < 15.minutes.ago.to_i

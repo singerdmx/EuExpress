@@ -45,10 +45,21 @@
                 };
             });
         };
+
+        var getForum = function (category, forum_id) {
+            var url = '/categories/' + category + '/forums/' + forum_id;
+            return $http.get(url)
+                .then(function (response) {
+                    $log.info('GET ' + url + ' response', response);
+                    return response.data;
+                });
+        };
+
         return {
             getCategories: getCategoriesWithFavorites,
             addUserFavorite: addUserFavorite,
             removeUserFavorite: removeUserFavorite,
+            getForum: getForum,
         };
     };
 
@@ -151,10 +162,9 @@
             var target = $($event.target);
             target.addClass('selected-forum');
             $scope.topicStatus.open = true;
-            $scope.selectedForum = {
-                id: id,
-                name: name,
-            }
+            ForumService.getForum(category, id).then(function (data) {
+                $scope.selectedForum = data;
+            }, onError);
         };
         $scope.refreshCategoriesTable = function () {
             $('table#categoriesTable').dataTable().fnDestroy();
