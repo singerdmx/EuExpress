@@ -93,17 +93,26 @@
         $scope.init = function () {
             ForumService.getCategories().then(renderCategoriesTable, onError);
         };
-        $scope.toggleFavorite = function (category, forum, $event) {
-            $log.info('toggleFavorite: category ' + category + ', forum ' + forum);
+        $scope.toggleFavorite = function (name, id, $event) {
+            $log.info('toggleFavorite: name ' + name + ', id ' + id);
             var target = $($event.target);
             target.toggleClass('glyphicon-star-empty');
             target.toggleClass('glyphicon-star');
+            if (target.attr('class').indexOf('glyphicon-star-empty') < 0) {
+                $log.info('POST /favorites: forum = ' + id);
+                var elementHtml = '<span class="forum-item panel-title" ng-click="selectForum(\'' +
+                    name + '\', \'' + id + '\', $event)">' + name + '</span>';
+                $('div#categories-table-banner > div:first-child').append(elementHtml);
+            } else {
+                $log.info('DELETE /favorites: forum = ' + id);
+            }
+            $compile($('div#categories-table-banner'))($scope);
         };
         $scope.selectForum = function (name, id, $event) {
             $log.info('selectForum: name ' + name + ', forum ' + id);
             var oTable = $('table#categoriesTable').dataTable();
             oTable.$('span.selected-forum').removeClass('selected-forum');
-            $('div.table-banner span.selected-forum').removeClass('selected-forum');
+            $('div#categories-table-banner span.selected-forum').removeClass('selected-forum');
             var target = $($event.target);
             target.addClass('selected-forum');
             $scope.topicStatus.open = true;

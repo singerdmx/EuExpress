@@ -19,4 +19,15 @@ class FavoritesController < ApplicationController
     Rails.logger.error "Encountered an error: #{e.inspect}\nbacktrace: #{e.backtrace}"
     render json: {message: e.to_s}.to_json, status: :internal_server_error
   end
+
+  def new
+    UserFavorites.create(user_id: current_user.id, type: params['type'], favorite: params['favorite'])
+  rescue Exception => e
+    Rails.logger.error "Encountered an error: #{e.inspect}\nbacktrace: #{e.backtrace}"
+    render json: {message: e.to_s}.to_json, status: :internal_server_error
+  end
+
+  def destroy
+
+  end
 end

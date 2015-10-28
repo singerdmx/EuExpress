@@ -4,7 +4,7 @@
     <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': forumStatus.open, 'glyphicon-chevron-right': !forumStatus.open}"></i>
   </uib-accordion-heading>
   <% if current_user %>
-      <div class="table-banner">
+      <div id="categories-table-banner">
         <div>
           <span class="label label-danger favorites-title">Favorite Forums</span>
           <% @favorites['forum'].each do |forum| %>
