@@ -10,17 +10,26 @@ div#table-banner {
   margin-left: 14px;
   span.favorites-title {
     font-size: 16px;
+    width: 150px;
+    margin-right: 5px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    display: inline-block;
+    height: 30px;
+    vertical-align: middle;
+    line-height: 24px;
   }
 
   > div {
-    margin-top: 15px;
-
-    > span:first-child {
-      width: 150px;
-      margin-right: 5px;
-      display: inline-block;
+    > nav {
+      margin-bottom: 0px;
     }
   }
+}
+
+div.navbar-body {
+  margin-top: 12px;
+  padding-bottom: 5px;
 }
 
 div.categories-table-toolbar {
