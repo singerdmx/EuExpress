@@ -3,9 +3,19 @@
     Forums
     <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': forumStatus.open, 'glyphicon-chevron-right': !forumStatus.open}"></i>
   </uib-accordion-heading>
-  <div class="table-banner">
-    <span class="label label-danger favorites-title"><%= current_user.name %> Favorites</span>
-  </div>
+  <% if current_user %>
+      <div class="table-banner">
+        <div>
+          <span class="label label-danger favorites-title">Favorite Forums</span>
+          <% @favorites['forum'].each do |forum| %>
+              <span ng-click="selectForum('', '<%= forum['id'] %>', $event)" class="forum-item panel-title"><%= forum['name'] %></span>
+          <% end %>
+        </div>
+        <div>
+          <span class="label label-danger favorites-title">Favorite Topics</span>
+        </div>
+      </div>
+  <% end %>
   <div>
     <div id="categoriesTableDiv" class="table-div">
       <table id="categoriesTable"></table>

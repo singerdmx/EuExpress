@@ -8,8 +8,19 @@ div.forum-panel {
 div.table-banner {
   margin-left: 14px;
   span.favorites-title {
-    font-size: 18px;
+    font-size: 16px;
   }
+
+  > div {
+    margin-top: 15px;
+
+     > span:first-child {
+       width: 150px;
+       margin-right: 5px;
+       display: inline-block;
+     }
+  }
+
 }
 
 div.categories-table-toolbar {
@@ -35,9 +46,6 @@ div.table-div {
     i.star {
       color: red;
     }
-    span.selected-forum {
-      background-color: #d9edf7;
-    }
     tr.even {
       background-color: lightcyan;
     }
@@ -55,9 +63,12 @@ i.forum-icon {
   cursor: pointer;
   top: 2px;
 }
-
+span.selected-forum {
+  background-color: #d9edf7;
+}
 span.forum-item {
   cursor: pointer;
   padding: 5px;
   margin-right: 8px;
+  color: dimgrey;
 }

@@ -103,6 +103,7 @@
             $log.info('selectForum: category ' + category + ', forum ' + forum);
             var oTable = $('table#categoriesTable').dataTable();
             oTable.$('span.selected-forum').removeClass('selected-forum');
+            $('div.table-banner span.selected-forum').removeClass('selected-forum');
             var target = $($event.target);
             target.addClass('selected-forum');
         };
