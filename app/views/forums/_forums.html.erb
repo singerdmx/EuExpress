@@ -7,9 +7,7 @@
       <div id="categories-table-banner">
         <div>
           <span class="label label-danger favorites-title">Favorite Forums</span>
-          <% @favorites['forum'].each do |forum| %>
-              <span ng-click="selectForum('<%= forum['name'] %>', '<%= forum['id'] %>', $event)" class="forum-item panel-title"><%= forum['name'] %></span>
-          <% end %>
+          <span ng-repeat="forum in favoriteForums" ng-click="selectForum(forum.name, forum.id, $event)" class="forum-item panel-title">{{forum.name}}</span>
         </div>
         <div>
           <span class="label label-danger favorites-title">Favorite Topics</span>

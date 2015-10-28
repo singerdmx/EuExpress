@@ -4,23 +4,11 @@ class ForumsController < ApplicationController
   include ForumsHelper
 
   def index
-    all_forums = Forum.all
-    forums = attributes(all_forums, ['topics', 'moderators'])
     respond_to do |format|
-      format.html do
-        @favorites = []
-        if current_user
-          @favorites = query(UserFavorites, 'user_id = :u', ':u' => current_user.id).group_by { |f| f['type'] }
-          @favorites['forum'] = @favorites['forum'].map do |favorite|
-            h = {}
-            h['id'] = favorite['favorite']
-            forum = forums.find { |f| f['id'] == h['id']}
-            h['name'] = forum['forum_name'] if forum
-            h
-          end
-        end
-      end
+      format.html
       format.json do
+        all_forums = Forum.all
+        forums = attributes(all_forums, ['topics', 'moderators'])
         if stale?(etag: forums, last_modified: max_updated_at(all_forums))
           render json: forums
         else

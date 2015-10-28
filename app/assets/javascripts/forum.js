@@ -12,15 +12,23 @@
                     $log.info('categories', categories);
                     var user_favorites = response[1].data;
                     $log.info('user_favorites', user_favorites);
+                    var favoriteForums = [];
 
                     _.each(categories, function (c) {
                         _.each(c.forums, function (f) {
                             if (_.contains(user_favorites.forum, f.id)) {
                                 f.favorite = true;
+                                favoriteForums.push({
+                                    id: f.id,
+                                    name: f.forum_name,
+                                });
                             }
                         });
                     });
-                    return categories;
+                    return {
+                        categories: categories,
+                        favoriteForums: favoriteForums,
+                    };
                 });
             },
         };
@@ -49,8 +57,11 @@
             $log.error('onError', reason);
         };
 
-        var renderCategoriesTable = function (categories) {
+        var renderCategoriesTable = function (data) {
+            var categories = data.categories;
+            $scope.favoriteForums = data.favoriteForums;
             $log.info('categories', categories);
+            $log.info('favoriteForums', $scope.favoriteForums);
             var template = _.template(htmlTemplates.forums);
             var columns = [
                 {
@@ -100,13 +111,16 @@
             target.toggleClass('glyphicon-star');
             if (target.attr('class').indexOf('glyphicon-star-empty') < 0) {
                 $log.info('POST /favorites: forum = ' + id);
-                var elementHtml = '<span class="forum-item panel-title" ng-click="selectForum(\'' +
-                    name + '\', \'' + id + '\', $event)">' + name + '</span>';
-                $('div#categories-table-banner > div:first-child').append(elementHtml);
+                $scope.favoriteForums.push(
+                    {
+                        name: name,
+                        id: id,
+                    });
             } else {
                 $log.info('DELETE /favorites: forum = ' + id);
+                $scope.favoriteForums = _.without($scope.favoriteForums,
+                    _.findWhere($scope.favoriteForums, {id: id}));
             }
-            $compile($('div#categories-table-banner'))($scope);
         };
         $scope.selectForum = function (name, id, $event) {
             $log.info('selectForum: name ' + name + ', forum ' + id);
