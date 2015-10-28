@@ -34,6 +34,7 @@
                             favoriteForums.push({
                                 id: f.id,
                                 name: f.forum_name,
+                                category: c.id,
                             });
                         }
                     });
@@ -122,8 +123,8 @@
         $scope.init = function () {
             ForumService.getCategories().then(renderCategoriesTable, onError);
         };
-        $scope.toggleFavorite = function (name, id, $event) {
-            $log.info('toggleFavorite: name ' + name + ', id ' + id);
+        $scope.toggleFavoriteForum = function (name, id, category, $event) {
+            $log.info('toggleFavoriteForum: name ' + name + ', id ' + id + ', category ' + category);
             var target = $($event.target);
             target.toggleClass('glyphicon-star-empty');
             target.toggleClass('glyphicon-star');
@@ -133,6 +134,7 @@
                 $scope.favoriteForums.push({
                     name: name,
                     id: id,
+                    category: category,
                 });
             } else {
                 $log.info('DELETE /favorites: forum = ' + id);
@@ -141,11 +143,11 @@
                     _.findWhere($scope.favoriteForums, {id: id}));
             }
         };
-        $scope.selectForum = function (name, id, $event) {
-            $log.info('selectForum: name ' + name + ', forum ' + id);
+        $scope.selectForum = function (name, id, category, $event) {
+            $log.info('selectForum: name ' + name + ', forum ' + id + ', category ' + category);
             var oTable = $('table#categoriesTable').dataTable();
             oTable.$('span.selected-forum').removeClass('selected-forum');
-            $('div#categories-table-banner span.selected-forum').removeClass('selected-forum');
+            $('div#table-banner span.selected-forum').removeClass('selected-forum');
             var target = $($event.target);
             target.addClass('selected-forum');
             $scope.topicStatus.open = true;

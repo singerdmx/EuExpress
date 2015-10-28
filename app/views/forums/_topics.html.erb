@@ -1,6 +1,16 @@
 <uib-accordion-group is-open="topicStatus.open">
   <uib-accordion-heading>
-    Topics <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': topicStatus.open, 'glyphicon-chevron-right': !topicStatus.open}"></i>
+    Topics
+    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': topicStatus.open, 'glyphicon-chevron-right': !topicStatus.open}"></i>
   </uib-accordion-heading>
-  {{selectedForum.name}}
+  <% if current_user %>
+      <div id="table-banner">
+        <div>
+          <span class="label label-danger favorites-title">Favorite Topics</span>
+        </div>
+        <div>
+          {{selectedForum.name}}
+        </div>
+      </div>
+  <% end %>
 </uib-accordion-group>
