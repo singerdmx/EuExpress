@@ -4,6 +4,13 @@
     var forumService = function ($http, $log, $q) {
         var getCategories = $http.get('/categories');
         var getUserFavorites = $http.get('/favorites');
+        var addUserFavorite = function (requestParams) {
+            return $http.post('/favorites', requestParams)
+                .then(function (response) {
+                   $log.info('POST /favorites response', response);
+                    return response.data;
+                });
+        };
 
         return {
             getCategories: function () {
@@ -31,6 +38,7 @@
                     };
                 });
             },
+            addUserFavorite: addUserFavorite,
         };
     };
 
@@ -112,11 +120,14 @@
             target.toggleClass('glyphicon-star');
             if (target.attr('class').indexOf('glyphicon-star-empty') < 0) {
                 $log.info('POST /favorites: forum = ' + id);
-                $scope.favoriteForums.push(
-                    {
-                        name: name,
-                        id: id,
-                    });
+                ForumService.addUserFavorite({
+                    type: 'forum',
+                    favorite: id,
+                });
+                $scope.favoriteForums.push({
+                    name: name,
+                    id: id,
+                });
             } else {
                 $log.info('DELETE /favorites: forum = ' + id);
                 $scope.favoriteForums = _.without($scope.favoriteForums,
