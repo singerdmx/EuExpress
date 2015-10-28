@@ -10,7 +10,7 @@ class Topic < OceanDynamo::Table
     attribute :pinned, :boolean, default: false
     attribute :hidden, :boolean, default: false
     attribute :last_post_at, :integer
-    attribute :views_count, :integer, default: 0
+    attribute :views_count, :integer, default: 1
   end
 
   include Workflow
