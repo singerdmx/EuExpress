@@ -214,6 +214,7 @@ topics = []
 topics << Topic.create(
     forum: forums.first.id,
     last_post_at: Time.now.to_i - 10,
+    last_post_by: user.id,
     subject: 'How to upgrade',
     user_id: user.id,
     state: 'approved')
@@ -221,6 +222,7 @@ topics << Topic.create(
 topics << Topic.create(
     forum: forums.first.id,
     last_post_at: Time.now.to_i,
+    last_post_by: user.id,
     subject: 'Amazfit new function',
     user_id: user.id,
     state: 'approved')
@@ -231,6 +233,7 @@ if ENV['massive_seeding']
       topics << Topic.create(
           forum: f.id,
           last_post_at: Time.now.to_i - i * 10,
+          last_post_by: users[i % users.size].id,
           subject: "Topic #{i}",
           user_id: users[i % users.size].id,
           state: 'approved')

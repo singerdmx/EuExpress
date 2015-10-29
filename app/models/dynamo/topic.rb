@@ -10,6 +10,7 @@ class Topic < OceanDynamo::Table
     attribute :pinned, :boolean, default: false
     attribute :hidden, :boolean, default: false
     attribute :last_post_at, :integer
+    attribute :last_post_by
     attribute :views_count, :integer, default: 1
   end
 
