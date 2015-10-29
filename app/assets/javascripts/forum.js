@@ -154,6 +154,32 @@
             });
         };
 
+        var renderTopicsTable = function (data) {
+            var topics = data.topics;
+            $scope.favoriteTopics = data.favoriteTopics;
+            $log.info('topics', topics);
+            $log.info('favoriteTopics', $scope.favoriteTopics);
+            var template = _.template(htmlTemplates.topics);
+            var columns = [
+                {
+                    'sTitle': 'Subject',
+                    'sClass': 'center panel-title title-column',
+                },
+                {
+                    'sTitle': 'Views',
+                    'sClass': 'center panel-title content-column',
+                },
+                {
+                    'sTitle': 'Posted by',
+                    'sClass': 'center panel-title content-column',
+                },
+                {
+                    'sTitle': 'Last Reply',
+                    'sClass': 'center panel-title content-column',
+                },
+            ]
+        };
+
         $scope.init = function () {
             ForumService.getCategories().then(renderCategoriesTable, onError);
         };
@@ -193,7 +219,7 @@
                 $scope.selectedForum.category = category;
                 $log.info('selectedForum', $scope.selectedForum);
             }, onError);
-            ForumService.getTopicsWithFavorites(id);
+            ForumService.getTopicsWithFavorites(id).then(renderTopicsTable, onError);
         };
         $scope.refreshCategoriesTable = function () {
             $('table#categoriesTable').dataTable().fnDestroy();

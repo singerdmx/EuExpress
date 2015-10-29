@@ -7,3 +7,5 @@ window.htmlTemplates.forums = '''
     </div>
   <% }); %>
 '''
+window.htmlTemplates.topics = '''
+'''
