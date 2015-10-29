@@ -11,7 +11,7 @@ module Admin
       @forum_post_counts = Hash.new(0)
       @forum_last_post = {}
       @forums.each do |forum|
-        all_topics = get_topics(forum['id']).map { |t| Topic.new_from_hash(t) }
+        all_topics = forum['topics'].map { |t| Topic.new_from_hash(t) }
         topics = attributes(all_topics, ['posts'])
         topics.each do |topic|
           @forum_post_counts[forum['id']] += topic['posts'].size

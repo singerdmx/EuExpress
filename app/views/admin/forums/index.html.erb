@@ -18,8 +18,8 @@
         <tbody>
         <% forums.each do |forum| %>
             <tr class="forum <%= cycle("odd", "even") %>">
-              <td><%= link_to t('edit', scope: 'forem.admin.forums'), edit_admin_forum_path(forum), class: "btn btn-info" %></td>
-              <td><%= link_to t('delete', scope: 'forem.admin.forums'), admin_forum_path(forum), method: :delete, data: {confirm: t("delete_confirm", :scope => "forem.admin.forums")}, :class => "btn btn-danger" %></td>
+              <td><%= link_to t('edit', scope: 'forem.admin.forums'), "/admin/forums/#{forum['id']}/edit?category=#{forum['category']}", class: "btn btn-info" %></td>
+              <td><%= link_to t('delete', scope: 'forem.admin.forums'), "/admin/forums/#{forum['id']}?category=#{forum['category']}", method: :delete, data: {confirm: t("delete_confirm", :scope => "forem.admin.forums")}, :class => "btn btn-danger" %></td>
               <td>
                 <span style="font-weight: bold; font-size: medium">
                   <%= forem_emojify(forum['forum_name']) %>
