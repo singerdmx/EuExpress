@@ -1,6 +1,6 @@
 module Admin
   class ForumsController < BaseController
-    include ForumsHelper, TopicsHelper, GroupHelper
+    include ForumsHelper, TopicsHelper, GroupHelper, UsersHelper
 
     def index
       @forums = attributes(Forum.all, ['topics', 'moderators'])
@@ -25,8 +25,10 @@ module Admin
         end
       end
 
+      mappings = user_mappings(@forum_last_post.map { |forum_id, post| post['user_id'] })
       @forum_last_post.each do |forum_id, post|
-        post['user'] = User.find(post['user_id']).name
+        user = mappings[post['user_id']]
+        post['user'] = user.name
       end
     end
 
