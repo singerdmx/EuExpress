@@ -78,7 +78,7 @@
         };
 
         return {
-            getCategories: getCategoriesWithFavorites,
+            getCategoriesWithFavorites: getCategoriesWithFavorites,
             addUserFavorite: addUserFavorite,
             removeUserFavorite: removeUserFavorite,
             getForum: getForum,
@@ -129,12 +129,13 @@
                 },
             ]
 
-            var data = _.map(categories, function (c) {
+            var aaData = _.map(categories, function (c) {
                 return [c.category_name, c];
             });
 
             var tableDefinition = {
-                aaData: data,
+                bDestroy: true,
+                aaData: aaData,
                 aoColumns: columns,
                 columnDefs: [
                     {orderable: false, targets: 1},
@@ -162,6 +163,13 @@
             var template = _.template(htmlTemplates.topics);
             var columns = [
                 {
+                    'sTitle': '', // picture
+                    'sWidth': '20px',
+                    'render': function (data, type, row) {
+                        return '<img src="' + data + '" alt="Avatar">';
+                    }
+                },
+                {
                     'sTitle': 'Subject',
                     'sClass': 'center panel-title title-column',
                 },
@@ -178,10 +186,38 @@
                     'sClass': 'center panel-title content-column',
                 },
             ]
+
+            var aaData = _.map(topics, function (t) {
+                var user = t.user;
+                var last_post_by = t.last_post_by;
+                return [last_post_by.picture, t.subject, t.views_count, t.user.name, t.last_post_at];
+            });
+
+            var tableDefinition = {
+                bDestroy: true,
+                aaData: aaData,
+                aoColumns: columns,
+                columnDefs: [
+                    {orderable: false, targets: [0, 1]},
+                ],
+                aaSorting: [[4, 'desc']],
+                bLengthChange: false,
+                bInfo: false,
+                dom: '<"topics-table-toolbar">frtip',
+                pagingType: 'full_numbers',
+            };
+            $log.info('Topics table definition', tableDefinition);
+            $('table#topicsTable').dataTable(tableDefinition);
+            var refreshButtonHtml = '<button class="btn btn-info" type="button" ng-click="refreshTopicsTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
+            $("div.topics-table-toolbar").html(refreshButtonHtml);
+            $compile($('div#topicsTableDiv'))($scope);
+            $('div#topicsTable_paginate a').on('click', function () {
+                $compile($('div#topicsTableDiv'))($scope);
+            });
         };
 
         $scope.init = function () {
-            ForumService.getCategories().then(renderCategoriesTable, onError);
+            ForumService.getCategoriesWithFavorites().then(renderCategoriesTable, onError);
         };
         $scope.toggleFavoriteForum = function (name, id, category, $event) {
             $log.info('toggleFavoriteForum: name ' + name + ', id ' + id + ', category ' + category);
@@ -222,8 +258,10 @@
             ForumService.getTopicsWithFavorites(id).then(renderTopicsTable, onError);
         };
         $scope.refreshCategoriesTable = function () {
-            $('table#categoriesTable').dataTable().fnDestroy();
-            ForumService.getCategories().then(renderCategoriesTable, onError);
+            ForumService.getCategoriesWithFavorites().then(renderCategoriesTable, onError);
+        };
+        $scope.refreshTopicsTable = function () {
+            ForumService.getTopicsWithFavorites($scope.selectedForum.id).then(renderTopicsTable, onError);
         };
     };
 
