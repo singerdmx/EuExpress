@@ -1,6 +1,8 @@
+require 'set'
+
 class TopicsController < ApplicationController
   helper PostsHelper
-  include TopicsHelper
+  include TopicsHelper, UsersHelper
 
   before_filter :authenticate_forem_user, except: [:index, :show]
   before_filter :find_topic, only: [:show]
@@ -12,6 +14,19 @@ class TopicsController < ApplicationController
     topics = attributes(all_topics).map do |t|
       simple_topic_hash(t)
     end
+
+    user_ids = Set.new
+    topics.each do |topic|
+      user_ids.add(topic['user_id'])
+      user_ids.add(topic['last_post_by'])
+    end
+    mappings = user_mappings(user_ids)
+    topics.each do |topic|
+      topic['user'] = simple_user_hash(mappings[topic['user_id']])
+      topic.delete('user_id')
+      topic['last_post_by'] = simple_user_hash(mappings[topic['last_post_by']])
+    end
+
     if stale?(etag: topics, last_modified: max_updated_at(all_topics))
       render json: topics
     else
