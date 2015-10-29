@@ -222,6 +222,7 @@ client.create_table(
 topics = []
 topics << Topic.create(
     forum: forums.first.id,
+    category: forums.first.category,
     last_post_at: Time.now.to_i - 10,
     last_post_by: user.id,
     subject: 'How to upgrade',
@@ -230,6 +231,7 @@ topics << Topic.create(
 
 topics << Topic.create(
     forum: forums.first.id,
+    category: forums.first.category,
     last_post_at: Time.now.to_i,
     last_post_by: user.id,
     subject: 'Amazfit new function',
@@ -241,6 +243,7 @@ if ENV['massive_seeding']
     (0..90).each do |i|
       topics << Topic.create(
           forum: f.id,
+          category: f.category,
           last_post_at: Time.now.to_i - i * 10,
           last_post_by: users[i % users.size].id,
           subject: "Topic #{i}",
@@ -306,6 +309,8 @@ client.create_table(
 
 posts = []
 posts << Post.create(
+    category: topics.first.category,
+    forum: topics.first.forum,
     topic: topics.first.id,
     text: 'My own experience',
     state: 'approved',
@@ -313,6 +318,8 @@ posts << Post.create(
 
 sleep 1
 posts << Post.create(
+    category: topics.first.category,
+    forum: topics.first.forum,
     topic: topics.first.id,
     text: 'It does not work',
     state: 'approved',
@@ -545,7 +552,6 @@ client.create_table(
 end
 
 (0..[topics.size - 1, 16].min).each do |i|
-    UserFavorites.create(user_id: user.id, id: "topic##{topics[i].id}", type: 'topic',
-                         favorite: topics[i].id, parent_id: topics[i].forum)
+    UserFavorites.create(user_id: user.id, id: "topic##{topics[i].id}", type: 'topic', favorite: topics[i].id)
 end
 

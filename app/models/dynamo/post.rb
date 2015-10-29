@@ -6,6 +6,8 @@ class Post < OceanDynamo::Table
 
   dynamo_schema(table_name_prefix: Translation::TABLE_NAME_PREFIX, timestamps: [:created_at, :updated_at]) do
     attribute :user_id, :integer
+    attribute :category
+    attribute :forum
     attribute :topic
     attribute :text
     attribute :state, default: 'approved'

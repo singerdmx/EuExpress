@@ -4,7 +4,6 @@ class UserFavorites < OceanDynamo::Table
     attribute :user_id, :integer
     attribute :type
     attribute :favorite
-    attribute :parent_id
   end
 
   validates :user_id, :type, :favorite, presence: true
