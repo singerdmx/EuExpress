@@ -532,3 +532,8 @@ client.create_table(
     UserFavorites.create(user_id: user.id, id: "forum##{forums[i].id}", type: 'forum', favorite: forums[i].id)
 end
 
+(0..9).each do |i|
+    UserFavorites.create(user_id: user.id, id: "topic##{topics[i].id}", type: 'topic',
+                         favorite: topics[i].id, parent_id: topics[i].forum)
+end
+
