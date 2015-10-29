@@ -14,9 +14,6 @@ module GroupHelper
     h = {}
     h['group_id'] = membership_hash['group_id']
     h['user_id'] = membership_hash['user_id'].to_i
-    user = User.find(h['user_id'])
-    h['user'] = user.name
-    h['email'] = user.email
     h
   end
 
