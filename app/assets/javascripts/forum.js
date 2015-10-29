@@ -55,11 +55,34 @@
                 });
         };
 
+        var getTopicsWithFavorites = function (forum_id) {
+            $log.info('getTopicsWithFavorites');
+            return $q.all([$http.get('/forums/' + forum_id + '/topics'), $http.get('/favorites')]).then(function (response) {
+                var topics = response[0].data;
+                $log.info('topics', topics);
+                var userFavorites = response[1].data;
+                $log.info('userFavorites', userFavorites);
+                var favoriteTopics = [];
+
+                _.each(topics, function (t) {
+                    if (_.contains(userFavorites.topic, t.id)) {
+                        t.favorite = true;
+                        favoriteTopics.push(t);
+                    }
+                });
+                return {
+                    topics: topics,
+                    favoriteTopics: favoriteTopics,
+                };
+            });
+        };
+
         return {
             getCategories: getCategoriesWithFavorites,
             addUserFavorite: addUserFavorite,
             removeUserFavorite: removeUserFavorite,
             getForum: getForum,
+            getTopicsWithFavorites: getTopicsWithFavorites,
         };
     };
 
@@ -170,6 +193,7 @@
                 $scope.selectedForum.category = category;
                 $log.info('selectedForum', $scope.selectedForum);
             }, onError);
+            ForumService.getTopicsWithFavorites(id);
         };
         $scope.refreshCategoriesTable = function () {
             $('table#categoriesTable').dataTable().fnDestroy();
