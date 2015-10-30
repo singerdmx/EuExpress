@@ -7,6 +7,8 @@ class Forum < OceanDynamo::Table
     attribute :forum_name
     attribute :description
     attribute :views_count, :integer, default: 1
+    attribute :posts_count, :integer, default: 0
+    attribute :last_post_id
   end
 
   validates :category, :forum_name, :description, presence: true

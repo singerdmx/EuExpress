@@ -3,6 +3,7 @@ require_relative '../../../lib/state_workflow'
 class Post < OceanDynamo::Table
   include Workflow
   include StateWorkflow
+  include Connection
 
   dynamo_schema(table_name_prefix: Translation::TABLE_NAME_PREFIX, timestamps: [:created_at, :updated_at]) do
     attribute :user_id, :integer
@@ -18,11 +19,10 @@ class Post < OceanDynamo::Table
   # Used in the moderation tools partial
   attr_accessor :moderation_option
 
-  validates :text, :presence => true
+  validates :text, presence: true
 
-  delegate :forum, :to => :topic
-
-  # after_create :set_topic_last_post_at
+  after_create :set_forum_last_post
+  after_create :set_topic_last_post_at
   # after_create :subscribe_replier, :if => :user_auto_subscribe?
   # after_create :skip_pending_review
 
@@ -101,8 +101,16 @@ class Post < OceanDynamo::Table
     update_column(:notified, true)
   end
 
+  def set_forum_last_post
+    update_expression = 'SET posts_count = posts_count + :val, last_post_id = :last_post_id'
+    expression_attribute_values = {':val' => 1, ':last_post_id' => id}
+    update(Forum, {category: category, id: forum},
+           update_expression,
+           expression_attribute_values)
+  end
+
   def set_topic_last_post_at
-    topic.update_column(:last_post_at, created_at)
+
   end
 
   def skip_pending_review
