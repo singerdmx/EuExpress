@@ -559,6 +559,7 @@ client.create_table(
 end
 
 (0..[topics.size - 1, 16].min).each do |i|
-    UserFavorites.create(user_id: user.id, id: "topic##{topics[i].id}", type: 'topic', favorite: topics[i].id)
+    UserFavorites.create(user_id: user.id, id: "topic##{topics[i].id}", type: 'topic', favorite: topics[i].id,
+                         parent_id: forums[i].id)
 end
 

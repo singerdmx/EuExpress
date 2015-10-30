@@ -32,7 +32,7 @@ class FavoritesController < ApplicationController
       return
     end
     UserFavorites.create(user_id: current_user.id, id: params['type'] + '#' + params['favorite'],
-                         type: params['type'], favorite: params['favorite'])
+                         type: params['type'], favorite: params['favorite'], parent_id: params['parent_id'])
     render json: {success: true}
   rescue Exception => e
     Rails.logger.error "Encountered an error: #{e.inspect}\nbacktrace: #{e.backtrace}"
