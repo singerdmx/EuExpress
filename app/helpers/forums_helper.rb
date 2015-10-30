@@ -7,7 +7,7 @@ module ForumsHelper
       h[k] = forum_hash[k]
     end
 
-    %w(updated_at views_count created_at).each do |k|
+    %w(updated_at views_count topics_count created_at).each do |k|
       h[k] = forum_hash[k].to_i
     end
 

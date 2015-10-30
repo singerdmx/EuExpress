@@ -27,7 +27,12 @@
           <div>
             <p class="navbar-text">
               <i class="star glyphicon glyphicon-star{{selectedForum.favorite ? '' : '-empty'}} forum-icon" ng-click="toggleFavoriteForum(selectedForum.forum_name, selectedForum.id, selectedForum.category, $event)"></i>
-              Views {{selectedForum.views_count}}
+              <span class="navbar-span">
+                Views {{selectedForum.views_count}}
+              </span>
+              <span class="navbar-span">
+                Topics {{selectedForum.topics_count}}
+              </span>
             </p>
           </div>
         </div>
