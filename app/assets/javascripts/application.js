@@ -16,6 +16,7 @@
 //= require forem
 //= require_tree .
 //= require bootstrap.min
+//= require jquery.timeago
 //= require angular
 //= require angular-animate
 //= require angular-resource

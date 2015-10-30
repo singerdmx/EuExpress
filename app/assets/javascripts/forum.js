@@ -1,4 +1,8 @@
 (function () {
+    $(document).ready(function () {
+        $('abbr.timeago').timeago();
+    });
+
     var forum = angular.module('forum', ['ngAnimate', 'ui.bootstrap']);
 
     var forumService = function ($http, $log, $q) {
@@ -190,7 +194,7 @@
             var aaData = _.map(topics, function (t) {
                 var user = t.user;
                 var last_post_by = t.last_post_by;
-                return [last_post_by.picture, t.subject, t.views_count, t.user.name, t.last_post_at];
+                return [last_post_by.picture, t.subject, t.views_count, t.user.name, jQuery.timeago(new Date(t.last_post_at * 1000))];
             });
 
             var tableDefinition = {
