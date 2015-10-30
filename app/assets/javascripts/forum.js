@@ -166,6 +166,7 @@
             $('table#categoriesTable').dataTable(tableDefinition);
             var refreshButtonHtml = '<button class="btn btn-info" type="button" ng-click="refreshCategoriesTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
             $("div.categories-table-toolbar").html(refreshButtonHtml);
+            $compile($('div#categoriesTableDiv'))($scope);
         };
 
         var renderTopicsTable = function (data) {
@@ -232,6 +233,7 @@
             $('table#topicsTable').dataTable(tableDefinition);
             var refreshButtonHtml = '<button class="btn btn-info" type="button" ng-click="refreshTopicsTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
             $("div.topics-table-toolbar").html(refreshButtonHtml);
+            $compile($('div#topicsTableDiv'))($scope);
         };
 
         $scope.init = function () {
