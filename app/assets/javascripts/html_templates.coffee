@@ -7,5 +7,11 @@ window.htmlTemplates.forums = '''
     </div>
   <% }); %>
 '''
-window.htmlTemplates.topics = '''
+window.htmlTemplates.topic = '''
+  <div class="td-title">
+    <%= data.subject %>
+  </div>
+  <div class="td-second-row">
+    <%= data.user.name %>, <%= data.created_at_ago %>&nbsp; &nbsp; &nbsp;Latest reply: <%= data.last_post_by.name %>, <%= data.last_post_at_ago %>
+  </div>
 '''

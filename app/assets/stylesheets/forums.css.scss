@@ -33,7 +33,20 @@ div.navbar-body {
 }
 
 span.navbar-span {
-  padding: 6px !important;
+  padding: 6px;
+}
+
+.dataTable .td-title {
+  font-size: 17px;
+  line-height: 18px;
+  word-wrap: break-word;
+}
+
+.dataTable .td-second-row {
+  font-size: 13px;
+  padding-top: 10px;
+  font-weight: 300;
+  clear: both
 }
 
 div.categories-table-toolbar,

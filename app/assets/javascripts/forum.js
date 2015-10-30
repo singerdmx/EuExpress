@@ -164,7 +164,7 @@
             $scope.favoriteTopics = data.favoriteTopics;
             $log.info('topics', topics);
             $log.info('favoriteTopics', $scope.favoriteTopics);
-            var template = _.template(htmlTemplates.topics);
+            var template = _.template(htmlTemplates.topic);
             var columns = [
                 {
                     'sTitle': 'last_post_at',
@@ -179,6 +179,9 @@
                 {
                     'sTitle': 'Subject',
                     'sClass': 'panel-title title-column',
+                    'render': function (data, type, row) {
+                        return template({data: data});
+                    }
                 },
                 {
                     'sTitle': 'Views',
@@ -190,24 +193,12 @@
                     'sClass': 'center panel-title content-column',
                     'sWidth': '18px',
                 },
-                {
-                    'sTitle': 'Posted by',
-                    'sClass': 'panel-title content-column',
-                    'sWidth': '240px',
-                },
-                {
-                    'sTitle': 'Last Reply',
-                    'sClass': 'panel-title content-column',
-                    'sWidth': '240px',
-                },
             ]
 
             var aaData = _.map(topics, function (t) {
-                var user = t.user;
-                var last_post_by = t.last_post_by;
-                return [t.last_post_at, last_post_by.picture, t.subject, t.views_count, t.posts_count,
-                    t.user.name + ', ' + jQuery.timeago(new Date(t.created_at * 1000)),
-                    last_post_by.name + ', ' + jQuery.timeago(new Date(t.last_post_at * 1000))];
+                t.created_at_ago = jQuery.timeago(new Date(t.created_at * 1000));
+                t.last_post_at_ago = jQuery.timeago(new Date(t.last_post_at * 1000));
+                return [t.last_post_at, t.last_post_by.picture, t, t.views_count, t.posts_count];
             });
 
             var tableDefinition = {
@@ -215,7 +206,7 @@
                 aaData: aaData,
                 aoColumns: columns,
                 columnDefs: [
-                    {orderable: false, targets: [1, 2, 5, 6]},
+                    {orderable: false, targets: [1, 2]},
                     {visible: false, targets: [0]},
                     {searchable: false, targets: [0, 1, 3, 4]},
                 ],
