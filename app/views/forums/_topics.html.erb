@@ -3,7 +3,7 @@
     Topics
     <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': topicStatus.open, 'glyphicon-chevron-right': !topicStatus.open}"></i>
   </uib-accordion-heading>
-  <div id="table-banner">
+  <div id="topics-table-banner">
     <% if current_user %>
         <div>
           <nav class="navbar navbar-default">
@@ -11,7 +11,8 @@
               <div class="navbar-header">
                 <span class="label label-danger favorites-title">Favorite Topics</span>
               </div>
-              <div>
+              <div class="navbar-body">
+                <span ng-repeat="topic in favoriteTopics" ng-click="selectTopic(topic.forum, topic.id, $event)" class="forum-item panel-title">{{topic.subject}}</span>
               </div>
             </div>
           </nav>

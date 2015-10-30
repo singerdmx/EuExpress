@@ -6,7 +6,8 @@ div.forum-panel {
   }
 }
 
-div#table-banner {
+div#categories-table-banner,
+div#topics-table-banner {
   margin-left: 14px;
   span.favorites-title {
     font-size: 16px;
@@ -92,7 +93,8 @@ i.forum-icon {
   top: 2px;
 }
 
-span.selected-forum {
+span.selected-forum,
+span.selected-topic {
   background-color: #5bc0de;
 }
 

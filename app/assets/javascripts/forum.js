@@ -249,14 +249,27 @@
                     _.findWhere($scope.favoriteForums, {id: id}));
             }
         };
-        $scope.toggleFavoriteTopic = function (forum, id, $event) {
+        $scope.toggleFavoriteTopic = function (forum, id, subject, $event) {
             $log.info('toggleFavoriteTopic: forum ' + forum + ', id ' + id);
+            var target = $($event.target);
+            target.toggleClass('glyphicon-star-empty');
+            target.toggleClass('glyphicon-star');
+            if (target.attr('class').indexOf('glyphicon-star-empty') < 0) {
+                $scope.favoriteTopics.push({
+                    id: id,
+                    forum: forum,
+                    subject: subject,
+                });
+            } else {
+                $scope.favoriteTopics = _.without($scope.favoriteTopics,
+                    _.findWhere($scope.favoriteTopics, {id: id}));
+            }
         };
         $scope.selectForum = function (name, id, category, $event) {
             $log.info('selectForum: name ' + name + ', forum ' + id + ', category ' + category);
             var oTable = $('table#categoriesTable').dataTable();
             oTable.$('span.selected-forum').removeClass('selected-forum');
-            $('div#table-banner span.selected-forum').removeClass('selected-forum');
+            $('div#categories-table-banner span.selected-forum').removeClass('selected-forum');
             var target = $($event.target);
             target.addClass('selected-forum');
             $scope.topicStatus.open = true;
@@ -269,6 +282,15 @@
                 $log.info('selectedForum', $scope.selectedForum);
             }, onError);
             ForumService.getTopicsWithFavorites(id).then(renderTopicsTable, onError);
+        };
+        $scope.selectTopic = function (forum, id, $event) {
+            $log.info('selectTopic: forum ' + forum + ', id ' + id);
+            var oTable = $('table#topicsTable').dataTable();
+            oTable.$('span.selected-topic').removeClass('selected-topic');
+            $('div#topics-table-banner span.selected-topic').removeClass('selected-topic');
+            var target = $($event.target);
+            target.addClass('selected-topic');
+            $scope.postStatus.open = true;
         };
         $scope.refreshCategoriesTable = function () {
             ForumService.getCategoriesWithFavorites().then(renderCategoriesTable, onError);
