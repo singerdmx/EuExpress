@@ -11,7 +11,7 @@ class Topic < OceanDynamo::Table
     attribute :pinned, :boolean, default: false
     attribute :hidden, :boolean, default: false
     attribute :last_post_at, :integer
-    attribute :last_post_by
+    attribute :last_post_by, :integer
     attribute :views_count, :integer, default: 1
   end
 
@@ -25,12 +25,13 @@ class Topic < OceanDynamo::Table
 
   def posts
     query(Post, 'topic = :id', ':id' => id).map do |t|
-      simple_hash(t)
+      simple_post_hash(t)
     end.sort do |a, b|
       b['updated_at'] <=> a['updated_at']
     end
   end
 
+  after_create :increment_topics_count
   # after_create :subscribe_poster
   # after_create :skip_pending_review, :unless => :moderated?
 
@@ -149,4 +150,15 @@ class Topic < OceanDynamo::Table
   def moderated?
     user.forem_moderate_posts?
   end
+
+  private
+
+  def increment_topics_count
+    update_expression = 'SET topics_count = topics_count + :val'
+    expression_attribute_values = {':val' => 1}
+    update(Forum, {category: category, id: forum},
+           update_expression,
+           expression_attribute_values)
+  end
+
 end

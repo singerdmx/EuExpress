@@ -1,28 +1,20 @@
 module Admin
   class ForumsController < BaseController
-    include ForumsHelper, TopicsHelper, GroupHelper, UsersHelper
+    include ForumsHelper, TopicsHelper, PostsHelper, GroupHelper, UsersHelper
+    include Connection
 
     def index
       @forums = attributes(Forum.all, ['topics', 'moderators'])
-      @forum_last_post = {}
+      @forum_last_post = {} # key is forum_id, value is Post object
+      mappings = user_mappings(@forums.map { |forum| forum['last_post_by'] })
       @forums.each do |forum|
-        all_topics = forum['topics'].map { |t| Topic.new_from_hash(t) }
-        topics = attributes(all_topics, ['posts'])
-        topics.each do |topic|
-          unless topic['posts'].empty?
-            topic_last_post = topic['posts'].first
-            if @forum_last_post[forum['id']].nil? || topic_last_post['updated_at'] > @forum_last_post[forum['id']]['updated_at']
-              topic_last_post['topic'] = topic
-              @forum_last_post[forum['id']] = topic_last_post
-            end
-          end
+        unless forum['last_post_id'].blank?
+          post = simple_post_hash(get(Post, {topic: forum['last_topic_id'], id: forum['last_post_id']}))
+          user = mappings[post['user_id']]
+          post['user'] = user.name
+          post['topic'] = simple_topic_hash(get(Topic, {forum: forum['id'], id: post['topic']}))
+          @forum_last_post[forum['id']] = post
         end
-      end
-
-      mappings = user_mappings(@forum_last_post.map { |forum_id, post| post['user_id'] })
-      @forum_last_post.each do |forum_id, post|
-        user = mappings[post['user_id']]
-        post['user'] = user.name
       end
     end
 

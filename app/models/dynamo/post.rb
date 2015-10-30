@@ -21,8 +21,8 @@ class Post < OceanDynamo::Table
 
   validates :text, presence: true
 
-  after_create :after_create_or_save
-  after_save :after_create_or_save #TODO verify it's working
+  after_create :after_create
+  after_save :after_save #TODO verify it's working
   # after_create :subscribe_replier, :if => :user_auto_subscribe?
   # after_create :skip_pending_review
 
@@ -93,7 +93,13 @@ class Post < OceanDynamo::Table
     update_column(:notified, true)
   end
 
-  def after_create_or_save
+  def after_create
+    increment_posts_count
+    set_forum_last_post
+    set_topic_last_post
+  end
+
+  def after_save
     set_forum_last_post
     set_topic_last_post
   end
@@ -112,9 +118,17 @@ class Post < OceanDynamo::Table
 
   private
 
+  def increment_posts_count
+    update_expression = 'SET posts_count = posts_count + :val'
+    expression_attribute_values = {':val' => 1}
+    update(Forum, {category: category, id: forum},
+           update_expression,
+           expression_attribute_values)
+  end
+
   def set_forum_last_post
-    update_expression = 'SET posts_count = posts_count + :val, last_post_id = :last_post_id'
-    expression_attribute_values = {':val' => 1, ':last_post_id' => id}
+    update_expression = 'SET last_post_id = :last_post_id, last_post_by = :last_post_by, last_topic_id = :last_topic_id'
+    expression_attribute_values = {':last_post_id' => id, ':last_post_by' => user_id, ':last_topic_id' => topic}
     update(Forum, {category: category, id: forum},
            update_expression,
            expression_attribute_values)
