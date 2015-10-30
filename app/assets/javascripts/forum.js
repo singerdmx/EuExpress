@@ -6,8 +6,8 @@
     var forum = angular.module('forum', ['ngAnimate', 'ui.bootstrap']);
 
     var forumService = function ($http, $log, $q) {
-        var addUserFavorite = function (favorite, type) {
-            return $http.post('/favorites', {favorite: favorite, type: type})
+        var addUserFavorite = function (favorite, type, parentId) {
+            return $http.post('/favorites', {favorite: favorite, type: type, parent_id: parentId})
                 .then(function (response) {
                     $log.info('POST /favorites response', response);
                     return response.data;
@@ -253,12 +253,16 @@
             target.toggleClass('glyphicon-star-empty');
             target.toggleClass('glyphicon-star');
             if (target.attr('class').indexOf('glyphicon-star-empty') < 0) {
+                $log.info('POST /favorites: topic = ' + id);
+                ForumService.addUserFavorite(id, 'topic', forum);
                 $scope.favoriteTopics.push({
                     id: id,
                     forum: forum,
                     subject: subject,
                 });
             } else {
+                $log.info('DELETE /favorites: topic = ' + id);
+                ForumService.removeUserFavorite(id, 'topic');
                 $scope.favoriteTopics = _.without($scope.favoriteTopics,
                     _.findWhere($scope.favoriteTopics, {id: id}));
             }
