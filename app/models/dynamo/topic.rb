@@ -12,6 +12,7 @@ class Topic < OceanDynamo::Table
     attribute :hidden, :boolean, default: false
     attribute :last_post_at, :integer
     attribute :last_post_by, :integer
+    attribute :posts_count, :integer, default: 0
     attribute :views_count, :integer, default: 1
   end
 

@@ -124,6 +124,9 @@ class Post < OceanDynamo::Table
     update(Forum, {category: category, id: forum},
            update_expression,
            expression_attribute_values)
+    update(Topic, {forum: forum, id: topic},
+           update_expression,
+           expression_attribute_values)
   end
 
   def set_forum_last_post

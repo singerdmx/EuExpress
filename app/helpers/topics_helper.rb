@@ -11,7 +11,7 @@ module TopicsHelper
       h[k] = topic_hash[k] if topic_hash[k]
     end
 
-    %w(user_id last_post_at last_post_by views_count).each do |k|
+    %w(user_id last_post_at last_post_by views_count posts_count).each do |k|
       h[k] = topic_hash[k].to_i
     end
     h

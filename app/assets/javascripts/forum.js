@@ -167,6 +167,9 @@
             var template = _.template(htmlTemplates.topics);
             var columns = [
                 {
+                    'sTitle': 'last_post_at',
+                },
+                {
                     'sTitle': '', // picture
                     'sWidth': '20px',
                     'render': function (data, type, row) {
@@ -175,26 +178,32 @@
                 },
                 {
                     'sTitle': 'Subject',
-                    'sClass': 'center panel-title title-column',
+                    'sClass': 'panel-title title-column',
                 },
                 {
                     'sTitle': 'Views',
                     'sClass': 'center panel-title content-column',
                 },
                 {
-                    'sTitle': 'Posted by',
+                    'sTitle': 'Replies',
                     'sClass': 'center panel-title content-column',
                 },
                 {
+                    'sTitle': 'Posted by',
+                    'sClass': 'panel-title content-column',
+                },
+                {
                     'sTitle': 'Last Reply',
-                    'sClass': 'center panel-title content-column',
+                    'sClass': 'panel-title content-column',
+                    'sWidth': '120px',
                 },
             ]
 
             var aaData = _.map(topics, function (t) {
                 var user = t.user;
                 var last_post_by = t.last_post_by;
-                return [last_post_by.picture, t.subject, t.views_count, t.user.name, jQuery.timeago(new Date(t.last_post_at * 1000))];
+                return [t.last_post_at, last_post_by.picture, t.subject, t.views_count, t.posts_count,
+                    t.user.name, jQuery.timeago(new Date(t.last_post_at * 1000))];
             });
 
             var tableDefinition = {
@@ -202,9 +211,11 @@
                 aaData: aaData,
                 aoColumns: columns,
                 columnDefs: [
-                    {orderable: false, targets: [0, 1]},
+                    {orderable: false, targets: [1, 2, 5, 6]},
+                    {visible: false, targets: [0]},
+                    {searchable: false, targets: [0, 1, 3, 4]},
                 ],
-                aaSorting: [[4, 'desc']],
+                aaSorting: [[0, 'desc']],
                 bLengthChange: false,
                 bInfo: false,
                 dom: '<"topics-table-toolbar">frtip',
