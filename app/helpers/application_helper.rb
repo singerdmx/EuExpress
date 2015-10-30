@@ -1,7 +1,7 @@
 module ApplicationHelper
   include FormattingHelper
 
-  ATTRIBUTES_EXCLUSION = ['created_at', 'updated_at', 'lock_version']
+  ATTRIBUTES_EXCLUSION = ['lock_version']
 
   # processes text with installed markup formatter
   def forem_format(text, *options)

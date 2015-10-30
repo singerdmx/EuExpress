@@ -183,19 +183,22 @@
                 {
                     'sTitle': 'Views',
                     'sClass': 'center panel-title content-column',
+                    'sWidth': '18px',
                 },
                 {
                     'sTitle': 'Replies',
                     'sClass': 'center panel-title content-column',
+                    'sWidth': '18px',
                 },
                 {
                     'sTitle': 'Posted by',
                     'sClass': 'panel-title content-column',
+                    'sWidth': '240px',
                 },
                 {
                     'sTitle': 'Last Reply',
                     'sClass': 'panel-title content-column',
-                    'sWidth': '120px',
+                    'sWidth': '240px',
                 },
             ]
 
@@ -203,7 +206,8 @@
                 var user = t.user;
                 var last_post_by = t.last_post_by;
                 return [t.last_post_at, last_post_by.picture, t.subject, t.views_count, t.posts_count,
-                    t.user.name, jQuery.timeago(new Date(t.last_post_at * 1000))];
+                    t.user.name + ', ' + jQuery.timeago(new Date(t.created_at * 1000)),
+                    last_post_by.name + ', ' + jQuery.timeago(new Date(t.last_post_at * 1000))];
             });
 
             var tableDefinition = {
