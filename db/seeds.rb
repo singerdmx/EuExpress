@@ -130,26 +130,32 @@ client.create_table(
 
 forums = []
 forums << Forum.create(category: categories.first.id,
+                       category_name: categories.first.category_name,
                        forum_name: "Announcements Forum",
                        description: "Mi Band updates")
 
 forums << Forum.create(category: categories.first.id,
+                       category_name: categories.first.category_name,
                        forum_name: "App Forum",
                        description: "App discussion")
 
 forums << Forum.create(category: categories[1].id,
+                       category_name: categories[1].category_name,
                        forum_name: "Beginner Forum",
                        description: "Beginner tutorial")
 
 forums << Forum.create(category: categories[2].id,
+                       category_name: categories[2].category_name,
                        forum_name: "Battery",
                        description: "Battery discussion")
 
 forums << Forum.create(category: categories[2].id,
+                       category_name: categories[2].category_name,
                        forum_name: "Bands",
                        description: "Band styles")
 
 forums << Forum.create(category: categories[3].id,
+                       category_name: categories[3].category_name,
                        forum_name: "Contribute to App",
                        description: "How to contribute your code")
 
@@ -159,6 +165,7 @@ if ENV['massive_seeding']
     categories << c
     (0..9).each do |j|
         forums << Forum.create(category: c.id,
+                               category_name: c.category_name,
                                forum_name: "Forum - #{i}#{j}",
                                description: "f#{i}#{j}")
     end

@@ -3,6 +3,7 @@ class Forum < OceanDynamo::Table
 
   dynamo_schema(table_name_prefix: Translation::TABLE_NAME_PREFIX, timestamps: [:created_at, :updated_at]) do
     attribute :category
+    attribute :category_name
     attribute :forum_name
     attribute :description
     attribute :views_count, :integer, default: 1

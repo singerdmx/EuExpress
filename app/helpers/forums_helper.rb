@@ -29,7 +29,8 @@ module ForumsHelper
   end
 
   def create_forum(category, forum_name, description, moderator_groups)
-    created_forum = Forum.create(category: category, forum_name: forum_name, description: description)
+    created_forum = Forum.create(category: category, category_name: get(Category, {id: category})['category_name'],
+                                 forum_name: forum_name, description: description)
     Rails.logger.info "created_forum #{created_forum.inspect}"
 
     moderator_groups.each do |group_id|

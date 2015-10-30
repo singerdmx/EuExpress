@@ -4,10 +4,6 @@ module Admin
 
     def index
       @forums = attributes(Forum.all, ['topics', 'moderators'])
-      @categories_id_name_map = {}
-      attributes(Category.all).each do |c|
-        @categories_id_name_map[c['id']] = c['category_name']
-      end
       @forum_post_counts = Hash.new(0)
       @forum_last_post = {}
       @forums.each do |forum|
@@ -42,7 +38,7 @@ module Admin
       description = params['description']
       category = params['forum']['category']
       if forum_name.blank?
-        error_msg = 'Category name can not be empty! '
+        error_msg = 'Forum name can not be empty! '
       end
 
       if description.blank?
