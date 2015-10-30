@@ -2,5 +2,21 @@
   <uib-accordion-heading>
     Posts <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': postStatus.open, 'glyphicon-chevron-right': !postStatus.open}"></i>
   </uib-accordion-heading>
-  Content
+  <div id="topics-table-banner">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <span class="navbar-brand" style="font-weight: bold">{{selectedTopic.subject}}</span>
+        </div>
+        <div>
+          <p class="navbar-text">
+            <i class="star glyphicon glyphicon-star{{selectedTopic.favorite ? '' : '-empty'}} forum-icon" ng-click="toggleFavoriteTopic(selectedTopic.forum, selectedTopic.id, selectedTopic.subject, $event)"></i>
+              <span class="navbar-span">
+                Views {{selectedTopic.views_count}}
+              </span>
+          </p>
+        </div>
+      </div>
+    </nav>
+  </div>
 </uib-accordion-group>

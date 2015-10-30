@@ -248,7 +248,7 @@
             }
         };
         $scope.toggleFavoriteTopic = function (forum, id, subject, $event) {
-            $log.info('toggleFavoriteTopic: forum ' + forum + ', id ' + id);
+            $log.info('toggleFavoriteTopic: forum ' + forum + ', id ' + id + ', subject' + subject);
             var target = $($event.target);
             target.toggleClass('glyphicon-star-empty');
             target.toggleClass('glyphicon-star');
@@ -281,14 +281,23 @@
             }, onError);
             ForumService.getTopicsWithFavorites(id).then(renderTopicsTable, onError);
         };
-        $scope.selectTopic = function (forum, id, $event) {
-            $log.info('selectTopic: forum ' + forum + ', id ' + id);
+        $scope.selectTopic = function (forum, id, subject, views_count, favorite, $event) {
+            $log.info('selectTopic: forum ' + forum + ', id ' + id + ', subject ' + subject
+                + ', views_count ' + views_count + ', favorite ' + favorite);
             var oTable = $('table#topicsTable').dataTable();
             oTable.$('span.selected-topic').removeClass('selected-topic');
             $('div#topics-table-banner span.selected-topic').removeClass('selected-topic');
             var target = $($event.target);
             target.addClass('selected-topic');
             $scope.postStatus.open = true;
+            $scope.selectedTopic = {
+                forum: forum,
+                id: id,
+                subject: subject,
+                views_count: views_count,
+                favorite: favorite,
+            };
+            $log.info('selectedTopic', $scope.selectedTopic);
         };
         $scope.refreshCategoriesTable = function () {
             ForumService.getCategoriesWithFavorites().then(renderCategoriesTable, onError);
