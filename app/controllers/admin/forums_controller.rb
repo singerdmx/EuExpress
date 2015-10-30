@@ -4,13 +4,11 @@ module Admin
 
     def index
       @forums = attributes(Forum.all, ['topics', 'moderators'])
-      @forum_post_counts = Hash.new(0)
       @forum_last_post = {}
       @forums.each do |forum|
         all_topics = forum['topics'].map { |t| Topic.new_from_hash(t) }
         topics = attributes(all_topics, ['posts'])
         topics.each do |topic|
-          @forum_post_counts[forum['id']] += topic['posts'].size
           unless topic['posts'].empty?
             topic_last_post = topic['posts'].first
             if @forum_last_post[forum['id']].nil? || topic_last_post['updated_at'] > @forum_last_post[forum['id']]['updated_at']
