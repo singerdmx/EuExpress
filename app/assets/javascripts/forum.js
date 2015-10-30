@@ -81,12 +81,22 @@
             });
         };
 
+        var getTopic = function (forum_id, topic_id) {
+            var url = '/forums/' + forum_id + '/topics/' + topic_id;
+            return $http.get(url)
+                .then(function (response) {
+                    $log.info('GET ' + url + ' response', response);
+                    return response.data;
+                });
+        };
+
         return {
             getCategoriesWithFavorites: getCategoriesWithFavorites,
             addUserFavorite: addUserFavorite,
             removeUserFavorite: removeUserFavorite,
             getForum: getForum,
             getTopicsWithFavorites: getTopicsWithFavorites,
+            getTopic: getTopic,
         };
     };
 
@@ -280,7 +290,6 @@
                 var found = _.findWhere($scope.favoriteForums, {id: id});
                 $log.debug('found', found);
                 $scope.selectedForum.favorite = found != undefined;
-                $scope.selectedForum.category = category;
                 $log.info('selectedForum', $scope.selectedForum);
             }, onError);
             ForumService.getTopicsWithFavorites(id).then(renderTopicsTable, onError);
@@ -294,14 +303,13 @@
             var target = $($event.target);
             target.addClass('selected-topic');
             $scope.postStatus.open = true;
-            $scope.selectedTopic = {
-                forum: forum,
-                id: id,
-                subject: subject,
-                views_count: views_count,
-                favorite: favorite,
-            };
-            $log.info('selectedTopic', $scope.selectedTopic);
+            ForumService.getTopic(forum, id).then(function (data) {
+                $scope.selectedTopic = data;
+                var found = _.findWhere($scope.favoriteTopics, {id: id});
+                $log.debug('found', found);
+                $scope.selectedTopic.favorite = found != undefined;
+                $log.info('selectedTopic', $scope.selectedTopic);
+            }, onError);
         };
         $scope.refreshCategoriesTable = function () {
             ForumService.getCategoriesWithFavorites().then(renderCategoriesTable, onError);
