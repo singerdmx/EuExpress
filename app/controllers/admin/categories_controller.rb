@@ -20,6 +20,11 @@ module Admin
 
       unless params[:category_id].blank?
         update(Category, {id: params[:category_id]}, 'SET category_name = :val', {':val' => category_name})
+        category_forums = Category.new_from_hash('id' => params[:category_id], 'category_name' => category_name).forums
+        category_forums.each do |category_forum|
+          update(Forum, {category: params[:category_id], id: category_forum['id']},
+                 'SET category_name = :n', ':n' => category_name)
+        end
         update_successful
       else
         if attributes(Category.all).find { |c| c['category_name'] == category_name }
