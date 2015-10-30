@@ -9,6 +9,7 @@ window.htmlTemplates.forums = '''
 '''
 window.htmlTemplates.topic = '''
   <div class="td-title">
+    <i ng-click="toggleFavoriteTopic('<%= data.forum %>', '<%= data.id %>', $event)" class="star glyphicon glyphicon-star<%= data.favorite ? '' : '-empty' %> forum-icon"></i>
     <%= data.subject %>
   </div>
   <div class="td-second-row">

@@ -7,7 +7,7 @@ module TopicsHelper
 
   def simple_topic_hash(topic_hash)
     h = {}
-    %w(id subject posts).each do |k|
+    %w(id subject posts forum).each do |k|
       h[k] = topic_hash[k] if topic_hash[k]
     end
 

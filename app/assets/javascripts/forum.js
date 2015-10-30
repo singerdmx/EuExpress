@@ -249,6 +249,9 @@
                     _.findWhere($scope.favoriteForums, {id: id}));
             }
         };
+        $scope.toggleFavoriteTopic = function (forum, id, $event) {
+            $log.info('toggleFavoriteTopic: forum ' + forum + ', id ' + id);
+        };
         $scope.selectForum = function (name, id, category, $event) {
             $log.info('selectForum: name ' + name + ', forum ' + id + ', category ' + category);
             var oTable = $('table#categoriesTable').dataTable();
