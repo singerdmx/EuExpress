@@ -148,15 +148,14 @@
                 bInfo: false,
                 dom: '<"categories-table-toolbar">frtip',
                 pagingType: 'full_numbers',
+                fnDrawCallback: function (oSettings) {
+                    $compile($('div#categoriesTableDiv'))($scope);
+                },
             };
             $log.info('Categories table definition', tableDefinition);
             $('table#categoriesTable').dataTable(tableDefinition);
             var refreshButtonHtml = '<button class="btn btn-info" type="button" ng-click="refreshCategoriesTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
             $("div.categories-table-toolbar").html(refreshButtonHtml);
-            $compile($('div#categoriesTableDiv'))($scope);
-            $('div#categoriesTable_paginate a').on('click', function () {
-                $compile($('div#categoriesTableDiv'))($scope);
-            });
         };
 
         var renderTopicsTable = function (data) {
@@ -215,15 +214,14 @@
                 bInfo: false,
                 dom: '<"topics-table-toolbar">frtip',
                 pagingType: 'full_numbers',
+                fnDrawCallback: function (oSettings) {
+                    $compile($('div#topicsTableDiv'))($scope);
+                },
             };
             $log.info('Topics table definition', tableDefinition);
             $('table#topicsTable').dataTable(tableDefinition);
             var refreshButtonHtml = '<button class="btn btn-info" type="button" ng-click="refreshTopicsTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
             $("div.topics-table-toolbar").html(refreshButtonHtml);
-            $compile($('div#topicsTableDiv'))($scope);
-            $('div#topicsTable_paginate a').on('click', function () {
-                $compile($('div#topicsTableDiv'))($scope);
-            });
         };
 
         $scope.init = function () {
