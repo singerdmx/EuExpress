@@ -21,8 +21,8 @@ class Post < OceanDynamo::Table
 
   validates :text, presence: true
 
-  after_create :set_forum_last_post
-  after_create :set_topic_last_post_at
+  after_create :after_create_or_save
+  after_save :after_create_or_save #TODO verify it's working
   # after_create :subscribe_replier, :if => :user_auto_subscribe?
   # after_create :skip_pending_review
 
@@ -52,14 +52,6 @@ class Post < OceanDynamo::Table
 
     def spam
       where :state => 'spam'
-    end
-
-    def visible
-      joins(:topic).where(:forem_topics => { :hidden => false })
-    end
-
-    def topic_not_pending_review
-      joins(:topic).where(:forem_topics => { :state => 'approved'})
     end
 
     def moderate!(posts)
@@ -101,16 +93,9 @@ class Post < OceanDynamo::Table
     update_column(:notified, true)
   end
 
-  def set_forum_last_post
-    update_expression = 'SET posts_count = posts_count + :val, last_post_id = :last_post_id'
-    expression_attribute_values = {':val' => 1, ':last_post_id' => id}
-    update(Forum, {category: category, id: forum},
-           update_expression,
-           expression_attribute_values)
-  end
-
-  def set_topic_last_post_at
-
+  def after_create_or_save
+    set_forum_last_post
+    set_topic_last_post
   end
 
   def skip_pending_review
@@ -123,6 +108,24 @@ class Post < OceanDynamo::Table
 
   def spam
     user.update_column(:forem_state, "spam") if user
+  end
+
+  private
+
+  def set_forum_last_post
+    update_expression = 'SET posts_count = posts_count + :val, last_post_id = :last_post_id'
+    expression_attribute_values = {':val' => 1, ':last_post_id' => id}
+    update(Forum, {category: category, id: forum},
+           update_expression,
+           expression_attribute_values)
+  end
+
+  def set_topic_last_post
+    update_expression = 'SET last_post_at = :last_post_at, last_post_by = :last_post_by'
+    expression_attribute_values = {':last_post_at' => updated_at.to_i, ':last_post_by' => user_id}
+    update(Topic, {forum: forum, id: topic},
+           update_expression,
+           expression_attribute_values)
   end
 
 end
