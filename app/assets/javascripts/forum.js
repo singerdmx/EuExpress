@@ -90,6 +90,15 @@
                 });
         };
 
+        var getPosts = function (topic_id) {
+            var url = '/topics/' + topic_id + '/posts';
+            return $http.get(url)
+                .then(function (response) {
+                    $log.info('GET ' + url + ' response', response);
+                    return response.data;
+                });
+        };
+
         return {
             getCategoriesWithFavorites: getCategoriesWithFavorites,
             addUserFavorite: addUserFavorite,
@@ -97,6 +106,7 @@
             getForum: getForum,
             getTopicsWithFavorites: getTopicsWithFavorites,
             getTopic: getTopic,
+            getPosts: getPosts,
         };
     };
 
@@ -324,6 +334,7 @@
                 $scope.selectedTopic.favorite = found != undefined;
                 $log.info('selectedTopic', $scope.selectedTopic);
             }, onError);
+            ForumService.getPosts(id);
         };
         $scope.refreshCategoriesTable = function () {
             ForumService.getCategoriesWithFavorites().then(renderCategoriesTable, onError);
