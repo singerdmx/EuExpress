@@ -270,18 +270,22 @@
             $log.info('toggleFavoriteTopic: forum ' + forum + ', id ' + id + ', subject' + subject);
             var target = $($event.target);
             if (target.hasClass('glyphicon-star-empty')) {
+                $log.info('add to favoriteTopics', $scope.favoriteTopics.length);
                 $scope.favoriteTopics.push({
                     id: id,
                     forum: forum,
                     subject: subject,
                 });
+                $log.info('favoriteTopics', $scope.favoriteTopics.length);
                 $log.info('POST /favorites: topic = ' + id);
                 ForumService.addUserFavorite(id, 'topic', forum);
             }
 
             if (target.hasClass('glyphicon-star')) {
+                $log.info('remove from favoriteTopics', $scope.favoriteTopics.length);
                 $scope.favoriteTopics = _.without($scope.favoriteTopics,
                     _.findWhere($scope.favoriteTopics, {id: id}));
+                $log.info('favoriteTopics', $scope.favoriteTopics.length);
                 $log.info('DELETE /favorites: topic = ' + id);
                 ForumService.removeUserFavorite(id, 'topic');
             }
@@ -304,9 +308,8 @@
             }, onError);
             ForumService.getTopicsWithFavorites(id).then(renderTopicsTable, onError);
         };
-        $scope.selectTopic = function (forum, id, subject, views_count, favorite, $event) {
-            $log.info('selectTopic: forum ' + forum + ', id ' + id + ', subject ' + subject
-                + ', views_count ' + views_count + ', favorite ' + favorite);
+        $scope.selectTopic = function (forum, id, $event) {
+            $log.info('selectTopic: forum ' + forum + ', id ' + id);
             var oTable = $('table#topicsTable').dataTable();
             oTable.$('span.selected-topic').removeClass('selected-topic');
             $('div#topics-table-banner span.selected-topic').removeClass('selected-topic');
@@ -315,6 +318,7 @@
             $scope.postStatus.open = true;
             ForumService.getTopic(forum, id).then(function (data) {
                 $scope.selectedTopic = data;
+                $log.info('favoriteTopics', $scope.favoriteTopics);
                 var found = _.findWhere($scope.favoriteTopics, {id: id});
                 $log.debug('found', found);
                 $scope.selectedTopic.favorite = found != undefined;

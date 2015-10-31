@@ -25,7 +25,8 @@
         </div>
         <div style="float: right; width: 75%; font-weight: bold">
           <p class="navbar-text">
-            <i class="star glyphicon glyphicon-star{{selectedTopic.favorite ? '' : '-empty'}} forum-icon" ng-click="toggleFavoriteTopic(selectedTopic.forum, selectedTopic.id, selectedTopic.subject, $event)"></i>
+            <i ng-class="selectedTopic.favorite ? 'glyphicon-star' : 'glyphicon-star-empty'"
+               class="star glyphicon forum-icon" ng-click="toggleFavoriteTopic(selectedTopic.forum, selectedTopic.id, selectedTopic.subject, $event)"></i>
             {{selectedTopic.subject}}
           </p>
         </div>
