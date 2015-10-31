@@ -298,7 +298,7 @@ client.create_table(
     },
     local_secondary_indexes: [
         {
-            index_name: 'updated_at',
+            index_name: 'updated_at_index',
             key_schema: [
                 {
                     attribute_name: 'topic',

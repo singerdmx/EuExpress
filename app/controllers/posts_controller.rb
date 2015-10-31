@@ -10,8 +10,6 @@ class PostsController < ApplicationController
     all_posts = get_posts(params[:topic_id])
     posts = all_posts.map do |p|
       simple_post_hash(p)
-    end.sort do |a, b|
-      b['updated_at'] <=> a['updated_at']
     end
     if stale?(etag: posts, last_modified: max_updated_at(all_posts))
       render json: posts
