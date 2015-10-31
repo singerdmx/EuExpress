@@ -7,7 +7,7 @@ module PostsHelper
 
   def simple_post_hash(post_hash)
     h = {}
-    %w(id text topic).each do |k|
+    %w(id text topic forum category).each do |k|
       h[k] = post_hash[k]
     end
 

@@ -4,14 +4,16 @@ module Admin
     include Connection
 
     def index
-      @forums = attributes(Forum.all, ['topics', 'moderators'])
+      @forums = attributes(Forum.all, ['moderators'])
       @forum_last_post = {} # key is forum_id, value is Post object
       mappings = user_mappings(@forums.map { |forum| forum['last_post_by'] })
       @forums.each do |forum|
         unless forum['last_post_id'].blank?
           post = simple_post_hash(get(Post, {topic: forum['last_topic_id'], id: forum['last_post_id']}))
-          user = mappings[post['user_id']]
-          post['user'] = user.name
+          unless mappings.empty?
+            user = mappings[post['user_id']]
+            post['user'] = user.name
+          end
           post['topic'] = simple_topic_hash(get(Topic, {forum: forum['id'], id: post['topic']}))
           @forum_last_post[forum['id']] = post
         end

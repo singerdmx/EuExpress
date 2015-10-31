@@ -8,6 +8,9 @@ module UsersHelper
     else
       user_ids = user_ids.to_a
     end
+    user_ids = user_ids.select{|i| !i.nil?}
+    return [] if user_ids.empty?
+
     User.find(user_ids).each do |user|
       mappings[user.id] = user
     end

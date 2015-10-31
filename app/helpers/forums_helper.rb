@@ -1,13 +1,14 @@
 module ForumsHelper
   include Connection
+  include TopicsHelper
 
   def simple_forum_hash(forum_hash)
     h = {}
-    %w(id forum_name description).each do |k|
+    %w(id forum_name description category_name last_post_id last_topic_id).each do |k|
       h[k] = forum_hash[k]
     end
 
-    %w(updated_at views_count topics_count created_at).each do |k|
+    %w(updated_at views_count topics_count posts_count created_at last_post_by).each do |k|
       h[k] = forum_hash[k].to_i
     end
 
@@ -46,7 +47,11 @@ module ForumsHelper
       g = simple_group_hash(group)
       delete(ModeratorGroup, {group: g['id'], forum: forum_id})
     end
-    #TODO delete associated Topics
+    topics = query(Topic, 'forum = :f', {':f' => forum_id})
+    topics.each do |topic|
+      delete_topic(topic['forum'], topic['id'])
+    end
+    #TODO delete associated user favorites or have a to_delete table to have a cron job periodically scan user favorites
   end
 
   def topics_count(forum)

@@ -24,6 +24,11 @@ module TopicsHelper
     fail "Unable to find topic given forum #{forum_id} topic_id #{topic_id}" unless @topic
   end
 
+  def delete_topic(forum_id, topic_id)
+    delete(Topic, {forum: forum_id, id: topic_id})
+    #TODO delete associated user favorites and posts, or have a to_delete table to have a cron job periodically scan user favorites and posts
+  end
+
   def link_to_latest_post(topic)
     post = relevant_posts(topic).last
     return '' unless post

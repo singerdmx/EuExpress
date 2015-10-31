@@ -162,10 +162,10 @@ forums << Forum.create(category: categories[3].id,
                        description: "How to contribute your code")
 
 if ENV['massive_seeding']
-  (0..9).each do |i|
+  (0..2).each do |i|
     c = Category.create(category_name: 'Category - ' + i.to_s)
     categories << c
-    (0..9).each do |j|
+    (0..3).each do |j|
       forums << Forum.create(category: c.id,
                              category_name: c.category_name,
                              forum_name: "Forum - #{i}#{j}",
