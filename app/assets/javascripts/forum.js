@@ -165,8 +165,9 @@
             $log.info('Categories table definition', tableDefinition);
             $('table#categoriesTable').dataTable(tableDefinition);
             var refreshButtonHtml = '<button class="btn btn-info" type="button" ng-click="refreshCategoriesTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
-            $("div.categories-table-toolbar").html(refreshButtonHtml);
-            $compile($('div#categoriesTableDiv'))($scope);
+            var tableToolBar = 'div.categories-table-toolbar';
+            $(tableToolBar).html(refreshButtonHtml);
+            $compile(angular.element(tableToolBar).contents())($scope);
         };
 
         var renderTopicsTable = function (data) {
@@ -226,14 +227,15 @@
                 dom: '<"topics-table-toolbar">frtip',
                 pagingType: 'full_numbers',
                 fnDrawCallback: function (oSettings) {
-                    $compile($('div#topicsTableDiv'))($scope);
+                    $compile(angular.element('div#topicsTableDiv').contents())($scope);
                 },
             };
             $log.info('Topics table definition', tableDefinition);
             $('table#topicsTable').dataTable(tableDefinition);
             var refreshButtonHtml = '<button class="btn btn-info" type="button" ng-click="refreshTopicsTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
-            $("div.topics-table-toolbar").html(refreshButtonHtml);
-            $compile($('div#topicsTableDiv'))($scope);
+            var tableToolBar = 'div.topics-table-toolbar';
+            $(tableToolBar).html(refreshButtonHtml);
+            $compile(angular.element(tableToolBar).contents())($scope);
         };
 
         $scope.init = function () {
@@ -245,18 +247,22 @@
             target.toggleClass('glyphicon-star-empty');
             target.toggleClass('glyphicon-star');
             if (target.attr('class').indexOf('glyphicon-star-empty') < 0) {
-                $log.info('POST /favorites: forum = ' + id);
-                ForumService.addUserFavorite(id, 'forum');
+                $log.info('favoriteForums', $scope.favoriteForums.length);
                 $scope.favoriteForums.push({
                     name: name,
                     id: id,
                     category: category,
                 });
+                $log.info('favoriteForums', $scope.favoriteForums.length);
+                $log.info('POST /favorites: forum = ' + id);
+                ForumService.addUserFavorite(id, 'forum');
             } else {
-                $log.info('DELETE /favorites: forum = ' + id);
-                ForumService.removeUserFavorite(id, 'forum');
+                $log.info('favoriteForums', $scope.favoriteForums.length);
                 $scope.favoriteForums = _.without($scope.favoriteForums,
                     _.findWhere($scope.favoriteForums, {id: id}));
+                $log.info('favoriteForums', $scope.favoriteForums.length);
+                $log.info('DELETE /favorites: forum = ' + id);
+                ForumService.removeUserFavorite(id, 'forum');
             }
         };
         $scope.toggleFavoriteTopic = function (forum, id, subject, $event) {
@@ -265,18 +271,18 @@
             target.toggleClass('glyphicon-star-empty');
             target.toggleClass('glyphicon-star');
             if (target.attr('class').indexOf('glyphicon-star-empty') < 0) {
-                $log.info('POST /favorites: topic = ' + id);
-                ForumService.addUserFavorite(id, 'topic', forum);
                 $scope.favoriteTopics.push({
                     id: id,
                     forum: forum,
                     subject: subject,
                 });
+                $log.info('POST /favorites: topic = ' + id);
+                ForumService.addUserFavorite(id, 'topic', forum);
             } else {
-                $log.info('DELETE /favorites: topic = ' + id);
-                ForumService.removeUserFavorite(id, 'topic');
                 $scope.favoriteTopics = _.without($scope.favoriteTopics,
                     _.findWhere($scope.favoriteTopics, {id: id}));
+                $log.info('DELETE /favorites: topic = ' + id);
+                ForumService.removeUserFavorite(id, 'topic');
             }
         };
         $scope.selectForum = function (name, id, category, $event) {
