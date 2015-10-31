@@ -331,6 +331,18 @@
         $scope.refreshTopicsTable = function () {
             ForumService.getTopicsWithFavorites($scope.selectedForum.id).then(renderTopicsTable, onError);
         };
+        $scope.$watch('forumStatus.open', function (newValue, oldValue) {
+            $log.info('forumStatus.open', $scope.forumStatus.open);
+            if ($scope.forumStatus.open) {
+                $scope.refreshCategoriesTable();
+            }
+        });
+        $scope.$watch('topicStatus.open', function (newValue, oldValue) {
+            $log.info('topicStatus.open', $scope.topicStatus.open);
+            if ($scope.topicStatus.open) {
+                $scope.refreshTopicsTable();
+            }
+        });
     };
 
     forum.controller('ForumController', ['$scope', '$log', '$compile', 'ForumService', forumController]);
