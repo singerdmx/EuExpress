@@ -325,7 +325,19 @@ posts << Post.create(
     state: 'approved',
     user_id: user.id)
 
-sleep 1
+if ENV['massive_seeding']
+  1000.times do
+    topic = topics[SecureRandom.random_number(20)]
+    posts << Post.create(
+        category: topic.category,
+        forum: topic.forum,
+        topic: topic.id,
+        text: "Post of topic #{topic.inspect}",
+        state: 'approved',
+        user_id: users[SecureRandom.random_number(100) % users.size].id)
+  end
+end
+
 posts << Post.create(
     category: topics.first.category,
     forum: topics.first.forum,
@@ -333,20 +345,6 @@ posts << Post.create(
     text: 'It does not work',
     state: 'approved',
     user_id: user.id)
-
-if ENV['massive_seeding']
-  topics.take(20) do |topic|
-    (0..SecureRandom.random_number(100)).each do |i|
-      posts << Post.create(
-          category: topic.category,
-          forum: topic.forum,
-          topic: topic.id,
-          text: "Post of topic #{topic.inspect}",
-          state: 'approved',
-          user_id: users[SecureRandom.random_number(100) % users.size].id)
-    end
-  end
-end
 
 ###############################
 #           Views             #
