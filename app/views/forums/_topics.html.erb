@@ -23,18 +23,27 @@
     <div>
       <nav class="navbar navbar-default">
         <div class="container-fluid">
-          <div class="navbar-header">
-            <span class="navbar-brand" style="font-weight: bold">{{selectedForum.forum_name}}</span>
-          </div>
-          <div>
-            <p class="navbar-text">
-              <i class="star glyphicon glyphicon-star{{selectedForum.favorite ? '' : '-empty'}} forum-icon" ng-click="toggleFavoriteForum(selectedForum.forum_name, selectedForum.id, selectedForum.category, $event)"></i>
+          <div style="float: left; width: 23%">
+            <p class="navbar-text" style="margin-top: 13px; margin-bottom: 0px">
               <span class="navbar-span">
                 Views {{selectedForum.views_count}}
               </span>
               <span class="navbar-span">
                 Topics {{selectedForum.topics_count}}
               </span>
+            </p>
+
+            <p ng-click="forumStatus.open = true" class="second-row">
+              <a>
+                Back to forums
+                <i class="glyphicon ng-scope glyphicon-chevron-up"></i>
+              </a>
+            </p>
+          </div>
+          <div style="float: right; width: 75%; font-weight: bold">
+            <p class="navbar-text">
+              <i ng-class="{'glyphicon-star': selectedForum.favorite, 'glyphicon-star-empty': !selectedForum.favorite}" class="star glyphicon forum-icon" ng-click="toggleFavoriteForum(selectedForum.forum_name, selectedForum.id, selectedForum.category, $event)"></i>
+              {{selectedForum.forum_name}}
             </p>
           </div>
         </div>

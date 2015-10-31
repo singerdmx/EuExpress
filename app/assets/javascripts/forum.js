@@ -244,10 +244,8 @@
         $scope.toggleFavoriteForum = function (name, id, category, $event) {
             $log.info('toggleFavoriteForum: name ' + name + ', id ' + id + ', category ' + category);
             var target = $($event.target);
-            target.toggleClass('glyphicon-star-empty');
-            target.toggleClass('glyphicon-star');
-            if (target.attr('class').indexOf('glyphicon-star-empty') < 0) {
-                $log.info('favoriteForums', $scope.favoriteForums.length);
+            if (target.hasClass('glyphicon-star-empty')) {
+                $log.info('add to favoriteForums', $scope.favoriteForums.length);
                 $scope.favoriteForums.push({
                     name: name,
                     id: id,
@@ -256,21 +254,22 @@
                 $log.info('favoriteForums', $scope.favoriteForums.length);
                 $log.info('POST /favorites: forum = ' + id);
                 ForumService.addUserFavorite(id, 'forum');
-            } else {
-                $log.info('favoriteForums', $scope.favoriteForums.length);
+            }
+
+            if (target.hasClass('glyphicon-star')) {
+                $log.info('remove from favoriteForums', $scope.favoriteForums.length);
                 $scope.favoriteForums = _.without($scope.favoriteForums,
                     _.findWhere($scope.favoriteForums, {id: id}));
                 $log.info('favoriteForums', $scope.favoriteForums.length);
                 $log.info('DELETE /favorites: forum = ' + id);
                 ForumService.removeUserFavorite(id, 'forum');
             }
+            target.toggleClass('glyphicon-star-empty glyphicon-star');
         };
         $scope.toggleFavoriteTopic = function (forum, id, subject, $event) {
             $log.info('toggleFavoriteTopic: forum ' + forum + ', id ' + id + ', subject' + subject);
             var target = $($event.target);
-            target.toggleClass('glyphicon-star-empty');
-            target.toggleClass('glyphicon-star');
-            if (target.attr('class').indexOf('glyphicon-star-empty') < 0) {
+            if (target.hasClass('glyphicon-star-empty')) {
                 $scope.favoriteTopics.push({
                     id: id,
                     forum: forum,
@@ -278,12 +277,15 @@
                 });
                 $log.info('POST /favorites: topic = ' + id);
                 ForumService.addUserFavorite(id, 'topic', forum);
-            } else {
+            }
+
+            if (target.hasClass('glyphicon-star')) {
                 $scope.favoriteTopics = _.without($scope.favoriteTopics,
                     _.findWhere($scope.favoriteTopics, {id: id}));
                 $log.info('DELETE /favorites: topic = ' + id);
                 ForumService.removeUserFavorite(id, 'topic');
             }
+            target.toggleClass('glyphicon-star-empty glyphicon-star');
         };
         $scope.selectForum = function (name, id, category, $event) {
             $log.info('selectForum: name ' + name + ', forum ' + id + ', category ' + category);

@@ -1,22 +1,32 @@
 <uib-accordion-group is-open="postStatus.open">
   <uib-accordion-heading>
-    Posts <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': postStatus.open, 'glyphicon-chevron-right': !postStatus.open}"></i>
+    Posts
+    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': postStatus.open, 'glyphicon-chevron-right': !postStatus.open}"></i>
   </uib-accordion-heading>
   <div id="topics-table-banner">
     <nav class="navbar navbar-default">
       <div class="container-fluid">
-        <div class="navbar-header">
-          <span class="navbar-brand" style="font-weight: bold">{{selectedTopic.subject}}</span>
-        </div>
-        <div>
-          <p class="navbar-text">
-            <i class="star glyphicon glyphicon-star{{selectedTopic.favorite ? '' : '-empty'}} forum-icon" ng-click="toggleFavoriteTopic(selectedTopic.forum, selectedTopic.id, selectedTopic.subject, $event)"></i>
+        <div style="float: left; width: 23%">
+          <p class="navbar-text" style="margin-top: 13px; margin-bottom: 0px">
               <span class="navbar-span">
                 Views {{selectedTopic.views_count}}
               </span>
               <span class="navbar-span">
                 Posts {{selectedTopic.posts_count}}
               </span>
+          </p>
+
+          <p ng-click="topicStatus.open = true" class="second-row">
+            <a>
+              Back to topics
+              <i class="glyphicon ng-scope glyphicon-chevron-up"></i>
+            </a>
+          </p>
+        </div>
+        <div style="float: right; width: 75%; font-weight: bold">
+          <p class="navbar-text">
+            <i class="star glyphicon glyphicon-star{{selectedTopic.favorite ? '' : '-empty'}} forum-icon" ng-click="toggleFavoriteTopic(selectedTopic.forum, selectedTopic.id, selectedTopic.subject, $event)"></i>
+            {{selectedTopic.subject}}
           </p>
         </div>
       </div>
