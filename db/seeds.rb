@@ -1,3 +1,5 @@
+require 'securerandom'
+
 ###############################
 #           User              #
 ###############################
@@ -164,10 +166,10 @@ if ENV['massive_seeding']
     c = Category.create(category_name: 'Category - ' + i.to_s)
     categories << c
     (0..9).each do |j|
-        forums << Forum.create(category: c.id,
-                               category_name: c.category_name,
-                               forum_name: "Forum - #{i}#{j}",
-                               description: "f#{i}#{j}")
+      forums << Forum.create(category: c.id,
+                             category_name: c.category_name,
+                             forum_name: "Forum - #{i}#{j}",
+                             description: "f#{i}#{j}")
     end
   end
 end
@@ -254,7 +256,7 @@ if ENV['massive_seeding']
           last_post_at: Time.now.to_i - i * 10,
           last_post_by: users[i % users.size].id,
           subject: "Topic #{i}",
-          user_id: users[i % users.size].id,
+          user_id: users[SecureRandom.random_number(100) % users.size].id,
           state: 'approved')
     end
   end
@@ -331,6 +333,20 @@ posts << Post.create(
     text: 'It does not work',
     state: 'approved',
     user_id: user.id)
+
+if ENV['massive_seeding']
+  topics.take(20) do |topic|
+    (0..SecureRandom.random_number(100)).each do |i|
+      posts << Post.create(
+          category: topic.category,
+          forum: topic.forum,
+          topic: topic.id,
+          text: "Post of topic #{topic.inspect}",
+          state: 'approved',
+          user_id: users[SecureRandom.random_number(100) % users.size].id)
+    end
+  end
+end
 
 ###############################
 #           Views             #
@@ -555,11 +571,11 @@ client.create_table(
 )
 
 (0..3).each do |i|
-    UserFavorites.create(user_id: user.id, id: "forum##{forums[i].id}", type: 'forum', favorite: forums[i].id)
+  UserFavorites.create(user_id: user.id, id: "forum##{forums[i].id}", type: 'forum', favorite: forums[i].id)
 end
 
 (0..[topics.size - 1, 16].min).each do |i|
-    UserFavorites.create(user_id: user.id, id: "topic##{topics[i].id}", type: 'topic', favorite: topics[i].id,
-                         parent_id: forums[i].id)
+  UserFavorites.create(user_id: user.id, id: "topic##{topics[i].id}", type: 'topic', favorite: topics[i].id,
+                       parent_id: forums[i].id)
 end
 
