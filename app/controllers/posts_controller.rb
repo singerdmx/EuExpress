@@ -1,5 +1,7 @@
+require 'set'
+
 class PostsController < ApplicationController
-  include PostsHelper
+  include PostsHelper, UsersHelper
 
   before_filter :authenticate_forem_user, except: [:index, :show]
   # before_filter :find_topic
@@ -11,6 +13,17 @@ class PostsController < ApplicationController
     posts = all_posts.map do |p|
       simple_post_hash(p)
     end
+
+    user_ids = Set.new
+    posts.each do |post|
+      user_ids.add(post['user_id'])
+    end
+    mappings = user_mappings(user_ids)
+    posts.each do |post|
+      post['user'] = simple_user_hash(mappings[post['user_id']])
+      post.delete('user_id')
+    end
+
     if stale?(etag: posts, last_modified: max_updated_at(all_posts))
       render json: posts
     else
