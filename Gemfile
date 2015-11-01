@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+gem 'mailboxer', '~> 0.13.0'
+
+gem 'messaging', '~> 0.0.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.13'
@@ -34,8 +37,6 @@ gem 'cancan', '1.6.10'
 gem 'ocean-dynamo', '~> 1.2.4'
 
 gem 'angularjs-rails', '~> 1.4', '>= 1.4.7'
-
-gem 'mailboxer', '~> 0.13.0'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
