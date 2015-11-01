@@ -56,7 +56,8 @@ p.second-row {
 }
 
 div.categories-table-toolbar,
-div.topics-table-toolbar {
+div.topics-table-toolbar,
+div.posts-table-toolbar {
   position: relative;
   top: 28px;
   width: 90px;
@@ -108,4 +109,8 @@ span.forum-item {
   padding: 5px;
   margin-right: 8px;
   color: dimgrey;
+}
+
+table#postsTable thead {
+  display: none;
 }

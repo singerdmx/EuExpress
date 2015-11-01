@@ -248,6 +248,54 @@
             $compile(angular.element(tableToolBar).contents())($scope);
         };
 
+        var renderPostsTable = function (data) {
+            $log.info('posts', data);
+            var columns = [
+                {
+                    'sTitle': 'updated_at',
+                },
+                {
+                    'sTitle': '', // picture
+                    'sWidth': '20px',
+                    'render': function (data, type, row) {
+                        return '<img src="' + data + '" alt="Avatar">';
+                    }
+                },
+                {
+                    'sTitle': 'Text',
+                    'sClass': 'panel-title title-column',
+                },
+            ]
+            var aaData = _.map(data, function (p) {
+                return [p.updated_at, p.user.picture, p.text];
+            });
+
+            $log.info(aaData);
+            var tableDefinition = {
+                bDestroy: true,
+                aaData: aaData,
+                aoColumns: columns,
+                columnDefs: [
+                    {visible: false, targets: [0]},
+                    {searchable: false, targets: [0, 1]},
+                ],
+                aaSorting: [[0, 'asc']],
+                bLengthChange: false,
+                bInfo: false,
+                dom: '<"posts-table-toolbar">frtip',
+                pagingType: 'full_numbers',
+                fnDrawCallback: function (oSettings) {
+                    $compile(angular.element('div#postsTableDiv').contents())($scope);
+                },
+            };
+            $log.info('Posts table definition', tableDefinition);
+            $('table#postsTable').dataTable(tableDefinition);
+            var refreshButtonHtml = '<button class="btn btn-info" type="button" ng-click="refreshPostsTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
+            var tableToolBar = 'div.posts-table-toolbar';
+            $(tableToolBar).html(refreshButtonHtml);
+            $compile(angular.element(tableToolBar).contents())($scope);
+        };
+
         $scope.init = function () {
             ForumService.getCategoriesWithFavorites().then(renderCategoriesTable, onError);
         };
@@ -334,13 +382,16 @@
                 $scope.selectedTopic.favorite = found != undefined;
                 $log.info('selectedTopic', $scope.selectedTopic);
             }, onError);
-            ForumService.getPosts(id);
+            ForumService.getPosts(id).then(renderPostsTable, onError);
         };
         $scope.refreshCategoriesTable = function () {
             ForumService.getCategoriesWithFavorites().then(renderCategoriesTable, onError);
         };
         $scope.refreshTopicsTable = function () {
             ForumService.getTopicsWithFavorites($scope.selectedForum.id).then(renderTopicsTable, onError);
+        };
+        $scope.refreshPostsTable = function () {
+            ForumService.getPosts(id).then(renderPostsTable, onError);
         };
         $scope.$watch('forumStatus.open', function (newValue, oldValue) {
             $log.info('forumStatus.open', $scope.forumStatus.open);
