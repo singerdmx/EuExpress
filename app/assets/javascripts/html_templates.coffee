@@ -16,3 +16,6 @@ window.htmlTemplates.topic = '''
     <%= data.user.name %>, <%= data.created_at_ago %>&nbsp; &nbsp; &nbsp;Latest reply: <%= data.last_post_by.name %>, <%= data.last_post_at_ago %>
   </div>
 '''
+window.htmlTemplates.postUser = '''
+
+'''
