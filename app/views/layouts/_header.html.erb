@@ -15,6 +15,12 @@
                   <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><%= link_to current_user.email, main_app.edit_user_registration_path %></li>
+                  <li>
+                    <a href="/conversations">
+                      <i class="pull-left glyphicon glyphicon glyphicon-envelope dropdown-menu-icon"></i>
+                      Mails
+                    </a>
+                  </li>
                   <% if current_user.forem_admin %>
                       <li><%= link_to "Administrate", admin_root_url %></li>
                   <% end %>

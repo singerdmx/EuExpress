@@ -60,4 +60,7 @@ Rails.application.routes.draw do
   end
 
   resources :favorites, only: [:index, :create, :destroy]
+
+  resources :messages
+  resources :conversations
 end
