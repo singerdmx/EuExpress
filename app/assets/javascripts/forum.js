@@ -242,7 +242,8 @@
             };
             $log.info('Topics table definition', tableDefinition);
             $('table#topicsTable').dataTable(tableDefinition);
-            var refreshButtonHtml = '<button class="btn btn-info" type="button" ng-click="refreshTopicsTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
+            var refreshButtonHtml = '<button class="btn btn-danger" type="button"><i class="glyphicon glyphicon-pencil"></i>&nbsp;New Topic</button>' +
+                '<button class="btn btn-info" type="button" ng-click="refreshTopicsTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
             var tableToolBar = 'div.topics-table-toolbar';
             $(tableToolBar).html(refreshButtonHtml);
             $compile(angular.element(tableToolBar).contents())($scope);
@@ -290,7 +291,8 @@
             };
             $log.info('Posts table definition', tableDefinition);
             $('table#postsTable').dataTable(tableDefinition);
-            var refreshButtonHtml = '<button class="btn btn-info" type="button" ng-click="refreshPostsTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
+            var refreshButtonHtml = '<button class="btn btn-danger" type="button"><i class="glyphicon glyphicon-pencil"></i>&nbsp;New Post</button>' +
+                '<button class="btn btn-info" type="button" ng-click="refreshPostsTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
             var tableToolBar = 'div.posts-table-toolbar';
             $(tableToolBar).html(refreshButtonHtml);
             $compile(angular.element(tableToolBar).contents())($scope);

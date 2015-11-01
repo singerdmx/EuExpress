@@ -59,8 +59,22 @@ div.categories-table-toolbar,
 div.topics-table-toolbar,
 div.posts-table-toolbar {
   position: relative;
-  top: 28px;
+}
+
+div.categories-table-toolbar {
   width: 90px;
+  top: 28px;
+}
+
+div.topics-table-toolbar,
+div.posts-table-toolbar {
+  width: 220px;
+  top: -6px;
+
+  > button {
+    float: left;
+    margin-right: 5px;
+  }
 }
 
 div.table-div {
