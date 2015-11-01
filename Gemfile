@@ -35,6 +35,8 @@ gem 'ocean-dynamo', '~> 1.2.4'
 
 gem 'angularjs-rails', '~> 1.4', '>= 1.4.7'
 
+gem 'mailboxer', '~> 0.13.0'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
