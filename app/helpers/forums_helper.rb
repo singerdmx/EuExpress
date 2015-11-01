@@ -4,7 +4,7 @@ module ForumsHelper
 
   def simple_forum_hash(forum_hash)
     h = {}
-    %w(id forum_name description category_name last_post_id last_topic_id).each do |k|
+    %w(id forum_name description category category_name last_post_id last_topic_id).each do |k|
       h[k] = forum_hash[k]
     end
 

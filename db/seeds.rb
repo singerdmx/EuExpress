@@ -537,13 +537,13 @@ users.each do |u|
 end
 
 ###############################
-#        User Favorites       #
+#       Favorite Forums       #
 ###############################
 
 client.create_table(
     attribute_definitions: [
         {
-            attribute_name: 'id',
+            attribute_name: 'forum',
             attribute_type: 'S',
         },
         {
@@ -551,14 +551,14 @@ client.create_table(
             attribute_type: 'N',
         },
     ],
-    table_name: UserFavorites.get_table_name,
+    table_name: FavoriteForums.get_table_name,
     key_schema: [
         {
             attribute_name: 'user_id',
             key_type: 'HASH',
         },
         {
-            attribute_name: 'id',
+            attribute_name: 'forum',
             key_type: 'RANGE',
         },
     ],
@@ -569,11 +569,42 @@ client.create_table(
 )
 
 (0..3).each do |i|
-  UserFavorites.create(user_id: user.id, id: "forum##{forums[i].id}", type: 'forum', favorite: forums[i].id)
+  FavoriteForums.create(user_id: user.id, forum: forums[i].id, category: forums[i].category)
 end
 
+###############################
+#       Favorite Topics       #
+###############################
+
+client.create_table(
+    attribute_definitions: [
+        {
+            attribute_name: 'topic',
+            attribute_type: 'S',
+        },
+        {
+            attribute_name: 'user_id',
+            attribute_type: 'N',
+        },
+    ],
+    table_name: FavoriteTopics.get_table_name,
+    key_schema: [
+        {
+            attribute_name: 'user_id',
+            key_type: 'HASH',
+        },
+        {
+            attribute_name: 'topic',
+            key_type: 'RANGE',
+        },
+    ],
+    provisioned_throughput: {
+        read_capacity_units: read_capacity_units,
+        write_capacity_units: write_capacity_units,
+    },
+)
+
 (0..[topics.size - 1, 16].min).each do |i|
-  UserFavorites.create(user_id: user.id, id: "topic##{topics[i].id}", type: 'topic', favorite: topics[i].id,
-                       parent_id: forums[i].id)
+  FavoriteTopics.create(user_id: user.id, topic: topics[i].id, forum: topics[i].forum)
 end
 

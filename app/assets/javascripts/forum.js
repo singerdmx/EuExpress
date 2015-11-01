@@ -6,16 +6,16 @@
     var forum = angular.module('forum', ['ngAnimate', 'ui.bootstrap']);
 
     var forumService = function ($http, $log, $q) {
-        var addUserFavorite = function (favorite, type, parentId) {
-            return $http.post('/favorites', {favorite: favorite, type: type, parent_id: parentId})
+        var addUserFavorite = function (params) {
+            return $http.post('/favorites', params)
                 .then(function (response) {
                     $log.info('POST /favorites response', response);
                     return response.data;
                 });
         };
 
-        var removeUserFavorite = function (favorite, type) {
-            return $http.delete('/favorites/' + favorite, {params: {type: type}})
+        var removeUserFavorite = function (favorite, params) {
+            return $http.delete('/favorites/' + favorite, {params: params})
                 .then(function (response) {
                     $log.info('DELETE /favorites response', response);
                     return response.data;
@@ -24,7 +24,7 @@
 
         var getCategoriesWithFavorites = function () {
             $log.info('getCategoriesWithFavorites');
-            return $q.all([$http.get('/categories'), $http.get('/favorites')]).then(function (response) {
+            return $q.all([$http.get('/categories'), $http.get('/favorites?type=forum')]).then(function (response) {
                 var categories = response[0].data;
                 $log.info('categories', categories);
                 var userFavorites = response[1].data;
@@ -33,7 +33,7 @@
 
                 _.each(categories, function (c) {
                     _.each(c.forums, function (f) {
-                        if (_.contains(userFavorites.forum, f.id)) {
+                        if (_.contains(userFavorites, f.id)) {
                             f.favorite = true;
                             favoriteForums.push({
                                 id: f.id,
@@ -61,7 +61,7 @@
 
         var getTopicsWithFavorites = function (forum_id) {
             $log.info('getTopicsWithFavorites');
-            return $q.all([$http.get('/forums/' + forum_id + '/topics'), $http.get('/favorites')]).then(function (response) {
+            return $q.all([$http.get('/forums/' + forum_id + '/topics'), $http.get('/favorites?type=topic')]).then(function (response) {
                 var topics = response[0].data;
                 $log.info('topics', topics);
                 var userFavorites = response[1].data;
@@ -69,7 +69,7 @@
                 var favoriteTopics = [];
 
                 _.each(topics, function (t) {
-                    if (_.contains(userFavorites.topic, t.id)) {
+                    if (_.contains(userFavorites, t.id)) {
                         t.favorite = true;
                         favoriteTopics.push(t);
                     }
@@ -263,7 +263,7 @@
                 });
                 $log.info('favoriteForums', $scope.favoriteForums.length);
                 $log.info('POST /favorites: forum = ' + id);
-                ForumService.addUserFavorite(id, 'forum');
+                ForumService.addUserFavorite({type: 'forum', category: category, forum: id});
             }
 
             if (target.hasClass('glyphicon-star')) {
@@ -272,7 +272,7 @@
                     _.findWhere($scope.favoriteForums, {id: id}));
                 $log.info('favoriteForums', $scope.favoriteForums.length);
                 $log.info('DELETE /favorites: forum = ' + id);
-                ForumService.removeUserFavorite(id, 'forum');
+                ForumService.removeUserFavorite(id, {type: 'forum'});
             }
             target.toggleClass('glyphicon-star-empty glyphicon-star');
         };
@@ -288,7 +288,7 @@
                 });
                 $log.info('favoriteTopics', $scope.favoriteTopics.length);
                 $log.info('POST /favorites: topic = ' + id);
-                ForumService.addUserFavorite(id, 'topic', forum);
+                ForumService.addUserFavorite({type: 'topic', topic: id, forum: id});
             }
 
             if (target.hasClass('glyphicon-star')) {
@@ -297,7 +297,7 @@
                     _.findWhere($scope.favoriteTopics, {id: id}));
                 $log.info('favoriteTopics', $scope.favoriteTopics.length);
                 $log.info('DELETE /favorites: topic = ' + id);
-                ForumService.removeUserFavorite(id, 'topic');
+                ForumService.removeUserFavorite(id, {type: 'topic'});
             }
             target.toggleClass('glyphicon-star-empty glyphicon-star');
         };
