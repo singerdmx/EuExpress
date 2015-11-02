@@ -185,3 +185,20 @@ div.messageUserBlock {
     width: 0;
   }
 }
+
+div.messageMeta {
+  font-size: 11px;
+  margin: -5px;
+  overflow: hidden;
+  padding: 15px 5px 5px;
+
+  .privateControls {
+    float: left;
+
+    .item {
+      float: left;
+      margin-right: 10px;
+      color: rgb(150, 150, 150);
+    }
+  }
+}

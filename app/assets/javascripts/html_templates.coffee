@@ -35,3 +35,16 @@ window.htmlTemplates.userInfo = '''
     </div>
   </div>
 '''
+
+window.htmlTemplates.postBody = '''
+  <div class="messageInfo">
+    <%= data.text %>
+  </div>
+  <div class="messageMeta">
+    <div class="privateControls">
+      <span class="item">
+        <abbr>Saturday at 12:06 PM</abbr>
+      </span
+    </div>
+  </div>
+'''

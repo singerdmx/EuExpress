@@ -270,6 +270,7 @@
         var renderPostsTable = function (data) {
             $log.info('posts', data);
             var userInfoTemplate = _.template(htmlTemplates.userInfo);
+            var postBodyTemplate = _.template(htmlTemplates.postBody);
             var columns = [
                 {
                     'sTitle': 'updated_at',
@@ -284,10 +285,13 @@
                 {
                     'sTitle': 'Text',
                     'sClass': 'panel-title title-column',
+                    'render': function (data, type, row) {
+                        return postBodyTemplate({data: data});
+                    }
                 },
             ]
             var aaData = _.map(data, function (p) {
-                return [p.updated_at, p.user, p.text];
+                return [p.updated_at, p.user, p];
             });
 
             $log.info(aaData);
