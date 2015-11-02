@@ -13,7 +13,10 @@
               </div>
               <div class="navbar-body">
                 <span ng-repeat="topic in favoriteTopics" ng-click="selectTopic(topic.forum, topic.id, $event)"
-                      class="forum-item panel-title">{{topic.subject}}</span>
+                      class="forum-item panel-title">
+                  <i class="glyphicon glyphicon glyphicon-th"></i>
+                  {{topic.subject}}
+                </span>
               </div>
             </div>
           </nav>

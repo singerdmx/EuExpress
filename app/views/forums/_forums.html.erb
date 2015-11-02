@@ -13,7 +13,10 @@
                 <span class="label label-danger favorites-title">Favorite Forums</span>
               </div>
               <div class="navbar-body">
-                <span ng-repeat="forum in favoriteForums" ng-click="selectForum(forum.name, forum.id, forum.category, $event)" class="forum-item panel-title">{{forum.name}}</span>
+                <span ng-repeat="forum in favoriteForums" ng-click="selectForum(forum.name, forum.id, forum.category, $event)" class="forum-item panel-title">
+                  <i class="glyphicon glyphicon glyphicon-th-large"></i>
+                  {{forum.name}}
+                </span>
               </div>
             </div>
           </nav>
