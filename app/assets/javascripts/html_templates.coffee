@@ -29,6 +29,9 @@ window.htmlTemplates.userInfo = '''
         <a class="username" href="members/user-id/"><%= data.name %></a>
         <em class="userTitle">Level: Cupcake</em>
       </h3>
+      <span class="arrow">
+        <span></span>
+      </span>
     </div>
   </div>
 '''

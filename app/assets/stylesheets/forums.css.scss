@@ -166,4 +166,22 @@ div.messageUserBlock {
       font-size: 11px;
     }
   }
+
+  .arrow span {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: #f5f5f5;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: transparent -moz-use-text-color transparent #f5f5f5;
+    border-image: none;
+    border-style: solid none solid solid;
+    border-width: 10px medium 10px 10px;
+    display: block;
+    height: 0;
+    left: 81px;
+    line-height: 0;
+    position: absolute;
+    top: 10px;
+    width: 0;
+  }
 }
