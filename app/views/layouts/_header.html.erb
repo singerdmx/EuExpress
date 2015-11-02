@@ -13,8 +13,12 @@
                 <a aria-expanded="true" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#">
                   <%= current_user.name %>
                   <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><%= link_to current_user.email, main_app.edit_user_registration_path %></li>
+                <ul class="dropdown-menu" style="padding-right: 18px">
+                  <li>
+                    <a href="/users/edit">
+                      <i class="pull-left glyphicon glyphicon glyphicon-user dropdown-menu-icon"></i>
+                      <%= current_user.email %>
+                    </a>
                   <li>
                     <a href="/conversations">
                       <i class="pull-left glyphicon glyphicon glyphicon-envelope dropdown-menu-icon"></i>
@@ -22,7 +26,12 @@
                     </a>
                   </li>
                   <% if current_user.forem_admin %>
-                      <li><%= link_to "Administrate", admin_root_url %></li>
+                      <li>
+                        <a href="/admin">
+                          <i class="pull-left glyphicon glyphicon glyphicon-edit dropdown-menu-icon"></i>
+                          Administrate
+                        </a>
+                      </li>
                   <% end %>
                   <li class="divider"></li>
                   <li><%= link_to "Sign out", main_app.destroy_user_session_path, :method => :delete %></li>
