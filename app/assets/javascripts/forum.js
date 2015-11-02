@@ -112,7 +112,25 @@
 
     forum.service('ForumService', ['$http', '$log', '$q', forumService]);
 
-    var forumController = function ($scope, $log, $compile, ForumService) {
+    // Please note that $modalInstance represents a modal window (instance) dependency.
+    // It is not the same as the $uibModal service used below.
+    var modalInstanceController = function ($scope, $modalInstance, items) {
+        $scope.items = items;
+        $scope.selected = {
+            item: $scope.items[0]
+        };
+
+        $scope.ok = function () {
+            $modalInstance.close($scope.selected.item);
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+    };
+    forum.controller('ModalInstanceController', ['$scope', '$modalInstance', 'items', modalInstanceController]);
+
+    var forumController = function ($scope, $log, $compile, $uibModal, ForumService) {
         $scope.oneAtATime = true;
 
         $scope.forumStatus = {
@@ -242,7 +260,7 @@
             };
             $log.info('Topics table definition', tableDefinition);
             $('table#topicsTable').dataTable(tableDefinition);
-            var refreshButtonHtml = '<button class="btn btn-danger" type="button"><i class="glyphicon glyphicon-pencil"></i>&nbsp;New Topic</button>' +
+            var refreshButtonHtml = '<button ng-click="openModal()" class="btn btn-danger" type="button"><i class="glyphicon glyphicon-pencil"></i>&nbsp;New Topic</button>' +
                 '<button class="btn btn-info" type="button" ng-click="refreshTopicsTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
             var tableToolBar = 'div.topics-table-toolbar';
             $(tableToolBar).html(refreshButtonHtml);
@@ -410,7 +428,29 @@
                 $scope.refreshTopicsTable();
             }
         });
+
+        $scope.items = ['item1', 'item2', 'item3'];
+
+        $scope.openModal = function () {
+            var modalInstance = $uibModal.open({
+                animation: false,
+                templateUrl: 'myModalContent.html',
+                controller: 'ModalInstanceController',
+                size: 'lg',
+                resolve: {
+                    items: function () {
+                        return $scope.items;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (selectedItem) {
+                $scope.selected = selectedItem;
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
     };
 
-    forum.controller('ForumController', ['$scope', '$log', '$compile', 'ForumService', forumController]);
+    forum.controller('ForumController', ['$scope', '$log', '$compile', '$uibModal', 'ForumService', forumController]);
 }());
