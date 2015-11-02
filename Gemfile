@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.13'
+gem 'rails', '4.1.13'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -27,7 +27,7 @@ gem 'pg', '~> 0.18.3'
 gem 'devise', '~> 3.5.2'
 
 # forem
-gem 'forem', github: 'radar/forem', branch: 'rails4', ref: 'c3a1634f33d5'
+gem 'forem', github: 'radar/forem', branch: 'rails4', ref: '3f00f7744c51b286c873ef9169a1bb82a2f81736'
 gem 'will_paginate', '3.0.5'
 gem 'cancan', '1.6.10'
 
