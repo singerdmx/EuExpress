@@ -130,7 +130,7 @@
     };
     forum.controller('ModalInstanceController', ['$scope', '$modalInstance', 'items', modalInstanceController]);
 
-    var forumController = function ($scope, $log, $compile, $uibModal, ForumService) {
+    var forumController = function ($scope, $log, $compile, $uibModal, $filter, ForumService) {
         $scope.oneAtATime = true;
 
         $scope.forumStatus = {
@@ -291,6 +291,7 @@
                 },
             ]
             var aaData = _.map(data, function (p) {
+                p.updated_at_time = $filter('date')(p.updated_at * 1000, 'MMM d, y h:mm a');
                 return [p.updated_at, p.user, p];
             });
 
@@ -456,5 +457,5 @@
         };
     };
 
-    forum.controller('ForumController', ['$scope', '$log', '$compile', '$uibModal', 'ForumService', forumController]);
+    forum.controller('ForumController', ['$scope', '$log', '$compile', '$uibModal', '$filter', 'ForumService', forumController]);
 }());

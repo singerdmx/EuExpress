@@ -201,4 +201,17 @@ div.messageMeta {
       color: rgb(150, 150, 150);
     }
   }
+
+  .publicControls {
+    float: right;
+
+    .item {
+      float: left;
+      margin-left: 10px;
+    }
+
+    a {
+      color: #d9534f;
+    }
+  }
 }

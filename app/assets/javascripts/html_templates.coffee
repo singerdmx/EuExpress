@@ -43,8 +43,12 @@ window.htmlTemplates.postBody = '''
   <div class="messageMeta">
     <div class="privateControls">
       <span class="item">
-        <abbr>Saturday at 12:06 PM</abbr>
-      </span
+        <abbr><%= data.updated_at_time %></abbr>
+      </span>
+    </div>
+    <div class="publicControls">
+      <a class="item">Like</a>
+      <a title="Reply, quoting this message" class="item">Reply</a>
     </div>
   </div>
 '''
