@@ -292,6 +292,9 @@
             ]
             var aaData = _.map(data, function (p) {
                 p.updated_at_time = $filter('date')(p.updated_at * 1000, 'MMM d, y h:mm a');
+                if ($scope.userId == p.user.id) {
+                    p.edit = true;
+                }
                 return [p.updated_at, p.user, p];
             });
 

@@ -47,6 +47,9 @@ window.htmlTemplates.postBody = '''
       </span>
     </div>
     <div class="publicControls">
+      <% if (data.edit) { %>
+        <a class="item">Edit</a>
+      <% } %>
       <a class="item">Like</a>
       <a title="Reply, quoting this message" class="item">Reply</a>
     </div>
