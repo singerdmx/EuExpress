@@ -128,3 +128,42 @@ span.forum-item {
 table#postsTable thead {
   display: none;
 }
+
+/* Posts Table */
+
+div.messageUserInfo {
+  float: left;
+  width: 81px;
+}
+
+div.messageUserBlock {
+  background-color: #f5f5f5;
+  border-radius: 2px;
+  position: relative;
+
+  div.avatarHolder {
+    padding: 8px;
+
+    .avatar {
+      display: inline-block;
+      font-size: 0;
+    }
+  }
+
+  h3.userText {
+    padding: 5px;
+    margin: 0px 0px 0px 5px;
+
+    a.username {
+      color: dimgrey;
+      display: block;
+      font-weight: bold;
+      font-size: 13px;
+      overflow: hidden;
+    }
+    .userTitle {
+      display: block;
+      font-size: 11px;
+    }
+  }
+}

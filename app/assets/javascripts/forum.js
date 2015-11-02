@@ -251,6 +251,7 @@
 
         var renderPostsTable = function (data) {
             $log.info('posts', data);
+            var userInfoTemplate = _.template(htmlTemplates.userInfo);
             var columns = [
                 {
                     'sTitle': 'updated_at',
@@ -259,7 +260,7 @@
                     'sTitle': '', // picture
                     'sWidth': '20px',
                     'render': function (data, type, row) {
-                        return '<img src="' + data + '" alt="Avatar">';
+                        return userInfoTemplate({data: data});
                     }
                 },
                 {
@@ -268,7 +269,7 @@
                 },
             ]
             var aaData = _.map(data, function (p) {
-                return [p.updated_at, p.user.picture, p.text];
+                return [p.updated_at, p.user, p.text];
             });
 
             $log.info(aaData);
@@ -395,7 +396,7 @@
             ForumService.getTopicsWithFavorites($scope.selectedForum.id).then(renderTopicsTable, onError);
         };
         $scope.refreshPostsTable = function () {
-            ForumService.getPosts(id).then(renderPostsTable, onError);
+            ForumService.getPosts($scope.selectedTopic.id).then(renderPostsTable, onError);
         };
         $scope.$watch('forumStatus.open', function (newValue, oldValue) {
             $log.info('forumStatus.open', $scope.forumStatus.open);

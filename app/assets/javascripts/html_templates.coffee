@@ -16,6 +16,19 @@ window.htmlTemplates.topic = '''
     <%= data.user.name %>, <%= data.created_at_ago %>&nbsp; &nbsp; &nbsp;Latest reply: <%= data.last_post_by.name %>, <%= data.last_post_at_ago %>
   </div>
 '''
-window.htmlTemplates.postUser = '''
-
+window.htmlTemplates.userInfo = '''
+  <div class="messageUserInfo">
+    <div class="messageUserBlock ">
+      <div class="avatarHolder">
+        <span class="helper"></span>
+        <a class="avatar" href="members/user-id/">
+          <img width="65" height="65" alt="Avatar" src="<%= data.picture %>">
+        </a>
+      </div>
+      <h3 class="userText">
+        <a class="username" href="members/user-id/"><%= data.name %></a>
+        <em class="userTitle">Level: Cupcake</em>
+      </h3>
+    </div>
+  </div>
 '''
