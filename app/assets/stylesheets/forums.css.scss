@@ -215,3 +215,9 @@ div.messageMeta {
     }
   }
 }
+
+/* Modal */
+
+div.modal-body div#cke_ckeditor span.cke_path > a {
+  display: none;
+}
