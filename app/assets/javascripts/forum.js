@@ -111,11 +111,15 @@
     // Please note that $modalInstance represents a modal window (instance) dependency.
     // It is not the same as the $uibModal service used below.
     var modalInstanceController = function ($scope, $modalInstance, title, topicId, postId, subject, text) {
-        $scope.title = title;
-        $scope.topicId = topicId;
-        $scope.postId = postId;
-        $scope.subject = subject;
-        $scope.text = text;
+        $scope.modalTitle = title;
+        $scope.modalTopicId = topicId;
+        $scope.modalPostId = postId;
+        $scope.modalSubject = subject;
+        $scope.modalText = text;
+        $scope.modalSubjectDisabled = true;
+        if ($scope.modalTopicId == '') {
+            $scope.modalSubjectDisabled = false;
+        }
 
         $scope.submitForm = function () {
             $modalInstance.close();
@@ -317,7 +321,9 @@
             };
             $log.info('Posts table definition', tableDefinition);
             $('table#postsTable').dataTable(tableDefinition);
-            var refreshButtonHtml = '<button class="btn btn-danger" type="button"><i class="glyphicon glyphicon-pencil"></i>&nbsp;New Post</button>' +
+            var refreshButtonHtml = '<button ng-click="openModal(\'New Post\', \'' + ($scope.selectedTopic == undefined ? '' : $scope.selectedTopic.id) +
+                '\', \'\', \'' + ($scope.selectedTopic == undefined ? '' : $scope.selectedTopic.subject) +
+                '\', \'\')" class="btn btn-danger" type="button"><i class="glyphicon glyphicon-pencil"></i>&nbsp;New Post</button>' +
                 '<button class="btn btn-info" type="button" ng-click="refreshPostsTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
             var tableToolBar = 'div.posts-table-toolbar';
             $(tableToolBar).html(refreshButtonHtml);

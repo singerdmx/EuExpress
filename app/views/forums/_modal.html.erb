@@ -1,11 +1,14 @@
 <script type="text/ng-template" id="modalContent.html">
   <div class="modal-header">
-    <h3 class="modal-title">{{title}}</h3>
+    <h3 class="modal-title">{{modalTitle}}</h3>
+    <span id="modalTopicId" style="display: none">{{modalTopicId}}</span>
+    <span id="modalPostId" style="display: none">{{modalPostId}}</span>
   </div>
   <div class="modal-body">
-    <input type="text" class="form-control" placeholder="Title" style="margin-bottom: 10px" ng-model="topicSubject">
+    <input type="text" class="form-control" placeholder="Title"
+           style="margin-bottom: 10px" value="{{modalSubject}}" ng-disabled="modalSubjectDisabled">
     <textarea name="ckeditor" id="ckeditor" rows="10" cols="80">
-      {{text}}
+      {{modalText}}
     </textarea>
   </div>
   <div class="modal-footer">
