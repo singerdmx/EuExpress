@@ -263,7 +263,7 @@
             };
             $log.info('Topics table definition', tableDefinition);
             $('table#topicsTable').dataTable(tableDefinition);
-            var refreshButtonHtml = '<button ng-click="openModal(\'New Topic\', \'\', \'\')" class="btn btn-danger" type="button"><i class="glyphicon glyphicon-pencil"></i>&nbsp;New Topic</button>' +
+            var refreshButtonHtml = '<button ng-click="openModal(\'New Topic\', \'\', \'\', \'\', \'\')" class="btn btn-danger" type="button"><i class="glyphicon glyphicon-pencil"></i>&nbsp;New Topic</button>' +
                 '<button class="btn btn-info" type="button" ng-click="refreshTopicsTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
             var tableToolBar = 'div.topics-table-toolbar';
             $(tableToolBar).html(refreshButtonHtml);
@@ -321,7 +321,9 @@
             };
             $log.info('Posts table definition', tableDefinition);
             $('table#postsTable').dataTable(tableDefinition);
-            var refreshButtonHtml = '<button ng-click="openModal(\'New Post\', \'\', \'\')" class="btn btn-danger" type="button"><i class="glyphicon glyphicon-pencil"></i>&nbsp;New Post</button>' +
+            var refreshButtonHtml = '<button ng-click="openModal(\'New Post\', \'' + ($scope.selectedTopic == undefined ? '' : $scope.selectedTopic.id) +
+                '\', \'\', \'' + ($scope.selectedTopic == undefined ? '' : $scope.selectedTopic.subject) +
+                '\', \'\')" class="btn btn-danger" type="button"><i class="glyphicon glyphicon-pencil"></i>&nbsp;New Post</button>' +
                 '<button class="btn btn-info" type="button" ng-click="refreshPostsTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
             var tableToolBar = 'div.posts-table-toolbar';
             $(tableToolBar).html(refreshButtonHtml);
@@ -440,7 +442,7 @@
             }
         });
 
-        $scope.openModal = function (modalTitle, postId, text) {
+        $scope.openModal = function (modalTitle, topicId, postId, subject, text) {
             var modalInstance = $uibModal.open({
                 animation: false,
                 templateUrl: 'modalContent.html',
@@ -451,13 +453,13 @@
                         return modalTitle;
                     },
                     topicId: function () {
-                        return $scope.selectedTopic == undefined ? '' : $scope.selectedTopic.id;
+                        return topicId;
                     },
                     postId: function () {
                         return postId;
                     },
                     subject: function () {
-                        return $scope.selectedTopic == undefined ? '' : $scope.selectedTopic.subject;
+                        return subject;
                     },
                     text: function () {
                         return text;
