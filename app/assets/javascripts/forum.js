@@ -114,21 +114,18 @@
 
     // Please note that $modalInstance represents a modal window (instance) dependency.
     // It is not the same as the $uibModal service used below.
-    var modalInstanceController = function ($scope, $modalInstance, items) {
-        $scope.items = items;
-        $scope.selected = {
-            item: $scope.items[0]
+    var modalInstanceController = function ($scope, $modalInstance, title) {
+        $scope.title = title;
+
+        $scope.submitForm = function () {
+            $modalInstance.close();
         };
 
-        $scope.ok = function () {
-            $modalInstance.close($scope.selected.item);
-        };
-
-        $scope.cancel = function () {
+        $scope.cancelForm = function () {
             $modalInstance.dismiss('cancel');
         };
     };
-    forum.controller('ModalInstanceController', ['$scope', '$modalInstance', 'items', modalInstanceController]);
+    forum.controller('ModalInstanceController', ['$scope', '$modalInstance', 'title', modalInstanceController]);
 
     var forumController = function ($scope, $log, $compile, $uibModal, $filter, ForumService) {
         $scope.oneAtATime = true;
@@ -260,7 +257,7 @@
             };
             $log.info('Topics table definition', tableDefinition);
             $('table#topicsTable').dataTable(tableDefinition);
-            var refreshButtonHtml = '<button ng-click="openModal()" class="btn btn-danger" type="button"><i class="glyphicon glyphicon-pencil"></i>&nbsp;New Topic</button>' +
+            var refreshButtonHtml = '<button ng-click="openModal(\'New Topic\')" class="btn btn-danger" type="button"><i class="glyphicon glyphicon-pencil"></i>&nbsp;New Topic</button>' +
                 '<button class="btn btn-info" type="button" ng-click="refreshTopicsTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
             var tableToolBar = 'div.topics-table-toolbar';
             $(tableToolBar).html(refreshButtonHtml);
@@ -437,23 +434,25 @@
             }
         });
 
-        $scope.items = ['item1', 'item2', 'item3'];
-
-        $scope.openModal = function () {
+        $scope.openModal = function (modalTitle) {
             var modalInstance = $uibModal.open({
                 animation: false,
-                templateUrl: 'myModalContent.html',
+                templateUrl: 'modalContent.html',
                 controller: 'ModalInstanceController',
                 size: 'lg',
                 resolve: {
-                    items: function () {
-                        return $scope.items;
+                    title: function () {
+                        return modalTitle;
                     }
                 }
             });
 
-            modalInstance.result.then(function (selectedItem) {
-                $scope.selected = selectedItem;
+            modalInstance.rendered.then(function () {
+                CKEDITOR.replace('ckeditor');
+            });
+
+            modalInstance.result.then(function () {
+                $log.info('Modal ok');
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
