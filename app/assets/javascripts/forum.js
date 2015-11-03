@@ -1,8 +1,4 @@
 (function () {
-    $(document).ready(function () {
-        $('abbr.timeago').timeago();
-    });
-
     var forum = angular.module('forum', ['ngAnimate', 'ui.bootstrap']);
 
     var forumService = function ($http, $log, $q) {
@@ -114,8 +110,12 @@
 
     // Please note that $modalInstance represents a modal window (instance) dependency.
     // It is not the same as the $uibModal service used below.
-    var modalInstanceController = function ($scope, $modalInstance, title) {
+    var modalInstanceController = function ($scope, $modalInstance, title, topicId, postId, subject, text) {
         $scope.title = title;
+        $scope.topicId = topicId;
+        $scope.postId = postId;
+        $scope.subject = subject;
+        $scope.text = text;
 
         $scope.submitForm = function () {
             $modalInstance.close();
@@ -125,7 +125,9 @@
             $modalInstance.dismiss('cancel');
         };
     };
-    forum.controller('ModalInstanceController', ['$scope', '$modalInstance', 'title', modalInstanceController]);
+
+    forum.controller('ModalInstanceController',
+        ['$scope', '$modalInstance', 'title', 'topicId', 'postId', 'subject', 'text', modalInstanceController]);
 
     var forumController = function ($scope, $log, $compile, $uibModal, $filter, ForumService) {
         $scope.oneAtATime = true;
@@ -257,7 +259,7 @@
             };
             $log.info('Topics table definition', tableDefinition);
             $('table#topicsTable').dataTable(tableDefinition);
-            var refreshButtonHtml = '<button ng-click="openModal(\'New Topic\')" class="btn btn-danger" type="button"><i class="glyphicon glyphicon-pencil"></i>&nbsp;New Topic</button>' +
+            var refreshButtonHtml = '<button ng-click="openModal(\'New Topic\', \'\', \'\', \'\', \'\')" class="btn btn-danger" type="button"><i class="glyphicon glyphicon-pencil"></i>&nbsp;New Topic</button>' +
                 '<button class="btn btn-info" type="button" ng-click="refreshTopicsTable()"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Refresh</button>';
             var tableToolBar = 'div.topics-table-toolbar';
             $(tableToolBar).html(refreshButtonHtml);
@@ -434,7 +436,7 @@
             }
         });
 
-        $scope.openModal = function (modalTitle) {
+        $scope.openModal = function (modalTitle, topicId, postId, subject, text) {
             var modalInstance = $uibModal.open({
                 animation: false,
                 templateUrl: 'modalContent.html',
@@ -443,7 +445,19 @@
                 resolve: {
                     title: function () {
                         return modalTitle;
-                    }
+                    },
+                    topicId: function () {
+                        return topicId;
+                    },
+                    postId: function () {
+                        return postId;
+                    },
+                    subject: function () {
+                        return subject;
+                    },
+                    text: function () {
+                        return text;
+                    },
                 }
             });
 
