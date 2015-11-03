@@ -23,3 +23,4 @@
 //= require ui-bootstrap-tpls-0.14.2
 //= require forum
 //= require forum-admin
+//= require ckeditor/ckeditor
