@@ -86,6 +86,10 @@
                 });
         };
 
+        var newTopic = function (forum_id, subject, text) {
+
+        };
+
         var getPosts = function (topic_id) {
             var url = '/topics/' + topic_id + '/posts';
             return $http.get(url)
@@ -102,6 +106,7 @@
             getForum: getForum,
             getTopicsWithFavorites: getTopicsWithFavorites,
             getTopic: getTopic,
+            newTopic: newTopic,
             getPosts: getPosts,
         };
     };
@@ -110,7 +115,7 @@
 
     // Please note that $modalInstance represents a modal window (instance) dependency.
     // It is not the same as the $uibModal service used below.
-    var modalInstanceController = function ($scope, $modalInstance, title, topicId, postId, subject, text) {
+    var modalInstanceController = function ($scope, $log, $modalInstance, title, topicId, postId, subject, text) {
         $scope.modalTitle = title;
         $scope.modalTopicId = topicId;
         $scope.modalPostId = postId;
@@ -121,7 +126,9 @@
             $scope.modalSubjectDisabled = false;
         }
 
-        $scope.submitForm = function () {
+        $scope.submitForm = function (subject) {
+            $log.info('modalSubject', subject);
+            $log.info('ckeditor data', CKEDITOR.instances['ckeditor'].getData());
             $modalInstance.close();
         };
 
@@ -131,7 +138,7 @@
     };
 
     forum.controller('ModalInstanceController',
-        ['$scope', '$modalInstance', 'title', 'topicId', 'postId', 'subject', 'text', modalInstanceController]);
+        ['$scope', '$log', '$modalInstance', 'title', 'topicId', 'postId', 'subject', 'text', modalInstanceController]);
 
     var forumController = function ($scope, $log, $compile, $uibModal, $filter, ForumService) {
         $scope.oneAtATime = true;
