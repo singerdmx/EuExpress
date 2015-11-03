@@ -34,4 +34,19 @@ CKEDITOR.editorConfig = function (config) {
         {name: 'colors', items: ['TextColor', 'BGColor']},
         {name: 'tools', items: ['Maximize', 'ShowBlocks']},
     ];
+    config.smiley_descriptions =
+        [
+            'smiley', 'sad', 'wink', 'laugh', 'frown', 'cheeky', 'blush', 'surprise',
+            'indecision', 'angry', 'angel', 'cool', 'devil', 'crying', 'wild_smile', 'cool_guy', 'sweat',
+            'despise_you', '5.gif', '6.gif', '7.gif', '8.gif', '9.gif', '10.gif', '03.gif',
+            'enlightened', 'no',
+            'yes', 'heart', 'broken heart', 'kiss', 'mail',
+        ];
+    config.smiley_images = [
+        'regular_smile.gif', 'sad_smile.gif', 'wink_smile.gif', 'teeth_smile.gif', 'confused_smile.gif', 'tounge_smile.gif',
+        'embaressed_smile.gif', 'omg_smile.gif', 'whatchutalkingabout_smile.gif', 'angry_smile.gif', 'angel_smile.gif', 'shades_smile.gif',
+        'devil_smile.gif', 'cry_smile.gif', 'wild_smile.gif', 'cool_guy.gif', 'sweat.gif', 'despise_you.gif',
+        '5.gif', '6.gif', '7.gif', '8.gif', '9.gif', '10.gif', '03.gif',
+        'lightbulb.gif', 'thumbs_down.gif', 'thumbs_up.gif', 'heart.gif',
+        'broken_heart.gif', 'kiss.gif', 'envelope.gif'];
 };
