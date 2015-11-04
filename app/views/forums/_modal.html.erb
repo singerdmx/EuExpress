@@ -7,7 +7,7 @@
   <div class="modal-body">
     <input type="text" class="form-control" placeholder="Title" id="modalSubject"
            style="margin-bottom: 10px" ng-model="modalSubject" ng-disabled="modalSubjectDisabled">
-    <textarea name="ckeditor" id="ckeditor" rows="10" cols="80">
+    <textarea name="ckeditor" id="ckeditor" rows="10" cols="80" ng-hide="modalTitle == 'Edit Topic'">
       {{modalText}}
     </textarea>
   </div>

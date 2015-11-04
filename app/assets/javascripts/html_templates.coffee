@@ -18,7 +18,7 @@ window.htmlTemplates.topic = '''
     </div>
     <div class="publicControls">
       <% if (data.edit) { %>
-        <a class="item">Edit</a>
+        <a class="item" ng-click="openModal('Edit Topic', '<%= data.id %>', '',  '<%= data.subject %>', '')">Edit</a>
         <a class="item" ng-click="deleteTopic('<%= data.forum %>', '<%= data.id %>')">Delete</a>
       <% } %>
     </div>

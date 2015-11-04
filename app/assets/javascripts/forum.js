@@ -142,16 +142,26 @@
         $scope.modalPostId = postId;
         $scope.modalSubject = subject;
         $scope.modalText = text;
-        $scope.modalSubjectDisabled = true;
-        if ($scope.modalTopicId == '') {
-            $scope.modalSubjectDisabled = false;
+        $scope.modalSubjectDisabled = false;
+        if (title == 'New Post' || title == 'Edit Post' ) {
+            $scope.modalSubjectDisabled = true;
         }
 
         $scope.submitForm = function (subject) {
             $log.info('modalSubject', subject);
             var text = CKEDITOR.instances['ckeditor'].getData();
             $log.info('ckeditor data', text);
-            ForumService.newTopic(forum.category, forum.id, subject, text);
+            switch (title) {
+                case 'New Topic':
+                    ForumService.newTopic(forum.category, forum.id, subject, text);
+                    break;
+                case 'Edit Topic':
+                    break;
+                case 'New Post':
+                    break;
+                default:
+                    $log.error('Invalid title: ' + title);
+            }
             $modalInstance.close();
         };
 
@@ -517,13 +527,16 @@
             });
 
             modalInstance.rendered.then(function () {
-                CKEDITOR.replace('ckeditor');
+                if (modalTitle != 'Edit Topic') {
+                    CKEDITOR.replace('ckeditor');
+                }
             });
 
             modalInstance.result.then(function () {
                 $log.info('Modal ok');
                 switch (modalTitle) {
                     case 'New Topic':
+                    case 'Edit Topic':
                         $scope.refreshTopicsTable();
                         break;
                     case 'New Post':
