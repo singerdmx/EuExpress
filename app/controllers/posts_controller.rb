@@ -5,7 +5,8 @@ class PostsController < ApplicationController
 
   before_filter :authenticate_forem_user, except: [:index, :show]
   # before_filter :find_topic
-  before_filter :reject_locked_topic!, only: [:new, :create]
+  # before_filter :reject_locked_topic!, only: [:create]
+  protect_from_forgery except: [:create, :destroy, :update]
 
   def index
     fail 'params topic_id is undefined!' unless params[:topic_id]
@@ -34,43 +35,16 @@ class PostsController < ApplicationController
     render json: {message: e.to_s}.to_json, status: :internal_server_error
   end
 
-  def show
-    find_post
-    page = (@topic.posts.count.to_f / Forem.per_page.to_f).ceil
-
-    redirect_to forum_topic_url(@topic.forum, @topic, pagination_param => page, anchor: "post-#{@post.id}")
-  end
-
-  def new
-    authorize_reply_for_topic!
-    block_spammers
-    @post = @topic.posts.build
-    find_reply_to_post
-
-    if params[:quote] && @reply_to_post
-      @post.text = view_context.forem_quote(@reply_to_post.text)
-    elsif params[:quote] && !@reply_to_post
-      flash[:notice] = t("forem.post.cannot_quote_deleted_post")
-      redirect_to [@topic.forum, @topic]
-    end
-  end
-
   def create
-    authorize_reply_for_topic!
-    block_spammers
-    @post = @topic.posts.build(post_params)
-    @post.user = forem_user
-
-    if @post.save
-      create_successful
-    else
-      create_failed
-    end
-  end
-
-  def edit
-    authorize_edit_post_for_forum!
-    find_post
+    Post.create(category: params['category'],
+                forum: params['forum_id'],
+                topic: params['topic_id'],
+                text: params['text'],
+                user_id: current_user.id)
+    render json: {success: true}
+  rescue Exception => e
+    Rails.logger.error "Encountered an error: #{e.inspect}\nbacktrace: #{e.backtrace}"
+    render json: {message: e.to_s}.to_json, status: :internal_server_error
   end
 
   def update

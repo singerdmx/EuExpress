@@ -56,7 +56,7 @@ Rails.application.routes.draw do
   end
 
   resources :topics, only: [:index] do
-    resources :posts, only: [:index]
+    resources :posts
   end
 
   resources :favorites, only: [:index, :create, :destroy]

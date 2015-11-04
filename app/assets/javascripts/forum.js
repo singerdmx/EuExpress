@@ -127,6 +127,21 @@
                 });
         };
 
+        var newPost = function (category, forum, topic_id, text, reply_to_post) {
+            var url = '/topics/' + topic_id + '/posts';
+            var params = {
+                category: category,
+                forum: forum,
+                text: text,
+                reply_to_post: reply_to_post,
+            };
+            return $http.post(url, params)
+                .then(function (response) {
+                    $log.info('post ' + url + ' response', response);
+                    return response.data;
+                });
+        };
+
         return {
             getCategoriesWithFavorites: getCategoriesWithFavorites,
             addUserFavorite: addUserFavorite,
@@ -138,6 +153,7 @@
             deleteTopic: deleteTopic,
             editTopic: editTopic,
             getPosts: getPosts,
+            newPost: newPost,
         };
     };
 
@@ -171,6 +187,7 @@
                     ForumService.editTopic(forum.id, topicId, subject);
                     break;
                 case 'New Post':
+                    ForumService.newPost(forum.category, forum.id, topicId, text);
                     break;
                 default:
                     $log.error('Invalid title: ' + title);
