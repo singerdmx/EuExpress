@@ -243,6 +243,9 @@
                     'sTitle': 'Subject',
                     'sClass': 'panel-title title-column',
                     'render': function (data, type, row) {
+                        if ($scope.userId == data.user.id) {
+                            data.edit = true;
+                        }
                         return template({data: data});
                     }
                 },

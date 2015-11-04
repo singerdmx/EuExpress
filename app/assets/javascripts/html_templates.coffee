@@ -12,8 +12,16 @@ window.htmlTemplates.topic = '''
     <i ng-click="toggleFavoriteTopic('<%= data.forum %>', '<%= data.id %>', '<%= data.subject %>', $event)" class="star glyphicon glyphicon-star<%= data.favorite ? '' : '-empty' %> forum-icon"></i>
     <span class="forum-item" ng-click="selectTopic('<%= data.forum %>', '<%= data.id %>', $event)"><%= data.subject %></span>
   </div>
-  <div class="second-row">
-    <%= data.user.name %>, <%= data.created_at_ago %>&nbsp; &nbsp; &nbsp;Latest reply: <%= data.last_post_by.name %>, <%= data.last_post_at_ago %>
+  <div class="messageMeta">
+    <div class="privateControls">
+      <%= data.user.name %>, <%= data.created_at_ago %>&nbsp; &nbsp; &nbsp;Latest reply: <%= data.last_post_by.name %>, <%= data.last_post_at_ago %>
+    </div>
+    <div class="publicControls">
+      <% if (data.edit) { %>
+        <a class="item">Edit</a>
+        <a class="item">Delete</a>
+      <% } %>
+    </div>
   </div>
 '''
 window.htmlTemplates.userInfo = '''
@@ -49,6 +57,7 @@ window.htmlTemplates.postBody = '''
     <div class="publicControls">
       <% if (data.edit) { %>
         <a class="item">Edit</a>
+        <a class="item">Delete</a>
       <% } %>
       <a class="item">Like</a>
       <a title="Reply, quoting this message" class="item">Reply</a>
