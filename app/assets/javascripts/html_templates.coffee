@@ -56,7 +56,7 @@ window.htmlTemplates.postBody = '''
     </div>
     <div class="publicControls">
       <% if (data.edit) { %>
-        <a class="item">Edit</a>
+        <a class="item" ng-click="openModal('Edit Post', '<%= data.topic %>', '<%= data.id %>',  '', '<%= data.text %>')">Edit</a>
         <a class="item" ng-click="deletePost('<%= data.topic %>', '<%= data.id %>')">Delete</a>
       <% } %>
       <a class="item">Like</a>

@@ -332,7 +332,7 @@ if ENV['massive_seeding']
         category: topic.category,
         forum: topic.forum,
         topic: topic.id,
-        text: "Post of topic #{topic.inspect}",
+        text: "Post of topic #{topic}",
         state: 'approved',
         user_id: users[SecureRandom.random_number(100) % users.size].id)
   end

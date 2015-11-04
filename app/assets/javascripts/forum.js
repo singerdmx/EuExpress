@@ -549,6 +549,8 @@
         });
 
         $scope.openModal = function (modalTitle, topicId, postId, subject, text) {
+            $log.info('openModal modalTitle: ' + modalTitle + ', topicId: ' +
+                topicId + ', postId: ' + postId + ', subject: ' + subject + ', text: ' + text);
             var modalInstance = $uibModal.open({
                 animation: false,
                 templateUrl: 'modalContent.html',
@@ -590,6 +592,7 @@
                         $scope.refreshTopicsTable();
                         break;
                     case 'New Post':
+                    case 'Edit Post':
                         $scope.refreshPostsTable();
                         break;
                     default:
