@@ -87,7 +87,16 @@
         };
 
         var newTopic = function (forum_id, subject, text) {
-
+            var url = '/forums/' + forum_id + '/topics';
+            var params = {
+                subject: subject,
+                text: text,
+            };
+            return $http.post(url)
+                .then(function (response) {
+                    $log.info('POST ' + url + ' response', response);
+                    return response.data;
+                });
         };
 
         var getPosts = function (topic_id) {
@@ -115,7 +124,8 @@
 
     // Please note that $modalInstance represents a modal window (instance) dependency.
     // It is not the same as the $uibModal service used below.
-    var modalInstanceController = function ($scope, $log, $modalInstance, title, topicId, postId, subject, text) {
+    var modalInstanceController = function ($scope, $log, $modalInstance,
+                                            ForumService, forumId, title, topicId, postId, subject, text) {
         $scope.modalTitle = title;
         $scope.modalTopicId = topicId;
         $scope.modalPostId = postId;
@@ -128,7 +138,9 @@
 
         $scope.submitForm = function (subject) {
             $log.info('modalSubject', subject);
-            $log.info('ckeditor data', CKEDITOR.instances['ckeditor'].getData());
+            var text = CKEDITOR.instances['ckeditor'].getData();
+            $log.info('ckeditor data', text);
+            ForumService.newTopic(forumId, subject, text);
             $modalInstance.close();
         };
 
@@ -138,7 +150,8 @@
     };
 
     forum.controller('ModalInstanceController',
-        ['$scope', '$log', '$modalInstance', 'title', 'topicId', 'postId', 'subject', 'text', modalInstanceController]);
+        ['$scope', '$log', '$modalInstance', 'ForumService',
+            'forumId', 'title', 'topicId', 'postId', 'subject', 'text', modalInstanceController]);
 
     var forumController = function ($scope, $log, $compile, $uibModal, $filter, ForumService) {
         $scope.oneAtATime = true;
@@ -456,6 +469,9 @@
                 controller: 'ModalInstanceController',
                 size: 'lg',
                 resolve: {
+                    forumId: function () {
+                        return $scope.selectedForum.id;
+                    },
                     title: function () {
                         return modalTitle;
                     },
