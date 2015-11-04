@@ -142,6 +142,15 @@
                 });
         };
 
+        var deletePost = function (topic, id) {
+            var url = '/topics/' + topic + '/posts/' + id;
+            return $http.delete(url)
+                .then(function (response) {
+                    $log.info('DELETE ' + url + ' response', response);
+                    return response.data;
+                });
+        };
+
         return {
             getCategoriesWithFavorites: getCategoriesWithFavorites,
             addUserFavorite: addUserFavorite,
@@ -154,6 +163,7 @@
             editTopic: editTopic,
             getPosts: getPosts,
             newPost: newPost,
+            deletePost: deletePost,
         };
     };
 
@@ -505,6 +515,16 @@
                 _.findWhere($scope.favoriteTopics, {id: id}));
             ForumService.deleteTopic(forum, id);
             $scope.refreshTopicsTable();
+        };
+        $scope.deletePost = function (topic, id) {
+            if (!confirm("Are you sure?")) {
+                $log.info('Cancel deletion of post ' + id);
+                return;
+            }
+
+            $log.info('Deleting post ' + id);
+            ForumService.deletePost(topic, id);
+            $scope.refreshPostsTable();
         };
         $scope.refreshCategoriesTable = function () {
             ForumService.getCategoriesWithFavorites().then(renderCategoriesTable, onError);

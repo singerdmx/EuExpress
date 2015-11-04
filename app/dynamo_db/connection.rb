@@ -72,4 +72,6 @@ module Connection
     response
   end
 
+  alias_method :delete_item, :delete
+
 end

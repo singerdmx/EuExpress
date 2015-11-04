@@ -18,4 +18,8 @@ module PostsHelper
     h
   end
 
+  def delete_post(topic_id, post_id)
+    delete_item(Post, {topic: topic_id, id: post_id})
+  end
+
 end

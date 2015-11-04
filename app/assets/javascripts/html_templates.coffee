@@ -57,7 +57,7 @@ window.htmlTemplates.postBody = '''
     <div class="publicControls">
       <% if (data.edit) { %>
         <a class="item">Edit</a>
-        <a class="item">Delete</a>
+        <a class="item" ng-click="deletePost('<%= data.topic %>', '<%= data.id %>')">Delete</a>
       <% } %>
       <a class="item">Like</a>
       <a title="Reply, quoting this message" class="item">Reply</a>
