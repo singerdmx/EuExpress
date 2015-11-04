@@ -59,6 +59,8 @@ module Connection
     response
   end
 
+  alias_method :update_item, :update
+
   def delete(clazz, key)
     request_params = {
         table_name:  clazz.get_table_name,

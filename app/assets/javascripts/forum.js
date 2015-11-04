@@ -109,6 +109,15 @@
                 });
         };
 
+        var editTopic = function (forum, id, subject) {
+            var url = '/forums/' + forum + '/topics/' + id;
+            return $http.put(url, {subject: subject})
+                .then(function (response) {
+                    $log.info('PUT ' + url + ' response', response);
+                    return response.data;
+                });
+        };
+
         var getPosts = function (topic_id) {
             var url = '/topics/' + topic_id + '/posts';
             return $http.get(url)
@@ -127,6 +136,7 @@
             getTopic: getTopic,
             newTopic: newTopic,
             deleteTopic: deleteTopic,
+            editTopic: editTopic,
             getPosts: getPosts,
         };
     };
@@ -143,19 +153,22 @@
         $scope.modalSubject = subject;
         $scope.modalText = text;
         $scope.modalSubjectDisabled = false;
-        if (title == 'New Post' || title == 'Edit Post' ) {
+        if (title == 'New Post' || title == 'Edit Post') {
             $scope.modalSubjectDisabled = true;
         }
 
         $scope.submitForm = function (subject) {
             $log.info('modalSubject', subject);
-            var text = CKEDITOR.instances['ckeditor'].getData();
-            $log.info('ckeditor data', text);
+            if (CKEDITOR.instances['ckeditor']) {
+                var text = CKEDITOR.instances['ckeditor'].getData();
+                $log.info('ckeditor data', text);
+            }
             switch (title) {
                 case 'New Topic':
                     ForumService.newTopic(forum.category, forum.id, subject, text);
                     break;
                 case 'Edit Topic':
+                    ForumService.editTopic(forum.id, topicId, subject);
                     break;
                 case 'New Post':
                     break;

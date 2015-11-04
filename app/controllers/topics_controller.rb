@@ -7,7 +7,7 @@ class TopicsController < ApplicationController
   before_filter :authenticate_forem_user, except: [:index, :show]
   before_filter :find_topic, only: [:show]
   before_filter :block_spammers, only: [:create]
-  protect_from_forgery except: [:create, :destroy]
+  protect_from_forgery except: [:create, :destroy, :update]
 
   def index
     fail 'params forum_id is undefined!' unless params[:forum_id]
@@ -77,6 +77,14 @@ class TopicsController < ApplicationController
     render json: {message: e.to_s}.to_json, status: :internal_server_error
   end
 
+  def update
+    update_topic(params['forum_id'], params['id'], params['subject'])
+    render json: {success: true}
+  rescue Exception => e
+    Rails.logger.error "Encountered an error: #{e.inspect}\nbacktrace: #{e.backtrace}"
+    render json: {message: e.to_s}.to_json, status: :internal_server_error
+  end
+
   def subscribe
     if find_topic
       @topic.subscribe_user(forem_user.id)
@@ -97,27 +105,6 @@ class TopicsController < ApplicationController
     params.require(:topic).permit(:subject, :posts_attributes => [[:text]])
   end
 
-  def create_successful
-    redirect_to [@forum, @topic], :notice => t("forem.topic.created")
-  end
-
-  def create_unsuccessful
-    flash.now.alert = t('forem.topic.not_created')
-    render :action => 'new'
-  end
-
-  def destroy_successful
-    flash[:notice] = t("forem.topic.deleted")
-
-    redirect_to @topic.forum
-  end
-
-  def destroy_unsuccessful
-    flash.alert = t("forem.topic.cannot_delete")
-
-    redirect_to @topic.forum
-  end
-
   def subscribe_successful
     flash[:notice] = t("forem.topic.subscribed")
     redirect_to forum_topic_url(@topic.forum, @topic)
@@ -129,10 +116,6 @@ class TopicsController < ApplicationController
   end
 
   private
-  def find_forum
-    @forum = Forem::Forum.friendly.find(params[:forum_id])
-    authorize! :read, @forum
-  end
 
   def find_posts(topic)
     posts = topic.posts

@@ -29,6 +29,14 @@ module TopicsHelper
     #TODO delete associated user favorites and posts, or have a to_delete table to have a cron job periodically scan user favorites and posts
   end
 
+  def update_topic(forum_id, topic_id, subject)
+    update_expression = 'SET subject = :val'
+    expression_attribute_values = {':val' => subject}
+    update_item(Topic, {forum: forum_id, id: topic_id},
+                update_expression,
+                expression_attribute_values)
+  end
+
   def link_to_latest_post(topic)
     post = relevant_posts(topic).last
     return '' unless post
