@@ -6,7 +6,7 @@ class TopicsController < ApplicationController
 
   before_filter :authenticate_forem_user, except: [:index, :show]
   before_filter :find_topic, only: [:show]
-  before_filter :block_spammers, only: [:create]
+  # before_filter :block_spammers, only: [:create]
   protect_from_forgery except: [:create, :destroy, :update]
 
   def index
@@ -85,59 +85,10 @@ class TopicsController < ApplicationController
     render json: {message: e.to_s}.to_json, status: :internal_server_error
   end
 
-  def subscribe
-    if find_topic
-      @topic.subscribe_user(forem_user.id)
-      subscribe_successful
-    end
-  end
-
-  def unsubscribe
-    if find_topic
-      @topic.unsubscribe_user(forem_user.id)
-      unsubscribe_successful
-    end
-  end
-
   protected
 
   def topic_params
     params.require(:topic).permit(:subject, :posts_attributes => [[:text]])
   end
 
-  def subscribe_successful
-    flash[:notice] = t("forem.topic.subscribed")
-    redirect_to forum_topic_url(@topic.forum, @topic)
-  end
-
-  def unsubscribe_successful
-    flash[:notice] = t("forem.topic.unsubscribed")
-    redirect_to forum_topic_url(@topic.forum, @topic)
-  end
-
-  private
-
-  def find_posts(topic)
-    posts = topic.posts
-    unless forem_admin_or_moderator?(topic.forum)
-      posts = posts.approved_or_pending_review_for(forem_user)
-    end
-    @posts = posts
-  end
-
-  def block_spammers
-    if forem_user.forem_spammer?
-      flash[:alert] = t('forem.general.flagged_for_spam') + ' ' +
-          t('forem.general.cannot_create_topic')
-      redirect_to :back
-    end
-  end
-
-  def forum_topics(forum, user)
-    if forem_admin_or_moderator?(forum)
-      forum.topics
-    else
-      forum.topics.visible.approved_or_pending_review_for(user)
-    end
-  end
 end

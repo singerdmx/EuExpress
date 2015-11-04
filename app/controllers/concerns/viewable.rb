@@ -9,7 +9,7 @@ module Viewable
 
     update_expression = 'SET views_count = views_count + :val'
     expression_attribute_values = {':val' => 1}
-    update(viewable_class, viewable_key,
+    update_item(viewable_class, viewable_key,
            update_expression,
            expression_attribute_values)
 
@@ -30,7 +30,7 @@ module Viewable
         expression_attribute_values[':current_viewed_at'] = Time.now.to_i
       end
 
-      update(View, view_key,
+      update_item(View, view_key,
              update_expression,
              expression_attribute_values)
     end
