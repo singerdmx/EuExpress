@@ -10,7 +10,7 @@ class Post < OceanDynamo::Table
     attribute :category
     attribute :forum
     attribute :topic
-    attribute :text
+    attribute :body_text
     attribute :state, default: 'approved'
     attribute :notified, :boolean, default: false
     attribute :reply_to_post
@@ -19,7 +19,7 @@ class Post < OceanDynamo::Table
   # Used in the moderation tools partial
   attr_accessor :moderation_option
 
-  validates :text, presence: true
+  validates :body_text, presence: true
 
   after_create :after_create
   after_save :after_save #TODO verify it's working

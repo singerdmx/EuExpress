@@ -61,7 +61,7 @@ class TopicsController < ApplicationController
     post = Post.create(category: params['category'],
                        forum: params['forum_id'],
                        topic: topic.id,
-                       text: params['text'],
+                       body_text: params['text'],
                        user_id: current_user.id)
     render json: {success: true}
   rescue Exception => e

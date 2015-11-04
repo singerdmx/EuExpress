@@ -321,7 +321,7 @@ posts << Post.create(
     category: topics.first.category,
     forum: topics.first.forum,
     topic: topics.first.id,
-    text: 'My own experience',
+    body_text: 'My own experience',
     state: 'approved',
     user_id: user.id)
 
@@ -332,7 +332,7 @@ if ENV['massive_seeding']
         category: topic.category,
         forum: topic.forum,
         topic: topic.id,
-        text: "Post of topic #{topic}",
+        body_text: "Post of topic #{topic}",
         state: 'approved',
         user_id: users[SecureRandom.random_number(100) % users.size].id)
   end
@@ -342,7 +342,7 @@ posts << Post.create(
     category: topics.first.category,
     forum: topics.first.forum,
     topic: topics.first.id,
-    text: 'It does not work',
+    body_text: 'It does not work',
     state: 'approved',
     user_id: user.id)
 
