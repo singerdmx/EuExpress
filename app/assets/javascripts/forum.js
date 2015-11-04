@@ -100,6 +100,15 @@
                 });
         };
 
+        var deleteTopic = function (forum, id) {
+            var url = '/forums/' + forum + '/topics/' + id;
+            return $http.delete(url)
+                .then(function (response) {
+                    $log.info('DELETE ' + url + ' response', response);
+                    return response.data;
+                });
+        };
+
         var getPosts = function (topic_id) {
             var url = '/topics/' + topic_id + '/posts';
             return $http.get(url)
@@ -117,6 +126,7 @@
             getTopicsWithFavorites: getTopicsWithFavorites,
             getTopic: getTopic,
             newTopic: newTopic,
+            deleteTopic: deleteTopic,
             getPosts: getPosts,
         };
     };
@@ -449,8 +459,12 @@
                 $log.info('Cancel deletion of topic ' + id);
                 return;
             }
-            
+
             $log.info('Deleting topic ' + id);
+            $scope.favoriteTopics = _.without($scope.favoriteTopics,
+                _.findWhere($scope.favoriteTopics, {id: id}));
+            ForumService.deleteTopic(forum, id);
+            $scope.refreshTopicsTable();
         };
         $scope.refreshCategoriesTable = function () {
             ForumService.getCategoriesWithFavorites().then(renderCategoriesTable, onError);

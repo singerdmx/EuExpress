@@ -70,13 +70,11 @@ class TopicsController < ApplicationController
   end
 
   def destroy
-    @topic = @forum.topics.friendly.find(params[:id])
-    if forem_user == @topic.user || forem_user.forem_admin?
-      @topic.destroy
-      destroy_successful
-    else
-      destroy_unsuccessful
-    end
+    delete_topic(params[:forum_id], params[:id])
+    render json: {success: true}
+  rescue Exception => e
+    Rails.logger.error "Encountered an error: #{e.inspect}\nbacktrace: #{e.backtrace}"
+    render json: {message: e.to_s}.to_json, status: :internal_server_error
   end
 
   def subscribe
