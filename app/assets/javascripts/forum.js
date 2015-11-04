@@ -86,13 +86,14 @@
                 });
         };
 
-        var newTopic = function (forum_id, subject, text) {
+        var newTopic = function (category_id, forum_id, subject, text) {
             var url = '/forums/' + forum_id + '/topics';
             var params = {
+                category: category_id,
                 subject: subject,
                 text: text,
             };
-            return $http.post(url)
+            return $http.post(url, params)
                 .then(function (response) {
                     $log.info('POST ' + url + ' response', response);
                     return response.data;
@@ -125,7 +126,7 @@
     // Please note that $modalInstance represents a modal window (instance) dependency.
     // It is not the same as the $uibModal service used below.
     var modalInstanceController = function ($scope, $log, $modalInstance,
-                                            ForumService, forumId, title, topicId, postId, subject, text) {
+                                            ForumService, forum, title, topicId, postId, subject, text) {
         $scope.modalTitle = title;
         $scope.modalTopicId = topicId;
         $scope.modalPostId = postId;
@@ -140,7 +141,7 @@
             $log.info('modalSubject', subject);
             var text = CKEDITOR.instances['ckeditor'].getData();
             $log.info('ckeditor data', text);
-            ForumService.newTopic(forumId, subject, text);
+            ForumService.newTopic(forum.category, forum.id, subject, text);
             $modalInstance.close();
         };
 
@@ -151,7 +152,7 @@
 
     forum.controller('ModalInstanceController',
         ['$scope', '$log', '$modalInstance', 'ForumService',
-            'forumId', 'title', 'topicId', 'postId', 'subject', 'text', modalInstanceController]);
+            'forum', 'title', 'topicId', 'postId', 'subject', 'text', modalInstanceController]);
 
     var forumController = function ($scope, $log, $compile, $uibModal, $filter, ForumService) {
         $scope.oneAtATime = true;
@@ -469,8 +470,8 @@
                 controller: 'ModalInstanceController',
                 size: 'lg',
                 resolve: {
-                    forumId: function () {
-                        return $scope.selectedForum.id;
+                    forum: function () {
+                        return $scope.selectedForum;
                     },
                     title: function () {
                         return modalTitle;
@@ -496,6 +497,16 @@
 
             modalInstance.result.then(function () {
                 $log.info('Modal ok');
+                switch (modalTitle) {
+                    case 'New Topic':
+                        $scope.refreshTopicsTable();
+                        break;
+                    case 'New Post':
+                        $scope.refreshPostsTable();
+                        break;
+                    default:
+                        $log.error('Invalid modalTitle: ' + modalTitle);
+                }
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });

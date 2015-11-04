@@ -6,7 +6,8 @@ class TopicsController < ApplicationController
 
   before_filter :authenticate_forem_user, except: [:index, :show]
   before_filter :find_topic, only: [:show]
-  before_filter :block_spammers, only: [:new, :create]
+  before_filter :block_spammers, only: [:create]
+  protect_from_forgery except: [:create, :destroy]
 
   def index
     fail 'params forum_id is undefined!' unless params[:forum_id]
@@ -45,21 +46,27 @@ class TopicsController < ApplicationController
     render json: topic
   end
 
-  def new
-    authorize! :create_topic, @forum
-    @topic = @forum.topics.build
-    @topic.posts.build
-  end
-
   def create
-    authorize! :create_topic, @forum
-    @topic = @forum.topics.build(topic_params)
-    @topic.user = forem_user
-    if @topic.save
-      create_successful
-    else
-      create_unsuccessful
+    if current_user.nil?
+      render json: {success: true}
+      return
     end
+
+    topic = Topic.create(forum: params['forum_id'],
+                         category: params['category'],
+                         last_post_at: Time.now.to_i,
+                         last_post_by: current_user.id,
+                         subject: params['subject'],
+                         user_id: current_user.id)
+    post = Post.create(category: params['category'],
+                       forum: params['forum_id'],
+                       topic: topic.id,
+                       text: params['text'],
+                       user_id: current_user.id)
+    render json: {success: true}
+  rescue Exception => e
+    Rails.logger.error "Encountered an error: #{e.inspect}\nbacktrace: #{e.backtrace}"
+    render json: {message: e.to_s}.to_json, status: :internal_server_error
   end
 
   def destroy
