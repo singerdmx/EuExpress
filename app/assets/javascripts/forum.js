@@ -444,6 +444,14 @@
             }, onError);
             ForumService.getPosts(id).then(renderPostsTable, onError);
         };
+        $scope.deleteTopic = function (forum, id) {
+            if (!confirm("Are you sure?")) {
+                $log.info('Cancel deletion of topic ' + id);
+                return;
+            }
+            
+            $log.info('Deleting topic ' + id);
+        };
         $scope.refreshCategoriesTable = function () {
             ForumService.getCategoriesWithFavorites().then(renderCategoriesTable, onError);
         };
