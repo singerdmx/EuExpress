@@ -125,8 +125,15 @@ span.forum-item {
   color: dimgrey;
 }
 
-table#postsTable thead {
-  display: none;
+table#postsTable {
+  > thead {
+    display: none;
+  }
+  > tbody {
+    td:nth-child(1) {
+      width: 20px;
+    }
+  }
 }
 
 /* Posts Table */
