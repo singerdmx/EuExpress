@@ -1,9 +1,5 @@
-load File.dirname(__FILE__) + '/../dynamo_db/connection.rb'
-load File.dirname(__FILE__) + '/../dynamo_db/initializer.rb'
-DynamoDatabase::Initializer.load_table_classes
-
 class ApplicationController < ActionController::Base
-  include ApplicationHelper, Connection, Viewable
+  include ApplicationHelper, Viewable
   layout "application"
 
   rescue_from CanCan::AccessDenied do

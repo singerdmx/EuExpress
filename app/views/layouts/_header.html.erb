@@ -7,7 +7,6 @@
       <div class="collapse navbar-collapse" id="navbar">
         <ul class="nav navbar-nav">
           <li><%= link_to 'Home', main_app.root_path %></li>
-          <li><%= link_to 'Forums', nil, onclick: 'location.href="/forums"' %></li>
           <% if user_signed_in? %>
               <li class="dropdown">
                 <a aria-expanded="true" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -25,14 +24,6 @@
                       Mails
                     </a>
                   </li>
-                  <% if current_user.forem_admin %>
-                      <li>
-                        <a href="/admin">
-                          <i class="pull-left glyphicon glyphicon glyphicon-edit dropdown-menu-icon"></i>
-                          Administrate
-                        </a>
-                      </li>
-                  <% end %>
                   <li class="divider"></li>
                   <li><%= link_to "Sign out", main_app.destroy_user_session_path, :method => :delete %></li>
                 </ul>

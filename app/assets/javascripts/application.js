@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require forem
 //= require_tree .
 //= require bootstrap.min
 //= require jquery.timeago
@@ -21,6 +20,4 @@
 //= require angular-animate
 //= require angular-resource
 //= require ui-bootstrap-tpls-0.14.2
-//= require forum
-//= require forum-admin
 //= require ckeditor/ckeditor
