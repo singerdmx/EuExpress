@@ -9,6 +9,7 @@ default: &default
   host: localhost
   pool: 50
   timeout: 5000
+  encoding: unicode
 
 development:
   <<: *default
