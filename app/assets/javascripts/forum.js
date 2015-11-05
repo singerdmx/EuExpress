@@ -151,6 +151,15 @@
                 });
         };
 
+        var editPost = function (topic, id, text) {
+            var url = '/topics/' + topic + '/posts/' + id;
+            return $http.put(url, {text: text})
+                .then(function (response) {
+                    $log.info('PUT ' + url + ' response', response);
+                    return response.data;
+                });
+        };
+
         return {
             getCategoriesWithFavorites: getCategoriesWithFavorites,
             addUserFavorite: addUserFavorite,
@@ -164,6 +173,7 @@
             getPosts: getPosts,
             newPost: newPost,
             deletePost: deletePost,
+            editPost: editPost,
         };
     };
 
@@ -198,6 +208,9 @@
                     break;
                 case 'New Post':
                     ForumService.newPost(forum.category, forum.id, topicId, text);
+                    break;
+                case 'Edit Post':
+                    ForumService.editPost(topicId, postId, text);
                     break;
                 default:
                     $log.error('Invalid title: ' + title);
@@ -412,6 +425,7 @@
             var tableToolBar = 'div.posts-table-toolbar';
             $(tableToolBar).html(refreshButtonHtml);
             $compile(angular.element(tableToolBar).contents())($scope);
+            $('div#postsTable_paginate a#postsTable_last').trigger('click');
         };
 
         $scope.init = function () {
@@ -585,6 +599,10 @@
 
             modalInstance.rendered.then(function () {
                 if (modalTitle != 'Edit Topic') {
+                    //var editor = CKEDITOR.instances['ckeditor'];
+                    //if (editor) {
+                    //    editor.destroy(true);
+                    //}
                     CKEDITOR.replace('ckeditor');
                 }
             });

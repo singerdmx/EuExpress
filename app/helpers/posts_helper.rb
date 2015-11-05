@@ -22,4 +22,12 @@ module PostsHelper
     delete_item(Post, {topic: topic_id, id: post_id})
   end
 
+  def update_post(topic_id, post_id, text)
+    update_expression = 'SET body_text = :val, updated_at = :updated_at'
+    expression_attribute_values = {':val' => text, ':updated_at' => Time.now.to_i}
+    update_item(Post, {topic: topic_id, id: post_id},
+                update_expression,
+                expression_attribute_values)
+  end
+
 end

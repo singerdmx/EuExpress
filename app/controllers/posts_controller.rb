@@ -47,6 +47,7 @@ class PostsController < ApplicationController
   end
 
   def update
+    update_post(params['topic_id'], params['id'], params['text'])
     render json: {success: true}
   rescue Exception => e
     Rails.logger.error "Encountered an error: #{e.inspect}\nbacktrace: #{e.backtrace}"
