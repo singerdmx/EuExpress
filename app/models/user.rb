@@ -18,47 +18,8 @@ class User < ActiveRecord::Base
 
   acts_as_messageable
 
-  class << self
-    def moderate_first_post
-      # Default it to true
-      @@moderate_first_post != false
-    end
-
-    def autocomplete_field
-      @@autocomplete_field || "email"
-    end
-
-    def per_page
-      @@per_page || 20
-    end
-
-    def forem_autocomplete(term)
-      where("#{User.autocomplete_field} LIKE ?", "%#{term}%").
-          limit(10).
-          select("#{User.autocomplete_field}, id").
-          order("#{User.autocomplete_field}")
-    end
-  end
-
-  def forem_moderate_posts?
-    self.moderate_first_post && !forem_approved_to_post?
-  end
-  alias_method :forem_needs_moderation?, :forem_moderate_posts?
-
-  def forem_name
-    name
-  end
-
   def to_s
     name
-  end
-
-  def forem_approved_to_post?
-    forem_state == 'approved'
-  end
-
-  def forem_spammer?
-    forem_state == 'spam'
   end
 
   #Returning the email address of the model if an email should be sent for this object (Message or Notification).
